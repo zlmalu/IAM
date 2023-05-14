@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: sense-auth
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true    
+server:
+  port: 8891
+  tomcat: 
+    max-threads: 1000
+    min-spare-threads: 50
+    accept-count: 1000
+    max-connections: 20000
+    connection-timeout: 10000
+
+auth: 
+  address: http://192.168.0.155:8882/authModule/authenticate
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+    prefer-ip-address: true 
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}:@project.version@
+  client:
+    service-url:
+      defaultZone: ${client.service.url}
+logging: 
+ level: 
+  root: INFO
+      

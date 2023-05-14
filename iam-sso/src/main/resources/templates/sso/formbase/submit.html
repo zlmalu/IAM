@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style type="text/css"> 
+    #loading-mask{background-color:white;height:100%;position:absolute;left:0;top:0; width:100%;z-index:20000;}
+    #loading{ height:auto;position:absolute;left:45%;top:40%;padding:2px;z-index:20001;}
+    
+    .show1{
+		padding: 0 40px;
+	}
+	.info {
+	    border-radius: 5px;
+		text-align: center;
+		line-height: 40px;
+		font-size: 14px;
+		z-index:99;
+		width: 416px;
+		height: 250px;
+		left: 50%;
+		top: 30%;
+		background: #ffffff;
+		margin-left:-230px!important;
+		margin-top:-173px!important;
+		margin-top:0px;
+		position:fixed!important;/*FF IE7*/
+		position:absolute;/*IE6*/
+	}
+	.info_width{
+		padding: 0 10px;
+		margin-bottom: 20px;
+		border-radius:5px;
+	}
+	.info_title{
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+	}
+	.info_title .left{
+		font-size: 14px;
+		padding: 0 80px 0 20px;
+	}
+	#bk{
+		width: 100%;
+		height: 100%;
+		left:0;
+		top:0;/*FF IE7*/
+		filter:alpha(opacity=50);/*IE*/
+		background-color: rgb(0, 0, 0);
+		opacity: 0.3;
+		position:fixed!important;/*FF IE7*/
+		position:absolute;/*IE6*/
+		z-index:10;
+
+	}
+	.input_div{
+		width: 100%;
+		height: 45px;
+	}
+	.input_div div{
+		width: 80px;
+		float: left;
+		    text-align: right;
+	}
+	.input_div input{
+		height: 34px;
+		border: 1px solid #d8d8d9;
+		border-radius: 4px;
+		text-indent: 1em;
+		line-height: 34px;
+		width: 250px;
+		float: right;
+	}
+</style>
+
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
+<script type="text/javascript">
+var eve;
+var acctId;
+function openRegister(id,event){
+	acctId=id;
+	document.getElementById("loading-mask").style.display="none";
+	document.getElementById("loading").style.display="none";
+	eve=event;
+}
+
+function bindAcctPwd(){
+	var username=document.getElementById('curUserOldPwd').value;
+	var newPwd=document.getElementById('curUserNewPwd').value;
+	var newPwdConfirm=document.getElementById('curUserNewPwdConfirm').value;
+	
+	if(username==''){alert("用户名不可以为空!");document.getElementById('curUserOldPwd').focus();return ;}
+	if(newPwd==''){alert("密码不可以为空!");document.getElementById('curUserOldPwd').focus();return ;}
+	if(newPwd!=newPwdConfirm){
+		alert("密码和确认密码不一致!");
+		document.getElementById('curUserNewPwd').focus();
+		document.getElementById('curUserNewPwd').select();
+		return;
+	}
+	//更新帐号和密码
+	$.ajax({
+		url:'/sso/bindAcctPwd?'+Math.random(),
+		dataType:'json',
+		data:{"id":acctId,"loginName":username,"loginPwd":newPwd},
+		type:'POST',
+		success:function(data){
+			if(data.code=='100000001'){
+				alert("重置完成，如与子系统密码一致，可实现快捷登陆，不一致请重新绑定");
+				eve();
+			}else{
+				alert(data.msg);
+			}
+		},
+		error:function(data){
+			alert(data);
+		}
+	});
+}
+
+</script>
+</head>
+<body style="padding:2px;margin-bottom:0px;background:#DfDfDf;overflow-x:hidden;overflow-y:hidden">
+<div id="loading-mask" style=""></div>
+<div id="loading" style="left: 35%;">
+        <div class="loading-indicator">
+            <span th:text="${app.name}"></span> &nbsp;登陆进行中 ...
+        </div>
+        <div><img src="static/image/load.gif"></div>
+    </div>
+    
+<div id="bk" style="display: block" ></div>
+<div id="popDiv" class="info" style="display: block;top: 40%;">
+	<div class="info_width" style="background: #f5f3f3;">
+		<div class="info_title">
+			<span class="left" style="padding: 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置-<span th:text="${app.name}"></span>-暂存密码</span>
+		</div>
+	</div>
+	<div class="show1">
+			<div class="input_div">
+				<div for="name" class="left">帐&nbsp;&nbsp;&nbsp;&nbsp;号：</div>
+				<input type="text" class="left" id="curUserOldPwd" value ="" placeholder="登录账号">
+			</div>
+			<div class="input_div">
+				<div for="ip" class="left">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div>
+				<input type="password" class="left" id="curUserNewPwd" placeholder="新密码">
+			</div>
+			<div class="input_div">
+				<div for="yzm" class="left">确认密码：</div>
+				<input type="password" class="left" id="curUserNewPwdConfirm" placeholder="确认新密码">
+			</div>
+			<div class="input_div" style="margin: 10px">
+				<button type="button" style="line-height: 20px;width:50px" onclick="bindAcctPwd()">确定</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" style="line-height: 20px;width:50px" onclick="window.close();">取消</button>
+			</div>
+	</div>
+</div>
+<div th:utext="${ssoParam}"></div> 
+</body>
+</html>

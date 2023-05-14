@@ -1,0 +1,28 @@
+//用户报文
+<@JDBC id="user" sql="select a.LOGIN_NAME,a.LOGIN_PWD,a.STATUS,u.SN,u.NAME,u.EMAIL,u.TELEPHONE,u.SEX,o.SN as ORG_SN from 
+IM_ACCOUNT a
+left join IM_USER u on u.ID = a.USER_ID 
+left join IM_ORG_USER ou on u.id=ou.USER_ID 
+left join IM_ORG o on ou.ORG_ID=o.ID 
+where a.ID = ${oid}"/> 
+{
+loginName:"${user[0].LOGIN_NAME!}",
+sn:"${user[0].SN!}",
+password:"${user[0].LOGIN_PWD!}",
+name:"${user[0].NAME!}",
+sex:"${user[0].SEX!}",
+email:"${user[0].EMAIL!}",
+telephone:"${user[0].TELEPHONE!}",
+status:"${user[0].STATUS?c}",
+orgSn:"${user[0].ORG_SN!}"
+} 
+
+
+//组织报文
+<@JDBC id="org" sql="select o.SN,o.NAME,(select po.SN from IM_ORG po where po.ID = o.PARENT_ID) as PARENT_SN from IM_ORG o where o.ID = ${oid}"/> 
+{
+sn:"${org[0].SN!}",
+parentSn:"${org[0].PARENT_SN!}",
+name:"${org[0].NAME!}"
+} 
+

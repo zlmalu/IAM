@@ -1,0 +1,131 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body,html{
+    width: 100%;
+    height: 100%;
+    background: #F5F7FA;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: PingFangSC-Medium, PingFang SC,微软雅黑;
+}
+li{
+    list-style: none;
+}
+img{
+    vertical-align: middle;
+    object-fit: cover;
+}
+.header,.bg{
+    width: 100%;
+    height: 400px;
+}
+.bg{
+    position: absolute;
+    top: 0;
+}
+.header_title{
+    position: absolute;
+    top: 153px;
+    width:100%;
+    color: #ffffff;
+
+}
+.header_title>h3{
+    text-align: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.header_title>p{
+    width: 910px;
+    font-weight: 400;
+    margin: 0 auto;
+}
+.main{
+    width: 1200px;
+    height: 4240px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 10px 0px rgba(70, 74, 81, 0.05);
+    border-radius: 4px;
+    margin: 40px auto 80px auto;
+    padding: 0 80px;
+}
+.help_img{
+    margin: 40px 0 80px 0;
+    width: 1040px;
+}
+.public_title{
+    color: #333333;
+}
+.public_title>h3{
+    font-size: 24px;
+}
+.public_title>p{
+    margin-top: 22px;
+}
+.public_title>p>a{
+    color: #DD8504;
+}
+.public_bk{
+    background: #F5F7FA;
+    margin: 40px 0 80px 0;
+}
+.login{
+    width: 1040px;
+    height: 540px;
+    padding: 40px 30px;
+}
+.public_login{
+    width: 320px;
+    float: left;
+    margin-right: 10px;
+    text-align: center;
+    color: #333333;
+}
+
+.public_login>p>span{
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    background: #DD8504;
+    display: inline-block;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+}
+.public_login>img{
+    width: 320px;
+    margin: 14px 0 6px 0;
+}
+.public_tips{
+    width: 280px;
+    font-size: 14px;
+    color: #666666;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 22px;
+    font-weight: 400;
+}
+.resetPassword{
+    padding: 50px;
+    color: #333333;
+}
+.resetPassword>p{
+    font-weight: 400;
+    line-height: 22px;
+}
+.resetPassword>img{
+    margin: 20px 0 40px 0;
+}
+
+.help{
+    margin-top: 40px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 32px;
+}

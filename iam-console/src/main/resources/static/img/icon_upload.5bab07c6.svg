@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon/icon_upload</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/icon_upload" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon_upload" transform="translate(6.000000, 6.000000) rotate(-180.000000) translate(-6.000000, -6.000000) ">
+            <rect id="矩形" fill="#4D93FF" x="1" y="1" width="10" height="2" rx="1"></rect>
+            <path d="M6.70710678,4.05025253 L10.9497475,8.29289322 C11.3402718,8.68341751 11.3402718,9.31658249 10.9497475,9.70710678 C10.5592232,10.0976311 9.9260582,10.0976311 9.53553391,9.70710678 L6.99935931,7.17135931 L7,10 C7,10.5522847 6.55228475,11 6,11 C5.44771525,11 5,10.5522847 5,10 L4.99935931,7.17135931 L2.46446609,9.70710678 C2.0739418,10.0976311 1.44077682,10.0976311 1.05025253,9.70710678 C0.65972824,9.31658249 0.65972824,8.68341751 1.05025253,8.29289322 L5.29289322,4.05025253 C5.68341751,3.65972824 6.31658249,3.65972824 6.70710678,4.05025253 Z" id="形状结合" fill="#333333" transform="translate(6.000000, 7.378680) rotate(-180.000000) translate(-6.000000, -7.378680) "></path>
+        </g>
+    </g>
+</svg>

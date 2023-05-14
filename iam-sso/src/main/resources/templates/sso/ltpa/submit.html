@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<form name="ltpaForm" method="POST">
+	<input type="hidden" name="redirect_uri" th:value="${appUrl}" /> 
+	<input type="hidden" name="client_id" th:value="${client_id}" /> 
+	<input type="hidden" name="tokenId" th:value="${tokenId}" /> 
+</form>
+ <script>  
+document.ltpaForm.action="/sso/ltpa/"+ltpaForm.client_id.value+"/login";
+      document.forms[0].submit();
+     
+</script>
+</body>	
+</html>

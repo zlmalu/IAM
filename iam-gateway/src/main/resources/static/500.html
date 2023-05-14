@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500页面</title>
+    <style>
+        .bgBox {
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            margin-left: -250px;
+        }
+
+        .titleBox {
+            position: absolute;
+            top: 398px;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+
+        }
+
+        .titleBox p {
+            margin-bottom: 30px;
+            margin-top: 0;
+            font-size: 20px;
+            font-family: PingFangSC-Medium, PingFang SC;
+            font-weight: 500;
+            color: rgba(46, 46, 46, 1);
+            line-height: 28px;
+        }
+
+        .titleBox button {
+            width: 100px;
+            height: 36px;
+            background: rgba(77, 147, 255, 1);
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: PingFangSC-Medium, PingFang SC;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 1);
+            line-height: 22px;
+            outline: none;
+            box-shadow: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bgBox">
+        <img src="./imgs/emptystate_serverproblems.png" alt="">
+        <div class="titleBox">
+            <p>哎呀，服务器出现了点小问题！</p>
+           
+        </div>
+    </div>
+</body>
+<script>
+    function refresh() {
+        window.location.reload();
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+	<link rel="stylesheet" href="../css/layui.css"  >
+	<link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/resetPassword.css">
+    
+</head>
+<body>
+
+    <div class="main">
+        <div class="password-main">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" th:text="#{main.name}">姓名</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="recipient-name" th:value="${user.name}" readonly="readonly">
+						<input type="hidden" class="form-control" id="userId" th:value="${user.id}" readonly="readonly">
+					</div>
+                </div>
+                 <br/>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" th:text="#{main.oldPwd}">原密码</label>
+					<div class="col-sm-9">
+						<input type="password" class="form-control" id="loginPwd" th:placeholder="#{main.PleaseEnterOldPwd}"/>
+					</div>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" th:text="#{main.newPwd}">新密码</label>
+					<div class="col-sm-9">
+						<input type="password" class="form-control" id="newpwd" th:placeholder="#{main.PleaseEnterNewPwd}"/>
+			            <p  id="tips" style="text-align: left; display: none;"> 
+			            <br/>
+							<span id="errorMsg"></span>
+						</p>
+					</div>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" th:text="#{main.confirmPwd}">确认密码</label>
+					<div class="col-sm-9">
+	           			<input type="password" class="form-control" id="loginConfirmPwd" th:placeholder="#{main.PleaseEnterConfirmPwd}"/>
+	           			<p  id="tips2" style="text-align: left; display: none;"> 
+			            <br/>
+							<span id="errorMsg2"></span>
+						</p>
+					</div>
+                </div>
+                <br/>
+                <div class="form-group">
+					<label for="inputPassword3" class="col-sm-3 control-label " th:text="#{login.code}">验证码</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="code_input" th:placeholder="#{main.praphValidCode}" style="width:50%;float: left;margin-right: 10px;">
+						<input type="button" id="code" class="code1" style="display: block;width: 150px;height:35px;padding: 0;    background: #e0e0e0;letter-spacing: 10px;border: 0;" onClick="createCode()" />
+					</div>
+				</div>
+                <button type="button" class="submit-btn" onclick="savePwd()" id="btn">提交</button>
+
+            </form>
+        </div>
+        <div class="password-tips">
+            <h3 style="width: 400px;" th:text="#{main.passwordStrength}">密码强度</h3>
+			    <ul id="pwdPolicy" style="width:450px;"></ul>
+        </div>
+    </div>
+    
+</body>
+
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/cookie.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/jquery.datetimepicker.full.min.js"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		createCode();
+		loadPwd();
+		
+	});
+	var userId = $("#userId").val();
+	function loadPwd(){
+		$.ajax({
+			url : '../pwdPolic/findAll?objId=[[${user.userTypeId}]]&r=' + Math.random(),
+			data : {},
+			type : 'GET',
+			success : function(data) {
+				console.log(data);
+				data = eval("(" + data + ")");
+				var html="";
+				for(var i=0;i<data.length;i++){
+					html+="<li style='width:100%;'>"+data[i].msg+"</li>"
+				}
+				$("#pwdPolicy").html(html);
+			}
+		});
+		
+	}
+	var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    function closes(){
+		if(index!=null){
+      	 	parent.layer.close(index); //再执行关闭
+		}
+    }
+	  
+	var isFlag1=0;
+	var isFlag2=0;
+	function savePwd() {
+			$("#btn").attr('disabled', true);
+			$("#btn").html('[[#{main.processing}]]');
+			var loginPwd = $("#loginPwd").val();
+			var newpwd = $("#newpwd").val();
+			var code2 = $("#code_input").val();
+			var loginConfirmPwd = $("#loginConfirmPwd").val();
+			if (loginPwd == "") {
+				alert('[[#{main.oldPwdNotEmpty}]]');
+				$("#loginPwd").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			} else if (newpwd == "") {
+				alert('[[#{main.newPwdNotEmpty}]]');
+				$("#newpwd").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			} else if (loginPwd == newpwd) {
+				alert('[[#{main.pwdNotEquest}]]');
+				$("#newpwd").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			}else if (loginConfirmPwd == "") {
+				alert('[[#{main.confirmPwdNotEmpty}]]');
+				$("#loginConfirmPwd").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			} else if (loginConfirmPwd != newpwd) {
+				alert('[[#{main.pwdInconform}]]');
+				$("#loginConfirmPwd").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			} else if(code2==""){
+				alert('[[#{login.hint10}]]');
+				$("#code_input").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			}else if(code.toLowerCase()!=code2.toLowerCase()){
+				createCode();
+				alert('[[#{main.codeInconform}]]');
+				$("#code_input").focus();
+				$("#btn").attr('disabled', false);
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			}/* else if((isFlag1+isFlag2)!=2){
+				alert('[[#{main.strengthPwd}]]');
+				$("#newpwd").focus();
+				$("#btn").attr('disabled', false); 
+				$("#btn").html('[[#{main.submit}]]');
+				return;
+			} */
+			else {
+				$.ajax({
+					url : '../pwdPolic/updatePwd.action?' + Math.random(),
+					data : JSON.stringify({'oldPassword': loginPwd,'newpassword': newpwd,'loginConfirmPwd' : loginConfirmPwd,'appSn':'APP001','userId':userId}),
+					contentType: "application/json",
+					type : 'POST',
+					dataType:'json',
+					success : function(data) { 
+						createCode();
+						if (data.success) {
+							alert('[[#{main.updateSuccess}]]');
+							$("#loginPwd").val("");
+							$("#newpwd").val("");
+							$("#loginConfirmPwd").val("");
+							$("#code_input").val("");
+							closes();
+						} else{
+							alert(data.msg)
+						}
+						$("#btn").attr('disabled', false);
+						$("#btn").html('[[#{main.submit}]]');
+					}
+				});
+			}
+		}
+
+		
+		var newpwd = document.getElementById("newpwd"); //获取文本框的对象
+		//校验新密码
+		newpwd.onkeyup = function() {
+			newpwd = this.value;
+			isFlag1=0;
+			//获取用户输入的密码,然后判断其强度 返回0 或者 1 2 3 4
+			$("#errorMsg").removeClass("s1");
+			$("#errorMsg").removeClass("s4");
+			$("#errorMsg").html("");
+			$("#tips").css("display", "none");
+			$.ajax({
+				url : '../pwdPolic/validate.action?' + Math.random(),
+				contentType: "application/json",
+				data : JSON.stringify({'newpassword':newpwd,'userId':userId}),
+				type : 'POST',
+				dataType:'json',
+				success : function(data) {
+					if (data.success) {
+						isFlag1=1;
+						$("#errorMsg").removeClass("s1");
+						$("#errorMsg").removeClass("s4");
+						$("#errorMsg").html("")
+						$("#tips").css("display", "none");
+						return;
+					} else {
+						$("#errorMsg").addClass("s1");
+						$("#errorMsg").html(data.msg)
+					}
+				}
+			});
+			$("#tips").css("display", "block");
+			var loginConfirmPwd = document.getElementById("loginConfirmPwd").value;
+			if(loginConfirmPwd.length>0){
+				$("#errorMsg2").removeClass("s1");
+				$("#errorMsg2").removeClass("s4");
+				$("#tips2").css("display", "none");
+				
+				if (loginConfirmPwd == newpwd) {
+					$("#errorMsg2").removeClass("s1");
+					$("#errorMsg2").removeClass("s4");
+					$("#errorMsg2").html("")
+					$("#tips2").css("display", "none");
+					return;
+				} else {
+					$("#errorMsg2").addClass("s1");
+					$("#errorMsg2").html('[[#{main.pwdInconform}]]');
+				}
+				$("#tips2").css("display", "block");
+			}
+		}
+		
+		//校验确认密码
+		var loginConfirmPwd = document.getElementById("loginConfirmPwd"); //获取文本框的对象
+		loginConfirmPwd.onkeyup = function() {
+			loginConfirmPwd = this.value;
+			isFlag2=0;
+			var newpwd = $("#newpwd").val();
+			$("#errorMsg2").removeClass("s1");
+			$("#errorMsg2").removeClass("s4");
+			$("#tips2").css("display", "none");
+			
+			if (loginConfirmPwd == newpwd) {
+				isFlag2=1;
+				$("#errorMsg2").removeClass("s1");
+				$("#errorMsg2").removeClass("s4");
+				$("#errorMsg2").html("")
+				$("#tips2").css("display", "none");
+				return;
+			} else {
+				$("#errorMsg2").addClass("s1");
+				$("#errorMsg2").html('[[#{main.pwdInconform}]]');
+			}
+			
+			
+			$("#tips2").css("display", "block");
+		}
+		
+		var code;
+		function createCode() {
+			code = new Array();
+			var codeLength = 4; //验证码的长度
+			var checkCode = document.getElementById("code").value;
+			var selectChar = new Array(2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+			for(var i = 0; i < codeLength; i++) {
+				var charIndex = Math.floor(Math.random() * 32);
+				code += selectChar[charIndex];
+			}
+			if(code.length != codeLength) {
+				createCode();
+			}
+			document.getElementById("code").value=code;
+		}
+	</script>
+</html>

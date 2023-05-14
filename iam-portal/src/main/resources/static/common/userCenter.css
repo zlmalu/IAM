@@ -1,0 +1,250 @@
+#content{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+input:focus,
+select:focus {
+    box-shadow: 0px 0px 4px 0px rgba(66, 133, 244, 0.4) !important;
+    border-radius: 4px !important;
+    border: 1px solid #4285F4 !important;
+}
+
+
+p, h3, ul, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+ul > li {
+    list-style: none;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+}
+
+.headerTips {
+    height: 52px;
+    line-height: 52px;
+}
+
+
+.formTitle > span {
+    font-size: 18px;
+    padding-left: 40px;
+}
+.passwordContent{
+    background: #FFFFFF;
+    border-radius: 4px;
+    overflow: hidden;
+    width:100%;
+}
+@media screen and (max-width: 550px) {
+    .passwordLeft {
+        border-radius: 4px;
+        /*width: 175px;*/
+        padding: 10px 0 0px 10px;
+    }
+    .passwordRight{
+        border-left: 1px solid #EBEDEF;
+        width: 100%;
+        overflow: scroll;
+        height: 600px;
+    }
+}
+@media screen and (min-width: 550px) {
+    .passwordLeft{
+        border-radius: 4px;
+        width: 175px;
+        float: left;
+        padding: 10px 0 0px 40px;
+    }
+    .passwordRight{
+        border-left: 1px solid #EBEDEF;
+        float: right;
+        width: 1023px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .passwordLeft>p{
+        display: inline-block;
+        font-size: 14px;
+        /* margin-bottom: 24px; */
+        margin-left: 10px;
+        cursor: pointer;
+    }
+}
+@media screen and (min-width: 550px) {
+    .passwordLeft>p{
+        font-size: 16px;
+        margin-bottom: 24px;
+        cursor: pointer;
+    }
+}
+.formTitle {
+    padding-bottom: 40px;
+}
+
+.formTitle > span {
+    padding-left: 40px;
+    font-size: 24px;
+    color: #333333;
+}
+.form-group > p {
+    margin-bottom: 8px;
+}
+.formGroup,.formGroup .form-group{
+    width: 100%;
+    margin-bottom: 16px;
+    display:inline-block ;
+}
+.formGroup .form-group .form-control {
+    width: 800px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    padding: 0 16px;
+    border: 1px solid #E5E5E5;
+    box-shadow: none;
+    padding: 0 0 0 16px;
+    color: #333333
+}
+#codeInput{
+    width: 664px!important;
+    float: left;
+}
+.yzm{
+    width: 120px;
+    height: 32px;
+    background: #F1F1F1;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 32px;
+    float: left;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.passwordRight .btn {
+    width: 100px;
+    height: 32px;
+    border-radius: 4px;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.save, .save:hover, .save:focus {
+    background: #4285F4;
+    color: #FFFFFF;
+    border: 1px solid #4285F4;
+    margin-right: 24px;
+}
+
+.eit {
+    background: #ffffff;
+    color: #333333;
+    border: 1px solid #E5E5E5;
+}
+.passwordTips{
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: 24px 40px;
+    margin-top: 24px;
+}
+.passwordTips>h3{
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 8px;
+}
+.passwordTips>p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #595959;
+    line-height: 20px;
+    letter-spacing: 1px;
+}
+.setUp{
+    display: none;
+}
+.findTips{
+    padding-left: 16px;
+    width: 769px!important;
+    background: url('../images/img_label_bg.png');
+    height: 32px;
+    line-height: 32px;
+    background-size: 100% 100%;
+
+}
+.setUp .formGroup  .form-group .form-control{
+    width: 769px!important;
+}
+.form-inline>h3{
+    margin: 40px 0 24px 0;
+}
+.foot>p{
+    color: #999999;
+    text-align: center;
+    height: 68px;
+    line-height: 68px;
+}
+@media screen and (max-width: 550px) {
+    .leftform{
+        width: 100% !important;
+    }
+}
+@media screen and (min-width: 550px) {
+
+    .leftform{
+        width: 400px !important;
+    }
+}
+
+.leftform p {
+    margin-top: 15px;
+}
+
+.rightmsg {
+    padding: 20px;
+}
+.vilidatacode{
+    display: block;
+    width: 130px;
+    height:32px;
+    padding: 0;
+    background: #e0e0e0;
+    letter-spacing: 10px;
+    border: 0;
+}
+.inputCode{
+    width:50% !important;
+    float: left;
+    margin-right: 10px;
+}
+.newpwderror{
+    width: 340px;
+    display: none;
+    background: #F45A68;
+    padding: 4px;
+    color: #fff !important;
+}
+
+.confirmPwderror{
+    width: 340px;
+    display: none;
+    background: #F45A68;
+    padding: 4px;
+    color: #fff !important;
+}
+.findTips{
+    padding-left: 16px;
+    width: 769px!important;
+    background: url('./images/img_label_bg.png');
+    height: 32px;
+    line-height: 32px;
+    background-size: 100% 100%;
+}
+
+.layui-icon {
+    font-size: 14px !important;
+}

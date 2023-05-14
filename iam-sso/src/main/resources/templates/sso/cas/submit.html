@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<form name="cas3Form" method="POST">
+	<input type="hidden" name="service" th:value="${appUrl}" /> 
+	<input type="hidden" name="client_id" th:value="${client_id}" /> 
+	<input type="hidden" name="tokenId" th:value="${tokenId}" /> 
+</form>
+ <script>  
+ document.cas3Form.action="/sso/cas3/"+cas3Form.client_id.value+"/login";
+      document.forms[0].submit()
+</script>
+</body>	
+</html>

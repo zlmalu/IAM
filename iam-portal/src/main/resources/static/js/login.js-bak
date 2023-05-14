@@ -1,0 +1,608 @@
+
+$(document).ready(function(){ 
+	
+	$('.login>img').click(function () {
+		var imgSrc= $(".login>img").attr("src");
+		qywxLogin(imgSrc);
+	});
+	
+	$('#threetwo').click(function () {
+		$("#threetwo").attr('disabled',true);
+		$("#threetwo").val('[[#{login.logining}]]');
+		var optUsername=$("#optUsername").val();
+		var tvcode=$("#tvcode").val();
+		if(optUsername==""){
+			alert('[[#{login.hint3}]]');
+			$("#optUsername").focus();
+			$("#threetwo").attr('disabled',false);
+			$("#threetwo").val('[[#{login.login}]]');
+		}else if(tvcode==""){
+			alert('[[#{login.hint4}]]');
+			$("#tvcode").focus();
+			$("#threetwo").attr('disabled',false);
+			$("#threetwo").val('[[#{login.login}]]');
+		}else{
+			var redirectUri=$("#redirectUri").val();
+			$.ajax({
+	    		url:'/authModule/authenticate?'+Math.random(),
+	    		dataType:'json',
+	    		data:{"username":optUsername,"password":tvcode,"reamId":"1008"},
+	    		type:'POST',
+	    		success:function(data){
+	    			if(data.code=='100000001'){
+	    				location.href=redirectUri;
+	    			}else if(data.code=='100000004'){
+	    				alert('[[#{login.hint5}]]');
+	    				$("#optUsername").focus();
+	    			}else if(data.code=='100000005'){
+	    				alert('[[#{login.hint6}]]');
+	    				$("#tvcode").val("");
+	    				$("#tvcode").focus();
+	    			}else if(data.code=='100000006'){
+	    				alert('[[#{login.hint7}]]');
+	    			}else{
+	    				alert(data.msg);
+	    			}
+	    			$("#threetwo").attr('disabled',false);
+	    			$("#threetwo").val('[[#{login.login}]]');
+	    		},
+	    		error:function(data){
+	    			alert('[[#{login.hint8}]]');
+	    			$("#threetwo").val('[[#{login.login}]]');
+	    			$("#threetwo").attr('disabled',false);
+	    		}
+	    	});
+		}
+	 });
+	
+	$('#threeThree').click(function () {
+		$("#threeThree").attr('disabled',true);
+		$("#threeThree").val('[[#{login.Waiting}]]');
+		var optUsername=$("#optUsername2").val();
+		if(optUsername==""){
+			alert('[[#{login.hint1}]]');
+			$("#mobile").focus();
+			$("#threeThree").attr('disabled',false);
+			$("#threeThree").val('[[#{login.login}]]');
+			return;
+		}
+		$.ajax({
+    		url:'/portal/propeling/saveInfo.action?'+Math.random(),
+    		dataType:'json',
+    		data:{"sn":optUsername,"uuid":uuid},
+    		type:'POST',
+    		success:function(data){
+    			if(data.code=='100000001'){
+    				refreshStatus();
+    				return;
+    			}else if(data.code=='100000004'){
+    				alert('[[#{login.hint5}]]');
+    				$("#optUsername2").focus();
+    			}else if(data.code=='100000005'){
+    				alert('[[#{login.hint5}]]');
+    				$("#tvcode").val("");
+    				$("#tvcode").focus();
+    			}else if(data.code=='100000006'){
+    				alert('[[#{login.hint7}]]');
+    			}else{
+    				alert(data.msg);
+    			}
+    			$("#threeThree").attr('disabled',false);
+    			$("#threeThree").val('[[#{login.login}]]');
+    		}
+		});
+	 });
+
+	function refreshStatus(){
+		clearInterval(interval);
+		//轮训检测uuid认证
+		interval=setInterval(function(){
+			cheackauthQrCode(uuid);
+		},2000);
+	}
+	
+	function cheackauthQrStatus(uuid){
+		var optUsername=$("#optUsername2").val();
+		var password=$.cookie('password')
+		var redirectUri=$("#redirectUri").val();
+		if(password!=undefined){
+			$.ajax({
+	    		url:'/authModule/authenticate?'+Math.random(),
+	    		dataType:'json',
+	    		data:{"username":optUsername,"password":password,"reamId":"1002"},
+	    		type:'POST',
+	    		success:function(data){
+	    			if(data.code=='100000001'){
+	    				//alert(redirectUri)
+	    				location.href=redirectUri;
+	    			}else if(data.code=='100000004'){
+	    				alert('[[#{login.hint5}]]');
+	    				$("#txt_username").focus();
+	    			}else if(data.code=='100000005'){
+	    				alert(data.msg+'!');
+	    				$("#txt_password").val("");
+	    				$("#txt_password").focus();
+	    			}else if(data.code=='100000006'){
+	    				alert('[[#{login.hint7}]]');
+	    			}else{
+	    				alert(data.msg);
+	    			}
+	    			$("#btn").attr('disabled',false);
+	    			$("#btn").val('[[#{login.login}]]');
+	    		},
+	    		error:function(data){
+	    			alert('[[#{login.hint8}]]');
+	    			$("#btn").val('[[#{login.login}]]');
+	    			$("#btn").attr('disabled',false);
+	    		}
+	    	});
+		}
+	}
+	
+	
+	$('#btntwo').click(function () {
+		$("#btntwo").attr('disabled',true);
+		$("#btntwo").val('[[#{login.logining}]]');
+		var mobile=$("#mobile").val();
+		var code=$("#vcode").val();
+		if(mobile==""){
+			alert('[[#{login.hint9}]]');
+			$("#mobile").focus();
+			$("#btntwo").attr('disabled',false);
+			$("#btntwo").val('[[#{login.login}]]');
+		}else if(code==""){
+			alert('[[#{login.hint10}]]');
+			$("#vcode").focus();
+			$("#btntwo").attr('disabled',false);
+			$("#btntwo").val('[[#{login.login}]]');
+		}else{
+			var redirectUri=$("#redirectUri").val();
+			$.ajax({
+				url:'./cheackCode1.action?'+Math.random(),
+				data:{
+					code:code,
+					global:uuid
+				},
+				type:'POST',
+				success:function(data){
+					data=eval('('+data+')'); 
+					if(data.code==0){
+			    		$.ajax({
+				    		url:'/authModule/authenticate?'+Math.random(),
+				    		dataType:'json',
+				    		data:{"username":accountId,"password":uuid,"reamId":"1006"},
+				    		type:'POST',
+				    		success:function(data){
+				    			if(data.code=='100000001'){
+				    				location.href=redirectUri;
+				    			}else if(data.code=='100000004'){
+				    				alert('[[#{login.hint5}]]');
+				    				$("#txt_username").focus();
+				    			}else if(data.code=='100000005'){
+				    				alert('[[#{login.hint6}]]');
+				    				$("#txt_password").val("");
+				    				$("#txt_password").focus();
+				    			}else if(data.code=='100000006'){
+				    				alert('[[#{login.hint7}]]');
+				    			}else{
+				    				alert(data.msg);
+				    			}
+				    			$("#btntwo").attr('disabled',false);
+				    			$("#btntwo").val('[[#{login.login}]]');
+				    		},
+				    		error:function(data){
+				    			alert('[[#{login.hint8}]]');
+				    			$("#btntwo").val('[[#{login.login}]]');
+				    			$("#btntwo").attr('disabled',false);
+				    		}
+				    	});
+					}else{
+						alert(data.msg)
+						$("#btntwo").attr('disabled',false);
+		    			$("#btntwo").val('[[#{login.login}]]');
+					}
+				},error:function(data){
+					alert('[[#{login.hint8}]]');
+	    			$("#btntwo").val('[[#{login.login}]]');
+	    			$("#btntwo").attr('disabled',false);
+	    		}
+		    });
+		}
+	 });
+		    
+	$('#btn').click(function () {
+		$("#btn").attr('disabled',true);
+		$("#btn").val('[[#{login.logining}]]');
+		var username=$("#txt_username").val();
+		var password=$("#txt_password").val();
+		if(username==""){
+
+			alert('[[#{login.hint1}]]');
+			$("#txt_username").focus();
+			$("#btn").attr('disabled',false);
+			$("#btn").val('[[#{login.login}]]');
+		}else if(password==""){
+
+			alert('[[#{login.hint2}]]');
+			$("#txt_password").focus();
+			$("#btn").attr('disabled',false);
+			$("#btn").val('[[#{login.login}]]');
+		}else{
+	    	setTimeout(function (){
+	    		var redirectUri=$("#redirectUri").val();
+	    		$.ajax({
+		    		url:'/authModule/authenticate?'+Math.random(),
+		    		dataType:'json',
+		    		data:{"username":username,"password":password,"reamId":"1002"},
+		    		type:'POST',
+		    		success:function(data){
+		    			if(data.code=='100000001'){
+		    				//alert(redirectUri)
+		    				location.href=redirectUri;
+		    			}else if(data.code=='100000004'){
+		    				alert('[[#{login.hint5}]]');
+		    				$("#txt_username").focus();
+		    			}else if(data.code=='100000005'){
+		    				alert(data.msg+'!');
+		    				$("#txt_password").val("");
+		    				$("#txt_password").focus();
+		    			}else if(data.code=='100000006'){
+		    				alert('[[#{login.hint7}]]');
+		    			}else{
+		    				alert(data.msg);
+		    			}
+		    			$("#btn").attr('disabled',false);
+		    			$("#btn").val('[[#{login.login}]]');
+		    		},
+		    		error:function(data){
+		    			alert('[[#{login.hint8}]]');
+		    			$("#btn").val('[[#{login.login}]]');
+		    			$("#btn").attr('disabled',false);
+		    		}
+		    	});
+	    	}, 500);
+		}
+	});
+	 $('#ip').click(function () {
+		 clearInterval(interval);
+	     $('.ip-input').css('display','block');
+	     $('#ip').addClass('font-color');
+	     $('.info-input').css('display','none');
+	     $('#info').removeClass('font-color');
+	     $('.info-input1').css('display','none');
+	     $('.info-input2').css('display','none');
+	 });
+	 $('#ip2').click(function () {
+		 clearInterval(interval);
+	     $('.ip-input').css('display','block');
+	     $('#ip').addClass('font-color');
+	     $('.info-input').css('display','none');
+	     $('#info').removeClass('font-color');
+	     $('.info-input1').css('display','none');
+	     $('.info-input2').css('display','none');
+	 });
+	 $('#info').click(function () {
+		 clearInterval(interval);
+	     $('.ip-input').css('display','none');
+	     $('#ip').removeClass('font-color');
+	     $('.info-input').css('display','block');
+	     $('#info').addClass('font-color');
+	     $('.info-input1').css('display','none');
+	     $('.info-input2').css('display','none');
+	 })
+	 $('#info2').click(function () {
+		 clearInterval(interval);
+	     $('.ip-input').css('display','none');
+	     $('#ip').removeClass('font-color');
+	     $('.info-input').css('display','block');
+	     $('#info').addClass('font-color');
+	     $('.info-input1').css('display','none');
+	     $('.info-input2').css('display','none');
+	 })
+	 $('#opts').click(function () {
+		 clearInterval(interval);
+	     $('.ip-input').css('display','none');
+	     $('.info-input').css('display','none');
+	     $('#ip').removeClass('font-color');
+	     $('.info-input1').css('display','block');
+	     $('.info-input2').css('display','none');
+	     $('#info').removeClass('font-color');
+	 })
+ 	$('#sendLogin').click(function () {
+		 clearInterval(interval);
+	     $('.ip-input').css('display','none');
+	     $('.info-input').css('display','none');
+	     $('.info-input1').css('display','none');
+	     $('#ip').removeClass('font-color');
+	     $('.info-input2').css('display','block');
+	     $('#info').removeClass('font-color');
+	 })
+	  $('#yzm').click(function () {
+		  clearInterval(interval);
+		  sendCode();
+	  })
+	  $('.code').click(function () {
+		   qrLogin();
+	   });
+	// qrLogin();
+});  
+var interval;
+
+function btnClick() {
+	var imgSrc= $(".login>img").attr("src");
+	qywxLogin(imgSrc);
+}
+// $(function() {
+// 	 window.onload = btnClick;
+// });
+
+
+function qrLogin(){
+	
+	if($('.code img').attr('src')=='./images/erweima.svg'){
+		
+		var appLogin = '[[#{login.appLogin}]]';
+        $('.code img').attr('src','./images/diannao.svg')
+        $('#code').toggle();
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").empty();
+        refreshCode();
+        $("#qywxlogin").attr("title","");
+        $("#qywxlogin").css("margin","20px 80px 20px 80px");
+        $("#qywxlogin").append("<div style='width: 110px;margin: 20px;'	>"+appLogin+"</div>")
+        $('.two-login').toggle();
+    }else{
+    	
+        $('.code img').attr('src','./images/erweima.svg') 
+        clearInterval(interval);
+        $('#code').toggle();
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").empty();
+        $('.two-login').toggle();
+    }
+   
+}
+var uuid=getUuid();
+//刷新二维码
+function refreshCode(){
+	clearInterval(interval);
+	//生成二维码
+	$("#safe_div").html("");
+	var packJson = {"type":"1", "uuid":uuid};  
+    var jsonstr =JSON.stringify(packJson); 
+	var str = toUtf8(jsonstr);
+	new QRCode('qywxlogin', {
+		text: str,
+		width: 150,
+		height: 150,
+		colorDark : '#000000',
+		colorLight : '#ffffff',
+		correctLevel : QRCode.CorrectLevel.H
+	});
+	$("#safe_div").attr("title","");
+	//轮训检测二维码是否认证
+	interval=setInterval(function(){
+		cheackauthQrCode(uuid);
+	},2000);
+		
+}
+function toUtf8(str) {
+    var out, i, len, c;
+    out = "";
+    len = str.length;
+    for (i = 0; i < len; i++) {
+        c = str.charCodeAt(i);
+        if ((c >= 0x0001) && (c <= 0x007F)) {
+            out += str.charAt(i);
+        } else if (c > 0x07FF) {
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+        } else {
+            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+        }
+    }
+    return out;
+}
+function cheackauthQrCode(uuid){
+	$.ajax({
+		url:'/authModule/authenticate?'+Math.random(),
+    	dataType: 'json',
+   		data: {
+    		username: uuid,
+    		password: uuid,
+    		reamId:1007
+    	},
+   	 	success: function(data){
+	   	 	if(data.code==100000001){
+	   	 		var redirectUri=$("#redirectUri").val();
+				location.href=redirectUri;
+				clearInterval(interval);
+			}
+	   	 	
+    	},error: function(){
+    		clearInterval(interval);
+    	}
+	}); 
+
+}
+
+var flag = 1;  
+var i = 60;  
+var ajaxStatus=0;
+var uuid;
+var accountId;
+function sendCode() { 
+	var mobile=$("#mobile").val();
+	if(mobile==""){
+		alert('[[#{login.hint9}]]');
+		$("#mobile").focus();
+		 return;  
+	}else if(checkPhone(mobile)==false){
+		alert('[[#{login.hint11}]]');
+		$("#mobile").focus();
+		return;  
+	}
+    i = i - 1;  
+	$("#yzm").attr('disabled',true);
+	$("#yzm").css('background',"#8ea7d4 !important");
+    $("#yzm").val(i+'[[#{login.sendPrompt}]]');
+    if (i == 0) { 
+    	ajaxStatus=0;
+    	$("#yzm").attr('disabled',false);
+    	$("#yzm").css('background',"#1F82F2!important");
+        $("#yzm").val('[[#{login.reAcquisition}]]');
+        flag = 1;  
+        i = 60;  
+        return;  
+    }
+    //发送获取验证码
+    if(ajaxStatus==0){
+    	uuid=getUuid();
+    	ajaxStatus=1;
+    	$.ajax({
+			url:'./sendvCode2.action?'+Math.random(),
+			data:{
+				mobile:mobile,
+				uuid:uuid
+			},
+			type:'POST',
+			success:function(data){
+				data=eval('('+data+')'); 
+				if(data.code==0){
+					accountId=data.accountId;
+					//alert('[[#{login.verificationSent}]]');不需要发送成功的提醒
+				}else{
+					alert(data.msg)
+				}
+			}
+	    });
+    }
+    setTimeout('sendCode()',1000);  
+} 
+
+
+function checkPhone(phone){ 
+    if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))){ 
+       
+        return false; 
+    } else{
+    	return true; 
+    }
+}
+
+function getUuid() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+ 
+    var uuid = s.join("");
+    return uuid;
+}
+function qywxLogin(imgSrc){
+
+	if(imgSrc=='./images/login/img_qrcode.png'){
+		
+		var appLogin = '[[#{login.appLogin}]]';
+        $('.login>img').attr('src','./images/login/img_computer.png');
+        $('#code').toggle();
+        $('#1001LoginForm1').toggle(false);
+        $('#1001LoginForm2').toggle(false);
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").empty();
+        refreshQYWXLogin();
+        $("#qywxlogin").attr("title","");
+        $("#qywxlogin").css("margin-top","60px");
+        
+       
+    }else{
+    	$('.login>img').attr('src','./images/login/img_qrcode.png');
+        clearInterval(interval);
+        $('#code').toggle();
+        $('#1001LoginForm1').toggle(true);
+        $('#1001LoginForm2').toggle(false);
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").css("margin-left","0px");
+        $("#qywxlogin").empty();
+       
+    }
+	/*if($('.code img').attr('src')=='./images/erweima.svg'){
+        $('.code img').attr('src','./images/diannao.svg')
+    }else{
+        $('.code img').attr('src','./images/erweima.svg')
+    }
+    $('#code').toggle();
+    $("#qywxlogin").css("margin-left","0px");
+    $("#qywxlogin").css("margin-left","0px");
+    $("#qywxlogin").empty();
+    refreshQYWXLogin();
+    $('.two-login').toggle();*/
+}
+function refreshQYWXLogin(){
+	var redirectUri=$("#redirectUri").val();
+	var QYWX_APPID=$("#QYWX_APPID").val();
+	var QYWX_SCA_APP_AGENTID=$("#QYWX_SCA_APP_AGENTID").val();
+	var QYWX_SCA_REDIRECT_URI=$("#QYWX_SCA_REDIRECT_URI").val();
+	var redirect_uri=escape(QYWX_SCA_REDIRECT_URI+"?redirectUri="+redirectUri);
+	window.WwLogin({
+        "id" : "qywxlogin",  
+        "appid" : QYWX_APPID,
+        "agentid" : QYWX_SCA_APP_AGENTID,
+        "redirect_uri" :redirect_uri,
+        "state" : "",
+        "href" : "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O30NCi5pbXBvd2VyQm94IC50aXRsZSB7ZGlzcGxheTogbm9uZTt9DQouaW1wb3dlckJveCAuaW5mbyB7d2lkdGg6IDIwMHB4O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTpub25lfQ0KLmltcG93ZXJCb3ggLnN0YXR1cyB7dGV4dC1hbGlnbjogY2VudGVyO30=",
+	});
+}
+
+
+function ddLogin(){
+	if($('.code img').attr('src')=='./images/erweima.svg'){
+        $('.code img').attr('src','./images/diannao.svg')
+    }else{
+        $('.code img').attr('src','./images/erweima.svg')
+    }
+    $('#code').toggle();
+    $("#qywxlogin").css("margin-left","0px");
+    $("#qywxlogin").css("margin-left","0px");
+    $("#qywxlogin").empty();
+    buderDingding();
+    $('.two-login').toggle();
+}
+
+function buderDingding(){
+	var DINGDING_SCA_REDIRECT_URI=$("#DINGDING_SCA_REDIRECT_URI").val();
+	 var DINGDING_APPID=$("#DINGDING_APPID").val();
+	var path=escape("https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid="+DINGDING_APPID+"&response_type=code&scope=snsapi_login&state=STATE&redirect_uri="+DINGDING_SCA_REDIRECT_URI);
+	var obj = DDLogin({
+	     id:"qywxlogin",
+	     goto: path,
+	     style: "border:none;background-color:#FFFFFF;width:150px;height:200px;",
+	     width : "365",
+	     height: "300"
+	}); 
+}
+
+var hanndleMessage = function (event) {
+    var origin = event.origin;
+    if( origin == "https://login.dingtalk.com" ) { //判断是否来自ddLogin扫码事件。
+        var loginTmpCode = event.data; //拿到loginTmpCode后就可以在这里构造跳转链接进行跳转了
+        var redirectUri=$("#redirectUri").val();
+        var DINGDING_APPID=$("#DINGDING_APPID").val();
+        var DINGDING_SCA_REDIRECT_URI=$("#DINGDING_SCA_REDIRECT_URI").val();
+        window.location.href='https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid='+DINGDING_APPID+'&response_type=code&scope=snsapi_login&state=STATE&redirect_uri='+DINGDING_SCA_REDIRECT_URI+'&loginTmpCode='+loginTmpCode
+    }
+};
+if (typeof window.addEventListener != 'undefined') {
+window.addEventListener('message', hanndleMessage, false);
+} else if (typeof window.attachEvent != 'undefined') {
+window.attachEvent('onmessage', hanndleMessage);
+}

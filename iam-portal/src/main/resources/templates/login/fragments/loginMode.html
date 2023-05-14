@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Mode Fragment</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="loginMode" class="loginFoot">
+	<p th:text="#{login.loginMode}">或使用以下账号直接登录</p>
+	<ul>
+		<li th:if="${qywxFlag}" onclick="loginModeQacode(1)"><img src="./images/login/icon_qiwx.png" alt=""></li>
+		<li><img th:if="${ddFlag}" onclick="loginModeQacode(2)" src="./images/login/icon_dd.png" alt="" style="width: 32px;height: 32px;"></li>
+		<!--<li th:if="${optFlag}"><img src="./images/login/icon_otp.png" alt=""></li>
+		<li><img src="./images/login/icon_mam.png" alt=""></li>
+		<li><img src="./images/login/icon_multifactor.png" alt=""></li>
+		<li style='margin-right:0;'>
+			<div class="dropdown">
+				<button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+						data-toggle="dropdown">
+					<img src="./images/login/icon_loginmode_more.png" width="16" height="16" alt="">
+				</button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation">
+						<img src="./images/login/icon_otp.png" alt="">
+						<span>微信登录</span>
+					</li>
+					<li role="presentation">
+						<img src="./images/login/icon_dd.png" alt="">
+						<span>QQ登录</span>
+					</li>
+				</ul>
+			</div>
+		</li>-->
+	</ul>
+	<!--钉钉javascript监听-->
+	<script th:inline="javascript"  type="text/javascript" th:if="${ddFlag}">
+		var hanndleMessage = function (event) {
+			var origin = event.origin;
+			if( origin == "https://login.dingtalk.com" ) { //判断是否来自ddLogin扫码事件。
+				var loginTmpCode = event.data; //拿到loginTmpCode后就可以在这里构造跳转链接进行跳转了
+				var redirectUri=$("#redirectUri").val();
+				var DINGDING_APPID=$("#DINGDING_APPID").val();
+				var DINGDING_SCA_REDIRECT_URI=$("#DINGDING_SCA_REDIRECT_URI").val();
+				var redirect_uriEco=DINGDING_SCA_REDIRECT_URI+"?redirectUri="+encodeURIComponent(redirectUri).toLowerCase()
+				window.location.href='https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid='+DINGDING_APPID+'&response_type=code&scope=snsapi_login&state=STATE&redirect_uri='+redirect_uriEco+'&loginTmpCode='+loginTmpCode
+			}
+		};
+		if (typeof window.addEventListener != 'undefined') {
+			window.addEventListener('message', hanndleMessage, false);
+		} else if (typeof window.attachEvent != 'undefined') {
+			window.attachEvent('onmessage', hanndleMessage);
+		}
+	</script>
+
+	<script th:inline="javascript"  type="text/javascript">
+		var redirectUri=$("#redirectUri").val();
+		setCookie("redirectUri",redirectUri,1);
+
+		//loginType=1 企业微信扫码  2钉钉扫码 3OPT
+		function loginModeQacode(loginType){
+			if(loginType==1){
+				refreshQYWXLogin();
+			}
+			if(loginType==2){
+				refreshDDLogin();
+			}
+			$('.codeLogin').css('display','block');
+			$('.loginContent,.loginFoot').css('display','none');
+			$('.changeLogin>img').attr('src','./images/login/pc.png');
+			$('.changeLogin>img').css('display','block');
+			$('.ipLogin').css('display','block');
+			$('#ipLogin').addClass('activeColor');
+			$('#mobileLogin').removeClass('activeColor');
+			$('.mobileLogin').css('display','none');
+		}
+
+		function refreshQYWXLogin(){
+			var redirectUri=$("#redirectUri").val();
+			var QYWX_APPID=$("#QYWX_APPID").val();
+			var QYWX_SCA_APP_AGENTID=$("#QYWX_SCA_APP_AGENTID").val();
+			var QYWX_SCA_REDIRECT_URI=$("#QYWX_SCA_REDIRECT_URI").val();
+			var redirect_uriEco=QYWX_SCA_REDIRECT_URI+"?redirectUri="+encodeURIComponent(redirectUri).toLowerCase()
+			window.WwLogin({
+				"id" : "qacode",
+				"appid" : QYWX_APPID,
+				"agentid" : QYWX_SCA_APP_AGENTID,
+				"redirect_uri" :redirect_uriEco,
+				"state" : "",
+				"href" : "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O30NCi5pbXBvd2VyQm94IC50aXRsZSB7ZGlzcGxheTogbm9uZTt9DQouaW1wb3dlckJveCAuaW5mbyB7d2lkdGg6IDIwMHB4O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTpub25lfQ0KLmltcG93ZXJCb3ggLnN0YXR1cyB7dGV4dC1hbGlnbjogY2VudGVyO30=",
+			});
+		}
+
+		function refreshDDLogin(){
+			var redirectUri=$("#redirectUri").val();
+			var DINGDING_SCA_REDIRECT_URI=$("#DINGDING_SCA_REDIRECT_URI").val();
+			var DINGDING_APPID=$("#DINGDING_APPID").val();
+			var redirect_uriEco=DINGDING_SCA_REDIRECT_URI+"?redirectUri="+encodeURIComponent(redirectUri).toLowerCase()
+			var path=escape("https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid="+DINGDING_APPID+"&response_type=code&scope=snsapi_login&state=STATE&redirect_uri="+redirect_uriEco);
+			var obj = DDLogin({
+				id:"qacode",
+				goto: path,
+				style: "border:none;background-color:#FFFFFF;width:280px;height:360px;",
+				width : "280",
+				height: "360"
+			});
+		}
+	</script>
+</div>
+</body>
+</html>

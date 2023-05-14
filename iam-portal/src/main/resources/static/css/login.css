@@ -1,0 +1,199 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,body{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  font-family:PingFangSC-Regular,PingFang SC,微软雅黑;
+  font-size: 14px;
+}
+body>img{
+  position: absolute;
+  top: 0;
+  object-fit: cover;
+}
+.logo{
+  position: relative;
+  padding: 60px 60px 0;
+}
+.login{
+  position: absolute;
+  top: 50%;
+  margin-top: -210px;
+  right: 240px;
+  width: 380px;
+  height: 420px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 20px 0px rgba(0,0,0,0.06);
+  margin-right: 100px;
+}
+form>h3,
+.code>h3{
+  font-size: 20px;
+  font-weight: 500;
+  color: #595860;
+  padding: 40px 0;
+  text-align: center;
+  z-index: 1;
+   display:inline-block;  
+   width:49%;
+}
+.login>img{
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+form>.input_div{
+  position: relative;
+  top: 0;
+  width: 320px;
+  margin: 0 auto;
+  height: 40px;
+}
+form>.input_div>input{
+  width: 100%;
+  height: 100%;
+  background: #f8f8f8;
+  border: none;
+  outline: none;
+  line-height: 40px;
+  padding-left: 52px;
+  color: #595860;
+}
+form>.input_div>img{
+  position: absolute;
+  top: 10px;
+  left: 16px;
+}
+.input_margin{
+  margin: 20px auto 10px auto!important;
+}
+form>a{
+  color: #62616e;
+  text-decoration: none;
+  outline: none;
+  display: block;
+  text-align: right;
+  width: 320px;
+  margin: 0 auto;
+}
+form #yzm{
+    background: #dd8504;
+    border-radius: 4px;
+    width: 45%;
+    margin-left: 10px;
+   
+    padding: 0;
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: 0.39px;
+    border: none;
+}
+form>button{
+  width: 320px;
+  height: 40px;
+  background:#dd8504;
+  margin: 30px auto 0 auto;
+  display: block;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  outline: none;
+  cursor: pointer;
+}
+.code{
+  display: none;
+  text-align: center;
+}
+.code>p{
+  font-size:14px;
+  font-weight:400;
+  color:#333333;
+  margin-top: 27px;
+}
+.code>p>span{
+ color: #17A9F1;
+  cursor: pointer;
+}
+.loginFoot {
+  width: 360px;
+  margin: 0 auto;
+  height: 116px;
+  padding: 15px 20px 0px 20px;
+  /*background: #F7F7F7;*/
+  border-radius: 0px 0px 4px 4px;
+}
+
+.loginFoot > p {
+  color: #666666;
+}
+
+.loginFoot > ul > li {
+  list-style: none;
+  float: left;
+  margin-top: 10px;
+  margin-right: 24px;
+  height: 32px;
+  line-height: 32px;
+  cursor: pointer;
+}
+
+.loginFoot > ul > li:last-child {
+  margin-right: 0;
+}
+
+.loginFoot > ul > li > img {
+  width: 32px;
+  height: 32px;
+}
+
+.loginFoot > ul > li:last-child img {
+  width: 16px;
+  height: 16px;
+}
+
+.loginFoot > ul > li .btn {
+  padding: 0;
+  background: none;
+  outline: none;
+  border: none;
+  outline: none!important;
+  box-shadow: none;
+}
+
+.loginFoot > ul > li span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #464646;
+  margin-left: 8px;
+}
+
+.loginFoot > ul > li ul > li {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+}
+
+.loginFoot > ul > li ul > li:hover {
+  background: #F7F7F7;
+}
+
+.loginFoot .open > .dropdown-menu {
+  padding: 18px 0 10px 0;
+}
+
+.loginFoot .open > .dropdown-menu {
+  background: url("../images/login/img_loginmode_bg.png");
+  left: -74px;
+  background-size: 100% 100%;
+  border: none;
+  box-shadow: none;
+
+}

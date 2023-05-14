@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>saml sso</title>
+</head>
+<body>
+	<form th:action="${redirectUri}"  method="POST">
+		<input type="hidden" id="SAMLResponse" name="SAMLResponse" th:value="${SAMLResponse}" />
+		<input type="hidden" id="RelayState" name="RelayState" th:value="${RelayState}" />
+	</form>
+	<script type="text/javascript">
+		document.forms[0].submit();
+	</script>
+	</body>
+</html>

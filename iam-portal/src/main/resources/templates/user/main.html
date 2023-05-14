@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{main.title}">应用面板</title>
+    <link rel="stylesheet" href="../common/bootstrap.min.css">
+    <link rel="stylesheet" href="../common/userCenter.css">
+    <link rel="stylesheet" href="../common/information.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="../common/jquery.datetimepicker.css">
+    <link rel="stylesheet" th:href="@{${#themes.code('portal.css')}}"/>
+    <script src="../layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+
+</head>
+<body>
+<div id="content">
+    <div class="headerTips">
+        <p><span id="toHome"><i class="layui-icon layui-icon-home"></i><span th:text="#{main.home}">首页</span></span>  > <span th:text="#{main.user.center}">个人中心</span>
+            <a style="float: right;" id="refreshData" href="javascript:"><i class="layui-icon layui-icon-refresh"></i>&nbsp;<span th:text="#{main.refresh}">刷新</span></a>
+        </p>
+    </div>
+    <div class="passwordContent">
+        <div class="passwordLeft" id="userNav">
+            <p th:text="#{main.userInfo}">基本信息</p>
+            <p th:text="#{main.updatePwd}">密码修改</p>
+            <p th:text="#{main.settingPwd}">密保设置</p>
+            <p th:text="#{main.userlogs}">登录日志</p>
+            <p th:text="#{main.client}">客户端</p>
+        </div>
+        <div class="passwordRight" id="publicContent">
+            <!-- 加载基本信息-->
+            <div th:replace="user/fragments/userinfo :: userinfo"></div>
+
+            <!-- 加载密码修改-->
+            <div th:replace="user/fragments/updatePwd :: updatePwd"></div>
+
+            <!-- 加载密保设置-->
+            <div th:replace="user/fragments/pwdSecurity :: pwdSecurity"></div>
+
+            <!-- 加载登录日志-->
+            <div th:replace="user/fragments/loginLog :: loginLog"></div>
+            
+            <!-- 加载客户端-->
+            <div th:replace="user/fragments/initsso :: initsso"></div>
+     </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#publicContent>div").eq(1).css('display','none');
+        $("#publicContent>div").eq(2).css('display','none');
+        $("#publicContent>div").eq(3).css('display','none');
+        $("#publicContent>div").eq(4).css('display','none');
+ 
+        var clickTagNulber=[[${clickTagNulber}]];
+        if(clickTagNulber!=0){
+            $("#userNav>p").eq(0).removeClass('active');
+            $("#publicContent>div").eq(0).css('display','none');
+            $("#userNav>p").eq(clickTagNulber).addClass('active');
+            $("#publicContent>div").eq(clickTagNulber).css('display','block');
+            window.parent.setIframeHeight()
+        }else{
+            $("#publicContent>div").eq(0).css('display','block');
+            $("#userNav>p").eq(0).addClass('active');
+            window.parent.setIframeHeight()
+        }
+        $('#userNav>p').on('click',function (e){
+            $("#userNav>p").eq(clickTagNulber).removeClass('active');
+            $("#publicContent>div").eq(clickTagNulber).css('display','none');
+            clickTagNulber=$(this).index();
+            $("#userNav>p").eq(clickTagNulber).addClass('active');
+            $("#publicContent>div").eq(clickTagNulber).css('display','block');
+            window.parent.setIframeHeight()
+        })
+        $('#refreshData').on('click',function (e){
+            window.parent.$('#menuFrame').attr('src','./user/main.html?clickTagNulber='+clickTagNulber);
+        })
+    });
+
+</script>
+</body>
+</html>

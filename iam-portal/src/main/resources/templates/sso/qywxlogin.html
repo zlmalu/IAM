@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>扫码认证</title>
+</head>
+<body>
+
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/cookie.js"></script>
+<script th:inline="javascript">
+var code = [[${code}]];
+var redirectUri=getCookie("redirectUri");
+$.ajax({
+	url:'/authModule/authenticate?'+Math.random(),
+	dataType:'json',
+	data:{"username":code,"password":"","reamId":"1003"},
+	type:'POST',
+	success:function(data){
+        if(redirectUri){
+            location.href=redirectUri;
+        }else{
+            location.href="/portal/main.html";
+        }
+	},
+	error:function(data){
+		alert(data);
+	}
+});
+</script>   
+</body>
+</html>

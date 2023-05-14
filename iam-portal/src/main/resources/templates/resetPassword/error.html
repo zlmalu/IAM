@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>404</title>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+</head>
+<style>
+/*头部*/
+.header {
+	height: 70px;
+	line-height: 70px;
+	width: 100%;
+	background: #FFFFFF;
+	box-shadow: 0 4px 10px 0 rgba(196, 199, 211, 0.50);
+}
+
+.header-error {
+	width: 100%;
+	margin: 0 auto;
+	height: 100%;
+	position: relative;
+}
+
+.header-logo {
+	height: 70px;
+	display: inline-block;
+	height: 100%;
+	margin-left: 10%
+}
+/*main*/
+.stepCont {
+	background: #FFFFFF;
+	border-radius: 5px;
+    box-shadow: 0 4px 20px 0 rgba(196, 199, 211, 0.50);
+    position: relative;
+    padding: 0 40px 9% 40px;
+	height: 600px;
+}
+.btn{
+	background-color: #1F82F2;
+	border-radius: 5px; 
+	height: 40px;
+	margin-bottom: 4px;
+	background-image: linear-gradient(-269deg, #6DB1FF 0%, #0B60FF 100%);
+	background:#3583FF\9;
+    border-radius: 4px;
+    font-size: 16px;
+      letter-spacing: 0.44px;
+    border: none;
+}
+
+</style>
+<script type="text/javascript">
+	function code(){
+    	var code = location.href.split("=")[1];
+    	var info1 = document.getElementById("info1");
+    	var info2 = document.getElementById("info2");
+   		//该链接已超时，请重新申请修改密码 链接超时
+    	if(code=="100001"){
+    		info1.innerHTML="链接超时"
+        	info2.innerHTML="该链接已超时，请重新申请修改密码"
+    	}
+    	//该链接已被使用过 链接已使用 
+    	else if(code=="100002"){
+    		info1.innerHTML=" 链接已使用 "
+            info2.innerHTML="该链接已被使用过"
+    	}
+    	//服务器开小差了请稍后再试  请稍后再试 
+    	else{
+    		info1.innerHTML="请稍后再试 "
+            info2.innerHTML="服务器开小差了请稍后再试"
+    	}
+	}
+</script>
+<body style="background: #dddddd" onload="code()">
+	<div class="header">
+		<div class="stepCont">
+			<center>
+				<br/>
+				<div>
+					<span><h3 id="info1">链接超时</h3></span>
+				</div>
+				<div>
+					<span id="info2">该链接已超时，请重新申请修改密码</span>
+				</div>
+				<div >
+				<form action="./resetPassword.html">
+					<button class="btn" name="subject" style="color:#FFFFFF">重新修改密码</button>
+				</form>
+				</div>
+			</center>
+		</div>
+	</div>
+</body>
+
+</html>

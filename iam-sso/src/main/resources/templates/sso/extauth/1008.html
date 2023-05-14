@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统一身份认证系统</title>
+    <link rel="stylesheet" href="/sso/static/css/public.css">
+</head>
+<style>
+.txtBox .bigWidth {
+    width: 500px;
+}
+</style>
+<body>
+ 	<input type="hidden"  id="redirectUri" th:value="${redirectUri}" readonly="readonly" />
+ 	<input type="hidden"  id="destSrc" th:value="${destSrc}" readonly="readonly" />
+ 	<input type="hidden"  id="client_id" th:value="${client_id}" readonly="readonly" />
+ 	<input id="txt_username" type="hidden" class="allInput" th:value="${username}"/>
+ 	 <div class="bgBox clearfix">
+        <div class="txtBox">
+            <div class="content bigWidth">
+                <h2>动态口令验证</h2>
+                <p>您访问的业务系统已开启二次认证，请输入动态口令验证</p>
+                <div class="inputBox">
+                    <input id="t1" type="text" autocomplete="off">
+                    <input id="t2" type="text" autocomplete="off">
+                    <input id="t3" type="text" autocomplete="off">
+                    <input id="t4" type="text" autocomplete="off">
+                    <input id="t5" type="text" autocomplete="off">
+                    <input id="t6" type="text" autocomplete="off">
+                </div>           
+                 <button id="btn" style="cursor:hand">下一步</button>
+                <button id="reset" style="cursor:hand;border: 1px solid #c7c7c7;color: #797979;background: #dedede;">重置口令</button>
+            </div>
+        </div>
+        <div class="imgBox">
+            <img src="/sso/static/image/img_auth_onetimepassword.png" alt="">
+        </div>
+    </div>
+    
+   	<script type="text/javascript" src="/sso/static/js/jquery.min.js"></script>
+    <script type="text/javascript" >
+    $("#t1").focus();
+    document.getElementById("t1").onkeyup= function() {
+    	if(this.value.length==1){
+    		$("#t2").focus();
+    	}
+    };
+    document.getElementById("t2").onkeyup= function() {
+    	if(this.value.length==1){
+    		$("#t3").focus();
+    	}
+    };
+    document.getElementById("t3").onkeyup= function() {
+    	if(this.value.length==1){
+    		$("#t4").focus();
+    	}
+    };
+    document.getElementById("t4").onkeyup= function() {
+    	if(this.value.length==1){
+    		$("#t5").focus();
+    	}
+    };
+    document.getElementById("t5").onkeyup= function() {
+    	if(this.value.length==1){
+    		$("#t6").focus();
+    	}
+    };
+    
+    document.getElementById("t6").onkeyup= function() {
+    	if(this.value.length==1){
+    		var count=($("#t1").val().length*1)+($("#t2").val().length*1)+($("#t3").val().length*1)+($("#t4").val().length*1)+($("#t5").val().length*1)+($("#t6").val().length*1);
+    		if(count==6
+    				&&$("#t1").val().length==1
+    				&&$("#t2").val().length==1
+    				&&$("#t3").val().length==1
+    				&&$("#t4").val().length==1
+    				&&$("#t5").val().length==1
+    				&&$("#t6").val().length==1
+    				){
+    			　$('#btn').click();
+    		}
+    	}
+    };
+    $(document).keyup(function(event){
+    	  if(event.keyCode ==13){
+    		  $('#btn').click();
+    	  }
+    });
+    
+    $(document).ready(function(){  
+    	$('#reset').click(function () {
+    		$("#t1").val("");
+    		$("#t2").val("");
+    		$("#t3").val("");
+    		$("#t4").val("");
+    		$("#t5").val("");
+    		$("#t6").val("");
+    		$("#t1").focus();
+    	}); 
+    	$('#btn').click(function () {
+    		$("#btn").attr('disabled',true);
+    		$("#btn").html("处理中...");
+    		var count=($("#t1").val().length*1)+($("#t2").val().length*1)+($("#t3").val().length*1)+($("#t4").val().length*1)+($("#t5").val().length*1)+($("#t6").val().length*1);
+    		if(!(count==6
+    				&&$("#t1").val().length==1
+    				&&$("#t2").val().length==1
+    				&&$("#t3").val().length==1
+    				&&$("#t4").val().length==1
+    				&&$("#t5").val().length==1
+    				&&$("#t6").val().length==1
+    				)){
+    			  alert('口令格式错误或者为空!');
+    			  $("#t1").focus();
+    			  $("#btn").attr('disabled',false);
+    			  $("#btn").html("下一步");
+    			　return;
+    		}
+    		var password=$("#t1").val()+$("#t2").val()+$("#t3").val()+$("#t4").val()+$("#t5").val()+$("#t6").val();
+   	    	setTimeout(function (){
+   	    		var redirectUri=$("#redirectUri").val();
+   	    		$.ajax({
+   		    		url:'/authModule/extAuthenticate?'+Math.random(),
+   		    		dataType:'json',
+   		    		data:{"username":$("#txt_username").val(),"password":password,"reamId":"1008",destSrc:$("#destSrc").val()},
+   		    		type:'POST',
+   		    		success:function(data){
+   		    			if(data.code=='100000001'){
+   		    				window.location.reload();
+   		    			}else if(data.code=='100000004'){
+   		    				alert('帐号不存在!');
+   		    				$("#t1").focus();
+   		    			}else if(data.code=='100000005'){
+   		    				alert('口令验证失败!');
+   		    				$("#t1").focus();
+   		    			}else if(data.code=='100000006'){
+   		    				alert('帐号被禁用!');
+   		    			}else{
+   		    				alert(data.msg);
+   		    			}
+   		    			$("#btn").attr('disabled',false);
+   		    			$("#btn").html("下一步");
+   		    		},
+   		    		error:function(data){
+   		    			alert("二次认证异常");
+   		    			$("#btn").html("下一步");
+   		    			$("#btn").attr('disabled',false);
+   		    		}
+   		    	});
+   	    	}, 500);	
+    	}); 
+    });  
+    
+    </script>
+</body>
+</html>

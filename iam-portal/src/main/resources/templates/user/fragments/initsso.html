@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" style="overflow: hidden">
+<head>
+<meta charset="UTF-8">
+<title>安装程序示例</title>
+</head>
+
+<body>
+<div <div th:fragment="initsso" class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+  	<ul class="layui-tab-title">
+    	<li></li>
+	</ul>
+	<div class="modal-body" style="width: 100%; padding: 5px;min-height: 1000px;">
+		<p style="margin: 10px !important;">1、<a href="/portal/downloadFile/sensesso.html" style="color: #3c7ab8;"><span th:text="#{main.hint2}">点击下载安装文件</span></a><p>
+		<p style="margin: 10px !important;">2、<span th:text="#{main.hint3}">关闭客户端操作系统的系统杀毒软件，例如360杀毒，金山等系统杀毒软件</span></p>
+		<p style="margin: 10px !important;">3、<span th:text="#{main.hint4}">解压sensesso.zip</span></p>
+		<p style="margin: 10px !important;">4、<span th:text="#{main.hint5}">解压后找到sense_sso.exe文件，右键【以管理员身份运行】</span></p>
+		<p style="margin: 10px !important;">5、<span th:text="#{main.hint6}">运行后，安装页面目标目录不要更改，点击安装即可。</span></p>
+	</div>
+</div>
+</body>

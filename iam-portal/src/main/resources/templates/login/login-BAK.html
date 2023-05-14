@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${TITLE}">统一身份认证系统</title>
+    <link rel="stylesheet" href="./common/bootstrap.min.css">
+    <link rel="stylesheet" href="./common/login.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/cookie.js"></script>
+    <!--10分钟刷新一次页面-->
+    <meta http-equiv="refresh" content="600">
+    <script>
+        var url = window.location.href;
+        if(url.indexOf("/portal/login.html")==-1){
+            location.href="/portal/login.html";
+        }
+    </script>
+    <head>
+<body>
+<div id="bodyBox">
+    <div id="bodyPage">
+        <img src="./image/showImage/loginSlide/1" class="bg" style="display:inline">
+        <img src="./image/showImage/loginSlide/2" class="bg" th:if="${isSlideEnable}">
+        <img src="./image/showImage/loginSlide/3" class="bg" th:if="${isSlideEnable}">
+    </div>
+</div>
+
+<div class="content">
+    <div class="logo">
+        <div class="logoLeft">
+            <img src="./image/showImage/logo/1" width="170" height="44" alt="">
+        </div>
+        <div class="selectRight">
+            <div class="selectBox">
+                <div class="inputCase">
+                    <input class="imitationSelect" type="text" th:value="${#locale.language} == 'zh' ? '简体中文' : 'English'" readonly/>
+                    <i class="fa"><img src="./images/login/open.png" width="12" height="12" alt=""></i>
+                </div>
+                <ul class="selectUl">
+                    <li onclick="changlang('zh_CN')">简体中文</li>
+                    <li onclick="changlang('en_US')" >English</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="login">
+        <img src="./images/login/loginBg.png" alt="">
+        <div class="changeLogin">
+            <img src="./images/login/qrcode.png" width="68" alt="" style="display: none">
+        </div>
+        <div class="positionContent">
+            <div class="loginContent">
+                <div class="loginTitle">
+                    <span id="ipLogin" class="activeColor" th:text="#{login.accountLogin}">账号登录</span>
+                    <span id="mobileLogin" th:if="${smsFlag}" th:text="#{login.SMSLogin}">短信登录</span>
+                </div>
+                <!-- 加载用户名密码登录表单-->
+                <div th:replace="login/fragments/loginForm :: loginform"></div>
+
+                <!-- 加载短信登录表单-->
+                <div th:replace="login/fragments/smsLoginform :: smsLoginform" th:if="${smsFlag}"></div>
+
+            </div>
+            <!-- 二维码扫码区域-->
+            <div th:replace="login/fragments/qacodeLoginform :: qacodeLoginform"></div>
+
+            <div th:replace="login/fragments/loginMode :: loginMode" ></div>
+        </div>
+    </div>
+</div>
+
+<!-- 加载底部菜单-->
+<div th:replace="common/foot :: foot"></div>
+
+
+<script type="text/javascript" th:if="${qywxFlag}" id="qywxJs" src="http://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js"></script>
+<script type="text/javascript" th:if="${ddFlag}" id="ddJs" src="http://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+
+<script src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/fullplay.js" th:if="${isSlideEnable}"></script>
+<script type="text/javascript" th:if="${isSlideEnable}">
+    $(document).ready(function (e) {
+        $("#bodyPage").fullImages({
+            ImgWidth: 1820,
+            ImgHeight: 1080,
+            autoplay: 3500,
+            fadeTime: 1500
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $('.changeLogin').click(function () {
+            $('.codeLogin').css('display','none');
+            $('.loginContent,.loginFoot').css('display','block');
+            $('.changeLogin>img').css('display','none');
+        });
+        $('#ipLogin').click(function () {
+            $('.ipLogin').css('display','block');
+            $('#ipLogin').addClass('activeColor');
+            $('#mobileLogin').removeClass('activeColor');
+            $('.mobileLogin').css('display','none');
+        });
+        $('#mobileLogin').click(function () {
+            $('.ipLogin').css('display','none');
+            $('#ipLogin').removeClass('activeColor');
+            $('#mobileLogin').addClass('activeColor');
+            $('.mobileLogin').css('display','block');
+        })
+
+        //普通登录   密码框后回车提交
+        $('#password').bind('keyup', function(event) {
+            if (event.keyCode == "13") {
+                //回车执行查询
+                $('#fromsubmit').click();
+            }
+        });
+        $('#fromsubmit').click(function () {
+            $("#fromsubmit").attr('disabled',true);
+            $("#fromsubmit").html('[[#{login.logining}]]');
+            var username=$("#username").val();
+            var password=$("#password").val();
+            if(username==""){
+                alert('[[#{login.hint1}]]');
+                $("#username").focus();
+                $("#fromsubmit").attr('disabled',false);
+                $("#fromsubmit").html('[[#{login.login}]]');
+            }else if(password==""){
+                alert('[[#{login.hint2}]]');
+                $("#password").focus();
+                $("#fromsubmit").attr('disabled',false);
+                $("#fromsubmit").html('[[#{login.login}]]');
+            }else{
+                setTimeout(function (){
+                    var redirectUri=$("#redirectUri").val();
+                    $.ajax({
+                        url:'/authModule/authenticate?'+Math.random(),
+                        dataType:'json',
+                        data:{"username":username,"password":password,"reamId":"1002"},
+                        type:'POST',
+                        success:function(data){
+                            if(data.code=='100000001'){
+                                location.href=redirectUri;
+                            }else if(data.code=='100000004'){
+                                alert('[[#{login.hint5}]]');
+                                $("#username").focus();
+                            }else if(data.code=='100000005'){
+                                alert(data.msg+'!');
+                                $("#password").val("");
+                                $("#password").focus();
+                            }else if(data.code=='100000006'){
+                                alert('[[#{login.hint7}]]');
+                            }else{
+                                alert(data.msg);
+                            }
+                            $("#fromsubmit").attr('disabled',false);
+                            $("#fromsubmit").html('[[#{login.login}]]');
+                        },
+                        error:function(data){
+                            alert('[[#{login.hint8}]]');
+                            $("#fromsubmit").html('[[#{login.login}]]');
+                            $("#fromsubmit").attr('disabled',false);
+                        }
+                    });
+                }, 500);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function(){
+        $(".selectBox .imitationSelect").on("click",function(){
+            $(this).parent().next().toggle();//ul弹窗展开
+            $(this).next().toggleClass("fa-caret-up")//点击input选择适合，小图标动态切换
+            if (event.stopPropagation) {
+                // 针对 Mozilla 和 Opera
+                event.stopPropagation();
+            }else if (window.event) {
+                // 针对 IE
+                window.event.cancelBubble = true;
+            }   /*阻止事件传播，事件从点击的元素出发，向外（window）传播，
+                如果不写个阻止事件，会导致下面的document点击函数一起执行，导致显示失败*/
+        });
+        $(document).click(function(event){
+            $(".inputCase .fa").removeClass("fa-caret-up").addClass("fa-caret-down")//当点隐藏ul弹窗时候，把小图标恢复原状
+            $(".selectUl").hide();//当点击空白处，隐藏ul弹窗
+        });
+
+    })
+
+    function changlang(lang){
+        $.ajax({
+            url:'/portal/login.html?lang='+lang+"&random="+Math.random(),
+            dataType:'json',
+            data:{},
+            type:'POST',
+            success:function(data){
+                location.reload()
+            },
+            error:function(data){
+                location.reload()
+            }
+        });
+    }
+</script>
+</body>
+</html>

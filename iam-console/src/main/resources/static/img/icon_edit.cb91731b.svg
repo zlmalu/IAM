@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>icon/icon_edit</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/icon_edit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M11,5.00491033 L11,10 C11,10.5522847 10.5522847,11 10,11 L2,11 C1.44771525,11 1,10.5522847 1,10 L1,2 C1,1.44771525 1.44771525,1 2,1 L7.00342652,1 L7.00342652,1" id="路径" stroke="#333333" stroke-width="2" stroke-linecap="round"></path>
+        <rect id="矩形" fill="#4D93FF" transform="translate(8.353553, 3.646447) rotate(-45.000000) translate(-8.353553, -3.646447) " x="3.85355339" y="2.64644661" width="9" height="2" rx="1"></rect>
+    </g>
+</svg>

@@ -1,0 +1,31 @@
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+  application:
+    name: sense-sso
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+server:
+  port: 8892
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 3
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}:@project.version@
+  client:
+    service-url:
+      defaultZone: ${client.service.url}
+logging:
+ level:
+  root: INFO
+  io.swagger.models.parameters.AbstractSerializableParameter: error

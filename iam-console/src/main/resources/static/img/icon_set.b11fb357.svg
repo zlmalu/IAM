@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_set</title>
+    <desc>Created with Sketch.</desc>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/icon_set">
+            <g id="icon_set">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="20" height="20"></rect>
+                <path d="M9.81601039,1.27472521 L2.35169557,5.79670228 L2.53568518,14.5219771 L10.1839896,18.7252748 L17.6483044,14.2032977 L17.4643148,5.47802293 L9.81601039,1.27472521 Z" id="多边形" stroke="#333333" stroke-width="2"></path>
+                <circle id="椭圆形" stroke="#4D93FF" stroke-width="2" cx="10" cy="10" r="2.33333333"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

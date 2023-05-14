@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统一身份认证系统</title>
+    <link rel="stylesheet" href="/sso/static/css/public.css">
+</head>
+<body>
+	<input type="hidden"  id="redirectUri" th:value="${redirectUri}" readonly="readonly" />
+ 	<input type="hidden"  id="destSrc" th:value="${destSrc}" readonly="readonly" />
+ 	<input type="hidden"  id="client_id" th:value="${client_id}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_APPID" th:value="${QYWX_APPID}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_SCA_APP_AGENTID" th:value="${QYWX_SCA_APP_AGENTID}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_SCA_APP_KEY" th:value="${QYWX_SCA_APP_KEY}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_SCA_REDIRECT_URI" th:value="${QYWX_SCA_REDIRECT_URI}" readonly="readonly" />
+ 	
+    <div class="bgBox clearfix">
+        <div class="txtBox1" style="text-align: center;margin-top: 5%;">
+            <div class="content phoneCode">
+                <h2>企业微信扫码认证</h2>
+                <p>您访问的业务系统已开启二次认证，请使用打开企业微信扫一扫进行扫码认证</p>
+                <div id="qywxlogin" style="margin-top: 5%;text-align: center;">二维码区域</div>
+            </div>
+        </div>
+    </div>
+	<script type="text/javascript" src="/sso/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/sso/static/js/secureencryption.js"></script>
+	<script type="text/javascript" src="http://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js"></script>
+    <script type="text/javascript" >
+    $(document).ready(function(){  
+    	refreshQYWXLogin();
+    });  
+    function refreshQYWXLogin(){
+		var redirectUri=$("#redirectUri").val();
+		var QYWX_APPID=$("#QYWX_APPID").val();
+		var QYWX_SCA_APP_AGENTID=$("#QYWX_SCA_APP_AGENTID").val();
+		var QYWX_SCA_REDIRECT_URI=$("#QYWX_SCA_REDIRECT_URI").val();
+		var baseData=Base.encode(redirectUri+"||"+$("#destSrc").val());
+		window.WwLogin({
+	        "id" : "qywxlogin",  
+	        "appid" : QYWX_APPID,
+	        "agentid" : QYWX_SCA_APP_AGENTID,
+	        "redirect_uri" :QYWX_SCA_REDIRECT_URI+"?baseData="+baseData,
+	        "state" : "",
+	        "href" : "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O30NCi5pbXBvd2VyQm94IC50aXRsZSB7ZGlzcGxheTogbm9uZTt9DQouaW1wb3dlckJveCAuaW5mbyB7d2lkdGg6IDIwMHB4O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTpub25lfQ0KLmltcG93ZXJCb3ggLnN0YXR1cyB7dGV4dC1hbGlnbjogY2VudGVyO30=",
+		});
+	}
+    </script>
+</body>
+</html>

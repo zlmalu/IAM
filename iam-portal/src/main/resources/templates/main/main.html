@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/calendar.css">
+<link rel="stylesheet" href="./css/modifyMain.css?20111">
+<link rel="stylesheet" href="./layui/css/layui.css" media="all">
+<link rel="icon" type="image/png" sizes=""
+	href="./images/logo/titleLogoxl.png" />
+<style type="text/css">
+	.emailList li{
+		border-bottom:0px;
+	}
+	#myTabContent>div, #TabContent>div {
+	    height: 220px;
+	    overflow: hidden;
+	}
+	.ewm{
+		text-align:center;
+		width: 200px; 
+		height: 200px;
+    	position: fixed;
+    	bottom: 0px;
+    	left: 25px;
+	}
+</style>
+<title>统一身份认证系统</title>
+</head>
+<body>
+	<input id="username" type="hidden" th:value="${username}" />
+	<input id="userSn" type="hidden"  th:value="${usersn}"/>
+	<input id="serverUrl" type="hidden" th:value="${serverUrl}" />
+	<input id="tzMoreUrl" type="hidden" th:value="${tzMoreUrl}" />
+	<input id="fqMoreUrl" type="hidden" th:value="${fqMoreUrl}" />
+	<input id="dbMoreUrl" type="hidden" th:value="${dbMoreUrl}" />
+	<input id="ybMoreUrl" type="hidden" th:value="${ybMoreUrl}" />
+	<input id="bjMoreUrl" type="hidden" th:value="${bjMoreUrl}" />
+	<input id="hyydUrl" type="hidden" th:value="${hyydUrl}" />
+	<input id="oaAcctUrl" type="hidden" th:value="${oaAcctUrl}" />
+	<input id="readurl" type="hidden" th:value="${readurl}" />
+	<input id="loginId" type="hidden" th:value="${loginId}" />
+	<input id="ENTRTDATE" type="hidden" th:value="${ENTRTDATE}" />
+	<div id="leftcontent" class="menu_info left">
+		<div class="logo">
+			<img src="./images/main/img_login.png" width="144" height="40" alt="">
+		</div>
+		<div class="user_info">
+			<img src="./images/main/img_head.png" width="48" height="48" alt="">
+			<p id="username2"></p>
+			<ul>
+				<li>
+					<p>工号：</p>
+					<p id="userSn2"></p>
+				</li>
+				<!-- <li>
+					<p>学分：</p>
+					<p id="xfdata">0</p>
+				</li> -->
+				<li id="zzrq">
+					<p>在职日期：</p>
+					<p id="inTime"></p>
+				</li>
+			</ul>
+			<div class="close_user">...</div>
+		</div>
+		<div class="menu_content">
+			<ul>
+				<li id="portal" class="menuActive">个人门户</li>
+				<li id="portal2" class="menuActive2">集团门户</li>
+				<div class="ewm">
+					<p style="padding:5px 5px;font-size:10px;">如需帮助请扫码咨询或点击</p>
+					<p style="padding:5px 5px;font-size:10px;">右上角自助服务查看帮助文档</p>
+					<img width="50%" height="50%" src="./images/main/ewm.jpg"/>
+				</div>
+			</ul>
+		</div>
+	</div>
+	<div class="content right">
+		<div class="menu_icon">
+			<div class="left">
+				<a href="#"><img src="./images/main/icon_menu_close.png" width="16"
+					height="16" alt=""></a>
+			</div>
+			<div class="right eit">
+				<p onclick="quit()">
+					退出 <img src="./images/main/eit.png" width="16" height="16" alt="">
+				</p>
+			</div>
+			<div class="dropdown right">
+				<button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+					data-toggle="dropdown">
+					自助服务 <img src="./images/main/icon_arrow_bottom.png" width="12" alt="">
+				</button>
+				<ul class="dropdown-menu" role="menu"aria-labelledby="dropdownMenu1" >
+					<!--<li role="presentation"><a role="menuitem" tabindex="-1"
+						href="javascript:oaAcct();" >权限申请</a></li>-->
+					<li role="presentation"><a role="menuitem" tabindex="-1"
+						href="javascript:openWindowPwd();" >修改密码</a></li>
+<!--					<li role="presentation"><a role="menuitem" tabindex="-1"-->
+<!--						href="./instruciton.html" target="_blank">帮助文档</a></li>-->
+					<!-- <li role="presentation"><a role="menuitem" tabindex="-1"
+						href="./qywxMain.html" target="_blank">企业微信手机端</a></li> -->
+					<!-- <li role="presentation"><a role="menuitem" tabindex="-1"
+						href="#">数据通信/网络</a></li> -->
+				</ul>
+			</div> 
+		</div>
+		<div class="content_body">
+
+			<div class="date">
+				<div class=" left appDiv publicBg">
+					<ul id="appTab" class="nav nav-tabs">
+					</ul>
+					<div id="appContent" class="tab-content"></div>
+				</div>
+				<div class="left time publicBg">
+					<div class="right">
+						<div id="ca"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="notice">
+				<div class="left processCenter  publicBg">
+					<div class="publicMoreIcon" id='dbmore'>
+						
+					</div>  
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#toDo" data-toggle="tab">待办事宜</a></li>
+						<li><a href="#myRequest" data-toggle="tab">已办未结 </a></li>
+						<li><a href="#arrangements" data-toggle="tab">办结事宜 </a></li>
+						<li><a href="#mattersConcerned" data-toggle="tab">我的发起</a></li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div  class="tab-pane fade in active" id="toDo">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无待办事宜 </h4>
+						</div>
+						<div  class="tab-pane fade" id="myRequest">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无已办未结 </h4>
+						</div>
+						<div  class="tab-pane fade" id="arrangements">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无办结事宜 </h4>
+						</div>
+						<div  class="tab-pane fade" id="mattersConcerned">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无我的发起 </h4>
+						</div>
+					</div>
+				</div>
+				<div class="left Notice publicBg">
+					<div class="publicMoreIcon" id="noticemore">
+					</div>  
+					<ul id="noticeTab" class="nav nav-tabs">
+						<li class="active"><a href="#allNotice" data-toggle="tab">通知公告</a></li>
+ 						<li><a href="#personnelNotice" data-toggle="tab">人事公告</a></li>
+						<li><a href="#importantNotice" data-toggle="tab">行政公告</a></li>
+						<li><a href="#groupNotice" data-toggle="tab">财务公告</a></li>
+					</ul>
+					<div id="TabContent" class="tab-content">
+						<div class="tab-pane fade in active" id="allNotice">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无公告 </h4>
+						</div>
+						<div class="tab-pane fade" id="personnelNotice">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无公告 </h4>
+						</div>
+						<div class="tab-pane fade" id="importantNotice">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无公告 </h4>
+						</div>
+						<div class="tab-pane fade" id="groupNotice">
+							<h4 style='text-align: center;margin: 50px 20px;'>暂无公告 </h4>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="email">
+				<div class="left   publicBg">
+					<div class="publicTitle">
+						<h3 class="left">我的邮件</h3>
+						  <img class="right" src="./images/main/icon_more.png" alt=">>>更多">
+					</div>
+					<h4 style="text-align: center;margin: 50px 20px;">暂无邮件 </h4>
+<!--					<ul class="emailList" id="mailMsg">-->
+
+<!--					</ul>-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./js/jquery-1.11.1.min.js"></script>
+	<script src="./layui/layui.js" charset="utf-8"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/common.js"></script>
+	<script src="./js/calendar.js"></script>
+	<script src="./js/main.js?123"></script>
+	<script type="text/javascript" src="./js/cookie.js"></script>
+</body>
+<script type="text/javascript">
+	$("#portal").click(function() {
+		// window.location.href = "./login.html";
+	});
+	$("#portal2").click(function() {
+		// window.open("http://www.sinicwy.com", "_blank");
+	});
+
+	var layer;
+	var pwdPrompt1 = "[[#{main.pwdPrompt1}]]";
+	var pwdPrompt2 = "[[#{main.pwdPrompt2}]]";
+	var pwdPrompt3 = "[[#{main.pwdPrompt3}]]";
+	layui.use('layer', function() {
+		layer = layui.layer;
+	});
+	layui.use('element', function() {
+		var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+	});
+	
+	var ACCTID="";
+	$(document).ready(function() {
+		//回显用户名
+		$("#username2").html($("#username").val());
+		//回显用户工号
+		$("#userSn2").html($("#userSn").val());
+		//回显在职日期
+		var inTime=$("#ENTRTDATE").val();
+		if(inTime.length>0){
+			$("#inTime").html(inTime+" 天");
+		}else{
+			$("#zzrq").html("");
+		}
+
+		//加载应用
+		initApps();
+		//ssoOa(ACCTID);
+		//加载代办
+		//  initAgency();
+		//加载已办
+		// initDone();
+		//加载办结
+		// initFinish();
+		//加载发起
+		// initLaunch();
+		//回显OA通知公告
+		// initNotice();
+		//回显OA人事公告
+		// initRenShiNotice();
+		//回显OA行政公告
+		// initXZNotice();
+		//回显OA财务公告
+		// initCWNotice();
+		//加载邮件
+		// initMailMsg();
+		//加载学分
+		//initScore();
+	});
+	
+	
+
+	//回显应用
+	function initApps() {
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+				+ loading + '');
+		var isShow = false;
+		$.ajax({
+			url: './app/load.action?' + Math.random(),
+			dataType: 'json',
+			type: 'POST',
+			async: false,
+			success: function (data) {
+				var html = "";
+				//console.log(JSON.stringify(data))
+				if (data.status == 0) {
+					if (data.data.length > 0) {//应用类型
+						var appTypes = data.data;
+						//appTab容器
+						var appTab = $("#appTab");
+						var appContent = $("#appContent");
+						//手动添加应用类型
+						var typejson={"perentName":"系统链接","perentId":"bbb","apps":new Array()}
+						//appTypes.push(typejson);
+						//反转数组元素
+						//appTypes.reverse();
+						console.log(appTypes);
+						for ( var i in appTypes) {
+							var appTypeName = appTypes[i].perentName;
+							var perentId = appTypes[i].perentId;
+							var apptypeDiv;
+							if(appTypeName=='内部应用'){
+								appTab.append('<li class="active"> <a href="#'+perentId+'" data-toggle="tab">'+ appTypeName+ '</a></li>');
+								apptypeDiv=$('<div class="tab-pane fade appList in active" id="'+perentId+'"></div>');
+							}else{
+								appTab.append('<li> <a href="#'+perentId+'" data-toggle="tab">'+ appTypeName+ '</a></li>');
+								apptypeDiv=$('<div class="tab-pane fade appList" id="'+perentId+'"></div>');
+							}
+
+
+							var appDiv = $('<div id="appCarousel'+perentId+'" class="carousel slide"></div>');
+							var appOl = $('<ol class="carousel-indicators" style="top:100%;"></ol>');
+							var appPage = $('<div class="carousel-inner"></div>');
+							//应用
+							var apps = appTypes[i].apps;
+
+							var k=0;
+							for ( var j in apps) {
+								var appPageDiv;
+								var appcUl;
+								if (j % 8 == 0) {
+									var appLi = $('<li data-target="#appCarousel'+perentId+'" data-slide-to="'+k+'"></li>&nbsp;&nbsp;');
+									appPageDiv = $('<div class="item"></div>');
+									if (j == 0) {
+										appLi.addClass("active");
+										appPageDiv.addClass("active");
+									}
+									k++;
+									appcUl = $('<ul class="publicApp"></ul>');
+									appOl.append(appLi);
+									appPageDiv.append(appcUl);
+									appPage.append(appPageDiv);
+								}
+
+								for(var z in apps[j].accts){
+									var appcLi = $('<li onclick=sso('+ apps[j].accts[z].ACCTID+ ')><img src="./image/viewImage?oid='+apps[j].accts[z].ID+'&type=app" alt=""><p>'+ apps[j].name + '</p></li>');
+									appcUl.append(appcLi);
+								}
+							}
+
+							appDiv.append(appOl);
+							appDiv.append(appPage);
+							apptypeDiv.append(appDiv);
+							appContent.append(apptypeDiv);
+						}
+					} else {
+						$("#apps").html("[[#{main.appEmpty}]]");
+					}
+				} else {
+					$("#apps").html("[[#{main.dataError}]]");
+				}
+			},
+			error : function(data) {
+				alert(data);
+				$("#apps").html("[[#{main.dataError}]]");
+			}
+		});
+	}
+	
+	//回显待办数据
+	function initAgency(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initAgency.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].requestname.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li><p><span>.</span>'+objdate[i].requestname.name+'</p></li><li></li><li></li><li>'+objdate[i].receivedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					var dbMoreUrl=$("#dbMoreUrl").val();
+					$("#dbmore").html('<a href="#" onclick="requestOa(\''+dbMoreUrl+'\')" style="cursor:pointer;">>>更多</a></li></ul>');
+					$("#toDo").html(agencyhtml);
+				}else{
+					$("#toDo").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无待办事宜</h4>");
+				}
+			},
+			error:function(data){
+				alert("initAgency error");
+			}
+		});
+	}
+	//回显学分
+	function initScore(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initScore.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				$("#xfdata").html(data.msg)
+			},
+			error:function(data){
+				alert("initAgency error");
+			}
+		});
+	}
+	
+	//回显邮箱
+	function initMailMsg(){
+	
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initMailMsg.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data!=null){
+					var objdate=data.mail;
+					if(objdate!=''){
+						if( objdate && JSON.stringify(objdate)[0]=='['){			 
+							var serverUrl=$("#serverUrl").val();
+							for(var i=0;i<objdate.length;i++){
+								var strTo =objdate[i].to;
+								if(strTo.indexOf("<")>0){
+									strTo = strTo.slice(strTo.indexOf("<")+1,strTo.indexOf(">"));
+								}
+								var readurl ='goMailMsg.action?mid='+objdate[i].mid+'&fid='+objdate[i].fid+'&to='+strTo;
+								var li = $('<li></li>');
+								var li_a = $('<a target="_blank"></a>');
+								li_a.attr('href',readurl);
+								var li_span = $('<span style="width:25%;"></span>');
+								li_span.html(objdate[i].from);
+								var li_p = $('<p style="width:40%;"></p>');
+								li_p.html(objdate[i].subject);
+								var li_date = $('<p style="width:20%;"></p>');
+								li_date.html(objdate[i].date);
+								li_a.append(li_span);
+								li_a.append(li_p);
+								li_a.append(li_date);
+								li.append(li_a);
+								$("#mailMsg").append(li);
+							}
+						}else{
+							var strTo =objdate.to;
+							if(strTo.indexOf("<")>0){
+								strTo = strTo.slice(strTo.indexOf("<")+1,strTo.indexOf(">"));
+							}
+							var readurl ='goMailMsg.action?mid='+objdate.mid+'&fid='+objdate.fid+'&to='+strTo;
+							var li = $('<li></li>');
+							var li_a = $('<a target="_blank"></a>');
+							li_a.attr('href',readurl);
+							var li_span = $('<span style="width:25%;"></span>');
+							li_span.html(objdate.from);
+							var li_p = $('<p style="width:40%;"></p>');
+							li_p.html(objdate.subject);
+							var li_date = $('<p style="width:20%;"></p>');
+							li_date.html(objdate.date);
+							li_a.append(li_span);
+							li_a.append(li_p);
+							li_a.append(li_date);
+							li.append(li_a);
+							$("#mailMsg").append(li);
+						} 
+					}else{
+						$("#mailMsg").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无未读邮件</h4>");
+					}
+					
+				}else{
+					$("#mailMsg").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无未读邮件</h4>");
+				}
+				
+			},
+			error:function(data){
+				alert("initMailMsg error");
+			}
+		});
+	}
+	
+	function getLocalTime(nS) {     
+		   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+		}
+	
+	//回显已办数据
+	function initDone(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initDone.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].requestname.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li><p><span>.</span>'+objdate[i].requestname.name+'</p></li><li></li><li></li><li>'+objdate[i].receivedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					var ybMoreUrl=$("#ybMoreUrl").val();
+					//agencyhtml+='<ul onclick="requestOa(\''+ybMoreUrl+'\')" style="cursor:pointer;" class="noticeList"><li></li><li></li><li></li><li><a href="#">>>更多</a></li></ul>';
+					$("#myRequest").html(agencyhtml);
+				}else{
+					$("#myRequest").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无已办未结</h4>");
+				}
+			},
+			error:function(data){
+				alert("initDone error");
+			}
+		});
+	}
+	
+	//回显办结数据
+	function initFinish(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initFinish.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].requestname.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li><p><span>.</span>'+objdate[i].requestname.name+'</p></li><li></li><li></li><li>'+objdate[i].receivedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					var bjMoreUrl=$("#bjMoreUrl").val();
+					//agencyhtml+='<ul onclick="requestOa(\''+bjMoreUrl+'\')" style="cursor:pointer;" class="noticeList"><li></li><li></li><li></li><li><a href="#">>>更多</a></li></ul>';
+					$("#arrangements").html(agencyhtml);
+				}else{
+					$("#arrangements").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无办结事宜</h4>");
+				}
+			},
+			error:function(data){
+				alert("initFinish error");
+			}
+		});
+	}
+
+	//回显发起数据
+	function initLaunch(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initLaunch.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].requestname.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li><p><span>.</span>'+objdate[i].requestname.name+'</p></li><li></li><li></li><li>'+objdate[i].receivedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					var fqMoreUrl=$("#fqMoreUrl").val();
+					//agencyhtml+='<ul onclick="requestOa(\''+fqMoreUrl+'\')" style="cursor:pointer;" class="noticeList"><li></li><li></li><li></li><li><a href="#">>>更多</a></li></ul>';
+					$("#mattersConcerned").html(agencyhtml);
+				}else{
+					$("#mattersConcerned").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无我的发起</h4>");
+				}
+			},
+			error:function(data){
+				alert("initLaunch error");
+			}
+		});
+	}
+
+	//回显OA通知公告
+	function initNotice(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initNotice.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].docsubject.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li style="width:78%;"><p><span>.</span>'+objdate[i].docsubject.name+'</p></li><li style="width:20%;">'+objdate[i].doccreatedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					var tzMoreUrl=$("#tzMoreUrl").val();
+					$("#noticemore").html('<a href="#" onclick="requestOa(\''+tzMoreUrl+'\')" style="cursor:pointer;">>>更多</a>');
+					$("#allNotice").html(agencyhtml);
+				}else{
+					$("#allNotice").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无公告</h4>");
+				}
+			},
+			error:function(data){
+				alert("initNotice error");
+			}
+		});
+	}
+	//回显OA人事公告
+	function initRenShiNotice(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initRenShiNotice.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].docsubject.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li style="width:78%;"><p><span>.</span>'+objdate[i].docsubject.name+'</p></li><li style="width:20%;">'+objdate[i].doccreatedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					$("#personnelNotice").html(agencyhtml);
+				}else{
+					$("#personnelNotice").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无公告</h4>");
+				}
+			},
+			error:function(data){
+				alert("initrsNotice error");
+			}
+		});
+	}
+
+	//回显OA行政公告
+	function initXZNotice(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initXZNotice.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].docsubject.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li style="width:78%;"><p><span>.</span>'+objdate[i].docsubject.name+'</p></li><li style="width:20%;">'+objdate[i].doccreatedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					$("#importantNotice").html(agencyhtml);
+				}else{
+					$("#importantNotice").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无公告</h4>");
+				}
+			},
+			error:function(data){
+				alert("initrsXZNotice error");
+			}
+		});
+	}
+	//回显OA财务公告
+	function initCWNotice(){
+		var loading = "[[#{main.loading}]]";
+		$("#apps").html(
+				'<i class="layui-icon layui-icon-loading"></i>&nbsp;&nbsp;'
+						+ loading + '');
+		
+		$.ajax({
+			url:"./initCWNotice.action",
+			type:"POST",
+			dataType:"json",
+			success:function(data){
+				if(data.code=="200"&& data.data.length>0){
+					var objdate=data.data;
+					var agencyhtml='';
+					var serverUrl=$("#serverUrl").val();
+					for(var i=0;i<objdate.length;i++){
+						var oaUrl=serverUrl+objdate[i].docsubject.link;
+						agencyhtml+='<ul onclick="requestOa(\''+oaUrl+'\')" style="cursor:pointer;" class="noticeList"><li style="width:78%;"><p><span>.</span>'+objdate[i].docsubject.name+'</p></li><li style="width:20%;">'+objdate[i].doccreatedate+'</li></ul>';
+						if(i>3){
+							break;
+						}
+					}
+					$("#groupNotice").html(agencyhtml);
+				}else{
+					$("#groupNotice").html("<h4 style='text-align: center;margin: 50px 20px;'>暂无公告</h4>");
+				}
+			},
+			error:function(data){
+				alert("initrsCWNotice error");
+			}
+		});
+	}
+	
+	//单点退出按钮
+	function quit() {
+		layer.confirm("[[#{main.determinesExitSystem}]]", {
+			btn : [ "[[#{main.yes}]]", "[[#{main.no}]]" ], //按钮
+			title : "[[#{main.systemTips}]]"
+		}, function() {
+			location.href = "./sso/logout.html?" + Math.random();
+		});
+	}
+
+	function sso(id) {
+		window.open("../../sso/request?tokenId=" + id + "&r=" + Math.random());
+	}
+	//静态链接图标
+	function sso2(url) {
+		window.open(url);
+	}
+	//oa开通账号函数
+	function oaAcct(){
+		var url=$("#oaAcctUrl").val();
+		requestOa(url);
+	}
+	function requestOa(url){
+		//window.open("../../sso/request?tokenId=" + ACCTID + "&redirect_uri="+url+"&r=" + Math.random());
+		window.open("../../sso/request?tokenId=" + ACCTID + "&redirect_uri="+encodeURIComponent(url)+"&r=" + Math.random());
+	}
+	
+	function openWindowUserInfo() {
+		//iframe窗
+		layer.open({
+			title : "[[#{main.userInfo}]]",
+			type : 2,
+			shadeClose : true,
+			shade : 0.3,
+			area : [ '80%', '90%' ],
+			content : [ './userinfo.html?' + Math.random(), 'yes' ], //iframe的url，no代表不显示滚动条
+		});
+	}
+	function openWindowUserAccountInfo() {
+		//iframe窗
+		layer
+				.open({
+					title : "[[#{main.accountEntrusted}]]",
+					type : 2,
+					shadeClose : true,
+					shade : 0.3,
+					area : [ '98%', '95%' ],
+					content : [ './open/userAccountInfo.html?' + Math.random(),
+							'yes' ], //iframe的url，no代表不显示滚动条
+				});
+	}
+	function openTask() {
+		//iframe窗
+		layer.open({
+			title : '我的待办',
+			type : 2,
+			shadeClose : true,
+			shade : 0.3,
+			area : [ '98%', '95%' ],
+			content : [ './toTask.html?' + Math.random(), 'yes' ], //iframe的url，no代表不显示滚动条
+		});
+	}
+
+	function openWindowInitSSO(closeBtn) {
+		//iframe窗
+		layer.open({
+			title : "[[#{main.installationSteps}]]",
+			type : 2,
+			shadeClose : true,
+			closeBtn : closeBtn,
+			shade : 0.3,
+			area : [ '100%', '100%' ],
+			content : [ './initSSO.html?' + Math.random(), 'no' ], //iframe的url，no代表不显示滚动条
+		});
+	}
+
+	function openWindowPwd() {
+		//iframe窗
+		layer.open({
+			title : "[[#{main.installationSteps}]]",
+			type : 2,
+			shadeClose : true,
+			shade : 0.3,
+			area : [ '100%', '100%' ],
+			content : [ './user/forceUpdatePwd.html?' + Math.random(), 'no' ], //iframe的url，no代表不显示滚动条
+		});
+	}
+
+	function openWindowPwd(closeBtn) {
+		//iframe窗
+		layer.open({
+			title : "[[#{main.intercalatePwd}]]",
+			type : 2,
+			shadeClose : true,
+			closeBtn : closeBtn,
+			shade : 0.3,
+			area : [ '100%', '100%' ],
+			content : [ './user/forceUpdatePwd.html?' + Math.random(), 'no' ], //iframe的url，no代表不显示滚动条
+		});
+	}
+
+	function openWindowPwdSet() {
+		//iframe窗
+		layer.open({
+			title : "[[#{main.settingPwd}]]",
+			type : 2,
+			shadeClose : true,
+			shade : 0.3,
+			area : [ '400px', '430px' ],
+			content : [ './user_sp_set.html?' + Math.random(), 'no' ], //iframe的url，no代表不显示滚动条
+		});
+	}
+
+	function testing() {
+		$.ajax({
+			url : './testing.action?r=+Math.random()',
+			dataType : 'json',
+			type : 'POST',
+			success : function(data) {
+				if (data.code == -1) {
+					alert("[[#{main.overtime}]]");
+					location.href = "./login.html";
+					clearInterval(interVal)
+				}
+			}
+		});
+	}
+
+	function ssoOa(acctId){
+		$.ajax({
+			url:"../../sso/request?tokenId=" + acctId + "&r=" + Math.random(),
+			type:"GET",
+			dataType:"json",
+		});
+	}
+	
+	/* var interVal;
+	 setTimeout(function() {
+	 interVal = setInterval("testing()", "3000");
+	 }, 3000);//D:正确 */
+</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Form Fragment</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="loginform" class="ipLogin">
+	<input type="hidden"  id="pwdFlag" th:value="${pwdFlag}" readonly="readonly" />
+	<input type="hidden"  id="qrFlag" th:value="${qrFlag}" readonly="readonly" />
+	<input type="hidden"  id="qywxFlag" th:value="${qywxFlag}" readonly="readonly" />
+	<input type="hidden"  id="ddFlag" th:value="${ddFlag}" readonly="readonly" />
+	<input type="hidden"  id="smsFlag" th:value="${smsFlag}" readonly="readonly" />
+	<input type="hidden"  id="optFlag" th:value="${optFlag}" readonly="readonly" />
+	<input type="hidden"  id="client_id" th:value="${client_id}" readonly="readonly" />
+	<input type="hidden"  id="QYWX_APPID" th:value="${QYWX_APPID}" readonly="readonly" />
+	<input type="hidden"  id="redirectUri" th:value="${redirectUri}" readonly="readonly" />
+	<input type="hidden"  id="QYWX_SCA_APP_AGENTID" th:value="${QYWX_SCA_APP_AGENTID}" readonly="readonly" />
+	<input type="hidden"  id="QYWX_SCA_APP_KEY" th:value="${QYWX_SCA_APP_KEY}" readonly="readonly" />
+	<input type="hidden"  id="QYWX_SCA_REDIRECT_URI" th:value="${QYWX_SCA_REDIRECT_URI}" readonly="readonly" />
+	<input type="hidden"  id="DINGDING_APPID" th:value="${DINGDING_APPID}" readonly="readonly" />
+	<input type="hidden"  id="DINGDING_SCA_REDIRECT_URI" th:value="${DINGDING_SCA_REDIRECT_URI}" readonly="readonly" />
+	<div class=" inputGroup">
+		<img src="./images/login/icon_personal_user.png" width="20" height="20" alt="">
+		<input type="text" class="form-control" id="username" th:placeholder="#{login.account}" autocomplete="off" />
+	</div>
+	<div class=" inputGroup">
+		<img src="./images/login/icon_prassword.png" width="20" height="20" alt="">
+		<input type="password" class="form-control" id="password" th:placeholder="#{login.password}" autocomplete="off" />
+	</div>
+	<div class="checkbox">
+		<a href="./resetPassword.html" class="forgot" th:text="#{login.forgetPassword}">忘记密码</a>
+	</div>
+	<button type="button" class="btn submit" id="fromsubmit" th:text="#{login.login}">登录</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+spring:
+  messages:
+    basename: i18n/message
+    encoding: UTF-8
+    cache-duration: 3600
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  application:
+    name: sense-portal
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+server:
+  port: 8893
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
+    prefer-ip-address: true 
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}:@project.version@
+  client:
+    service-url:
+      defaultZone: ${client.service.url}
+logging: 
+ level: 
+  root: INFO
+  io.swagger.models.parameters.AbstractSerializableParameter: error
+      

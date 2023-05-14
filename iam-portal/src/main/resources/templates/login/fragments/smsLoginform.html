@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>sms Login Form Fragment</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="smsLoginform" class="mobileLogin">
+	<div class=" inputGroup">
+		<img src="./images/login/icon_mobile.png" width="20" height="20" alt="">
+		<input type="text" class="form-control" id="mobile"  th:placeholder="#{login.phone}" autocomplete="off">
+	</div>
+	<div class=" inputGroup">
+		<img src="./images/login/icon_verificationcode.png" width="20" height="20" alt="">
+		<input type="text" class="form-control" id="vcode"  th:placeholder="#{login.code}" autocomplete="off">
+		<a href="javascript:" th:text="#{login.sendCode}" id="yzm">发送验证码</a>
+	</div>
+	<button type="submit" class="btn submit" id="mobileSubmit" th:text="#{login.login}">登录</button>
+
+	<script th:inline="javascript"  type="text/javascript">
+		$(document).ready(function (e) {
+			$("#yzm").click(function () {
+				sendCode();
+			});
+			$('#mobileSubmit').click(function () {
+				mobilebtnlock();
+				var mobile=$("#mobile").val();
+				var code=$("#vcode").val();
+				if(mobile==""){
+					alert([[#{login.hint9}]]);
+					$("#mobile").focus();
+					mobilebtnreset();
+				}else if(code==""){
+					alert([[#{login.hint10}]]);
+					$("#vcode").focus();
+					mobilebtnreset();
+				}else{
+					var redirectUri=$("#redirectUri").val();
+					$.ajax({
+						url:'./cheackCode.action?'+Math.random(),
+						data:{
+							code:code
+						},
+						type:'POST',
+						dataType:'json',
+						success:function(data){
+							if(data.code==0){
+								$.ajax({
+									url:'/authModule/authenticate?'+Math.random(),
+									dataType:'json',
+									data:{"username":data.msg,"password":"","reamId":"1006"},
+									type:'POST',
+									success:function(data){
+										if(data.code=='100000001'){
+											location.href=redirectUri;
+										}else if(data.code=='100000004'){
+											alert([[#{login.hint5}]]);
+										}else if(data.code=='100000005'){
+											alert([[#{login.hint6}]]);
+										}else if(data.code=='100000006'){
+											alert([[#{login.hint7}]]);
+										}else{
+											alert(data.msg);
+										}
+										mobilebtnreset();
+									}, error:function(data){
+										alert([[#{login.hint8}]]);
+										mobilebtnreset();
+									}
+								});
+							}else{
+								alert(data.msg)
+								mobilebtnreset();
+							}
+						},error:function(data){
+							alert([[#{login.hint8}]]);
+							mobilebtnreset();
+						}
+					});
+				}
+			})
+		});
+
+		function mobilebtnreset(){
+			$("#mobileSubmit").attr('disabled',false);
+			$("#mobileSubmit").html([[#{login.login}]]);
+		}
+		function mobilebtnlock(){
+			$("#mobileSubmit").attr('disabled',true);
+			$("#mobileSubmit").html([[#{login.logining}]]);
+		}
+		var i = 60;
+		function countdownSendCode(){
+			$("#yzm").unbind("click");
+			i = i - 1;
+			$("#yzm").html(i+[[#{login.sendPrompt}]]);
+			if (i == 0) {
+				clearInterval(interval);
+				$("#yzm").html([[#{login.reAcquisition}]]);
+				i = 60;
+				$("#yzm").click(function () {
+					sendCode();
+				});
+				return;
+			}
+		}
+		var interval;
+		function sendCode() {
+			var mobile=$("#mobile").val();
+			if(mobile==""){
+				alert([[#{login.hint9}]]);
+				$("#mobile").focus();
+				return;
+			}else if(checkPhone(mobile)==false){
+				alert([[#{login.hint11}]]);
+				$("#mobile").focus();
+				return;
+			}else{
+				$.ajax({
+					url:'./sendvCode2.action?'+Math.random(),
+					data:{
+						mobile:mobile
+					},
+					type:'POST',
+					dataType:'json',
+					success:function(data){
+						if(data.code==0){
+							alert([[#{login.verificationSent}]])
+							//倒计时
+							interval=setInterval(function(){
+								countdownSendCode();
+							},1000);
+						}else{
+							alert(data.msg)
+						}
+					}
+				});
+
+			}
+		}
+
+		function checkPhone(phone){
+			if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))){
+				return false;
+			} else{
+				return true;
+			}
+		}
+	</script>
+</div>
+</body>
+</html>

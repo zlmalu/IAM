@@ -1,0 +1,80 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       ">
+
+	<!-- 启动环境命令设置配置文件路径 切勿更改-->
+	<context:property-placeholder location="file:${spring.profiles.filedir}/common.properties" />
+
+
+
+	<bean name="syncProcess" class="com.sense.iam.data.process.SyncProcess" />
+	 <!-- 关闭启动定时任务配置
+    <bean name="timerTaskProcess" class="com.sense.iam.data.process.TimerTaskProcess" />-->
+
+	<bean name="queueListener" class="com.sense.core.queue.mem.MemQueueListener" init-method="start">
+		<property name="queue" ref="filterQueue" />
+		<property name="processes">
+			<list>
+				<!-- 数据同步队列-->
+				<ref bean="syncProcess"/>
+				<bean class="com.sense.iam.data.process.SysLogProcess" init-method="start"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 主题配置 -->
+	<bean class="org.springframework.ui.context.support.ResourceBundleThemeSource"  id="themeSource">
+		<property name="basenamePrefix" value="theme-"></property>
+		<property name="defaultEncoding" value="utf-8"></property>
+	</bean>
+	<bean id="themeResolver"  class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<property name="defaultThemeName" value="${com.sense.portal.defaultThemeName}" />
+	</bean>
+	<!-- 主题配置 -->
+
+
+ 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+ 		<tx:attributes>
+  			<tx:method name="find*" read-only="true" />
+  			<tx:method name="load*" read-only="true" />
+  			<tx:method name="findAndExecute" read-only="false" propagation="REQUIRED" rollback-for="RuntimeException"/>
+  			<tx:method name="select*" read-only="true" />
+  			<tx:method name="*" propagation="REQUIRED" rollback-for="RuntimeException" />
+  		</tx:attributes>
+  	</tx:advice>
+
+  	<!-- 系统内部数据同步队列定义 ，由于前期存在压力测试，故设置为1千万用来存储日志-->
+  	<bean name="filterQueue" class="java.util.concurrent.ArrayBlockingQueue">
+		<constructor-arg index="0" value="10000000"/>
+	</bean>
+	<bean name="queueSender" class="com.sense.core.queue.mem.MemQueueSender">
+		<property name="queue" ref="filterQueue" />
+	</bean>
+	<bean name="queueInterceptor" class="com.sense.core.queue.QueueInterceptor">
+		<property name="queueSender" ref="queueSender" />
+	</bean>
+
+  	<bean name="cacheListener" class="com.sense.iam.cache.memery.UDPCacheListener" init-method="start"/>
+  	<bean name="cacheSender" class="com.sense.iam.cache.memery.UDPCacheSender"/>
+  	<aop:config>
+		<aop:pointcut expression="execution(* com.sense.iam.service.*.*(..))" id="aopPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="aopPointcut" order="2"/>
+				<aop:aspect ref="queueInterceptor" order="1">
+				<aop:before method="preProcess" pointcut-ref="aopPointcut" />
+				<aop:after-throwing method="rollbackQueue" pointcut-ref="aopPointcut"/>
+				<aop:after method="submitQueue" pointcut-ref="aopPointcut" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>

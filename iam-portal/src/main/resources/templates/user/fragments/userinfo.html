@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User info Fragment</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="userinfo" class="infoContent infoC" >
+	<div class="headerInfo ft_img" id="ft_img">
+		<img th:src="@{../image/showImage/user/{id}(id = ${user.id})}" class="t_img" alt="">
+		<span  th:text="${user.name}">郑舒然</span>
+	</div>
+	<div class="formGroup">
+		<div class="formTitle">
+			<span th:text="#{main.userInfo}">基本信息</span>
+		</div>
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<p th:text="#{main.sn}">工号</p>
+				<input type="text" class="form-control" id="SN" th:value="${user.sn}" disabled autocomplete="off">
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.name}">姓名</p>
+				<input type="text" class="form-control" id="NAME" th:value="${user.name}"  disabled="disabled" autocomplete="off"/>
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.sex}">性别</p>
+				<select id="SEX"  class='form-control'>
+					<option value="1" th:text="#{main.man}">男</option>
+					<option value="2" th:text="#{main.woman}">女</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.phoneNumber}">手机号</p>
+				<input type="text" class="form-control" id="TELEPHONE" th:value="${user.telephone}" disabled autocomplete="off"/>
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.mailAddress}">邮件地址</p>
+				<input type="text" class="form-control" id="EMAIL" th:value="${user.email}" disabled autocomplete="off"/>
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.posts}">所属岗位</p>
+				<input type="text" class="form-control" th:value="${positionName}" disabled>
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.org}">所属组织</p>
+				<input type="text" class="form-control" th:value="${user.orgName}" disabled>
+			</div>
+			<div class="form-group">
+				<p th:text="#{main.status}">状态</p>
+				<input type="text" class="form-control" th:value="${user.status==1?'在职':'离职'}"  disabled>
+			</div>
+		</form>
+	</div>
+	<div class="formGroup">
+		<div class="formTitle">
+			<span th:text="#{main.otherInformation}">其他信息</span>
+		</div>
+		<form class="form-inline" role="form" id="extUserAttr"></form>
+		<div class="btnGroup">
+			<button type="button" class="btn save" onclick="saveUserInfo()" id="user_save" th:text="#{main.save}">保存</button>
+		</div>
+	</div>
+	<script th:inline="javascript">
+		$('.headerInfo>img').mouseover(function () {
+			$('.opacityBg').css('display','block');
+		});
+		$('.opacityBg').mouseout(function () {
+			$('.opacityBg').css('display','none');
+		})
+		var keys=[];
+		var user= [[${user}]];
+		$("#SEX").val(user.sex)
+		var userExt= [[${userextAttr}]];
+		if(userExt!=null&&userExt.length>0){
+			var html="";
+			for(var i=0;i<userExt.length;i++){
+				//过滤系统默认字段，只循环扩展字段
+				if(userExt[i].isBasic==1)continue;
+				var value=user.extraAttrs[userExt[i].name];
+				//获取用户扩展字段属性
+				if(value==null||value==undefined){
+					value="";
+				}
+				html+="<div class='form-group'>";
+				html+="<p>"+userExt[i].remark+"</p>";
+				if(userExt[i].inputType=="select"){
+					html+="<select id='ext_"+userExt[i].name+"' name='ext_"+userExt[i].name+"' class='form-control'>";
+					var compants=userExt[i].compant.split(",");
+					for(var j=0;j<compants.length;j++){
+						var key=compants[j];
+						if(value==key.split("=")[0]){
+							html+="<option selected  value='"+key.split("=")[0]+"'>"+key.split("=")[1]+"</option>";
+						}else{
+							html+="<option value='"+key.split("=")[0]+"'>"+key.split("=")[1]+"</option>";
+						}
+					}
+					html+="</select>";
+				}else if(userExt[i].inputType=="date"){
+					html+="<input type='text' id='ext_"+userExt[i].name+"' name='ext_"+userExt[i].name+"' class='form-control' value='"+value+"' autocomplete='off'/>";
+				}else if(userExt[i].inputType=="password"){
+					html+="<input type='password' id='ext_"+userExt[i].name+"' name='ext_"+userExt[i].name+"' class='form-control' value='"+value+"' autocomplete='off'/>";
+				}else if(userExt[i].inputType=="text"){
+					html+="<input type='text' id='ext_"+userExt[i].name+"' name='ext_"+userExt[i].name+"' class='form-control' value='"+value+"' autocomplete='off'/>";
+				}else{
+					html+="<input type='text' id='ext_"+userExt[i].name+"' name='ext_"+userExt[i].name+"' class='form-control' value='"+value+"' autocomplete='off'/>";
+				}
+				html+="</div>";
+			}
+			$("#extUserAttr").html(html);
+			for(var i=0;i<userExt.length;i++){
+				if($("#"+userExt[i].name).val()!=undefined){
+					keys.push(userExt[i].name);
+					if(userExt[i].isPortalEdit!=1){
+						$("#"+userExt[i].name).attr("disabled","disabled");
+					}else{
+						$("#"+userExt[i].name).removeAttr("disabled");
+					}
+				}
+				else if($("#ext_"+userExt[i].name).val()!=undefined){
+					keys.push("ext_"+userExt[i].name);
+					if(userExt[i].isPortalEdit!=1){
+						$("#ext_"+userExt[i].name).attr("disabled","disabled");
+					}else{
+						$("#ext_"+userExt[i].name).removeAttr("disabled");
+					}
+				}
+
+				if(userExt[i].inputType=="date"){
+
+					$('#'+userExt[i].name).datetimepicker({
+						format:"Y-m-d H:i:s",      //格式化日期
+					});
+					$('#ext_'+userExt[i].name).datetimepicker({
+						format:"Y-m-d H:i:s",      //格式化日期
+					});
+				}
+			}
+		}
+		$.datetimepicker.setLocale('ch')
+
+
+		function checkPhone(phone){
+			if(!(/^1[3456789]\d{9}$/.test(phone))){
+				return false;
+			}
+		}
+		function isEmail(email){
+			var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+			if(reg.test(email)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		function getData(){
+			var json={};
+			for(var i=0;i<keys.length;i++){
+				var value=$("#"+keys[i]).val();;
+				if(value==undefined){
+					value="";
+				}else{
+					value=value;
+				}
+				json[keys[i]]=value;
+			}
+			return json
+		}
+		function resave(){
+			$("#user_save").attr('disabled',false);
+			$("#user_save").html([[#{main.save}]]);
+		}
+		function locksave(){
+			$("#user_save").attr('disabled',true);
+			$("#user_save").html([[#{main.processing}]]);
+		}
+		function saveUserInfo(){
+			locksave()
+			var telephone=$("#TELEPHONE").val();
+			var email=$("#EMAIL").val();
+			if(telephone!=""&&checkPhone(telephone)==false){
+				alert([[#{login.hint11}]])
+				$("#TELEPHONE").focus();
+				resave();
+				return;
+			}else if(email!=""&&isEmail(email)==false){
+				alert([[#{main.mailboxFormatError}]])
+				$("#EMAIL").focus();
+				resave();
+				return;
+			}
+			var data=getData();
+			$.ajax({
+				url:'./saveUserInfo.action?'+Math.random(),
+				data:data,
+				dataType:'json',
+				type:'POST',
+				success:function(data){
+					if(data.success){
+						alert([[#{main.success}]]);
+					}else{
+						alert(data.msg)
+					}
+					resave();
+				}
+			});
+		}
+	</script>
+</div>
+</body>
+</html>

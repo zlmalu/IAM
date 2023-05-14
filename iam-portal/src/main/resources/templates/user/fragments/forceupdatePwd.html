@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>updatePwd</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="updatePwd" class="infoContent infoC">
+	<div class="formGroup">
+		<form class="form-inline" role="form">
+			<div class="form-group leftform">
+				<p th:text="#{main.oldPwd}">原密码</p>
+				<input type="password" class="form-control" id="loginPwd" th:placeholder="#{main.PleaseEnterOldPwd}" autocomplete="off"/>
+
+				<p th:text="#{main.newPwd}">新密码</p>
+				<input type="password" class="form-control" id="newpwd" th:placeholder="#{main.PleaseEnterNewPwd}" autocomplete="off"/>
+				<p class="newpwderror">规则不满足</p>
+
+				<p th:text="#{main.confirmPwd}">确认密码</p>
+				<input type="password" class="form-control" id="loginConfirmPwd" th:placeholder="#{main.PleaseEnterConfirmPwd}" autocomplete="off"/>
+				<p class="confirmPwderror">规则不满足</p>
+
+				<p th:text="#{login.code}">验证码</p>
+				<input type="text" autocomplete="off" class="form-control inputCode" id="code_input" th:placeholder="#{main.praphValidCode}" placeholder="图形验证码">
+				<input type="button" id="code" class="vilidatacode" onclick="createCode()" />
+				<div class="btnGroup">
+					<button type="button" class="btn save" id="updateBtn" onclick="savePwd()" th:text="#{main.save}">保存</button>
+				</div>
+			</div>
+			<div class="form-group rightmsg">
+				<h3 style="width: 400px;"  th:text="#{main.passwordStrength}">密码强度</h3>
+				<ul id="pwdPolicy" style="width:400px;"></ul>
+			</div>
+		</form>
+
+	</div>
+
+	<script th:inline="javascript">
+		$(document).ready(function(){
+			createCode();
+			loadPwd();
+		});
+		var user= [[${user}]];
+		var userId=user.id;
+		function loadPwd(){
+			$.ajax({
+				url : '../pwdPolic/findAll?objId='+user.userTypeId+'&r=' + Math.random(),
+				data : {},
+				type : 'GET',
+				dataType:'json',
+				success : function(data) {
+					var html="<br/>";
+					for(var i=0;i<data.length;i++){
+						html+="<li style='width:100%;'>"+data[i].msg+"</li>"
+					}
+					$("#pwdPolicy").html(html);
+				}
+			});
+		}
+
+		var code;
+		function createCode() {
+			code = new Array();
+			var codeLength = 4; //验证码的长度
+			var checkCode = document.getElementById("code").value;
+			var selectChar = new Array(2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+			for(var i = 0; i < codeLength; i++) {
+				var charIndex = Math.floor(Math.random() * 32);
+				code += selectChar[charIndex];
+			}
+			if(code.length != codeLength) {
+				createCode();
+			}
+			document.getElementById("code").value=code;
+		}
+
+		var isFlag1=true;
+		var newpwd = document.getElementById("newpwd"); //获取文本框的对象
+		//校验新密码
+		newpwd.onkeyup = function() {
+			newpwd = this.value;
+			isFlag1=false;
+			var loginConfirmPwd = document.getElementById("loginConfirmPwd").value;
+			//获取用户输入的密码,然后判断其强度 返回0 或者 1 2 3 4
+			$(".newpwderror").html("")
+			$(".confirmPwderror").html("")
+			$(".newpwderror").css("display", "none");
+			$(".confirmPwderror").css("display", "none");
+			$.ajax({
+				url : '../pwdPolic/validate.action?' + Math.random(),
+				contentType: "application/json",
+				data : JSON.stringify({'newpassword':newpwd,'userId':userId}),
+				type : 'POST',
+				dataType:'json',
+				success : function(data) {
+					if (data.success) {
+						isFlag1=true;
+						if(loginConfirmPwd!="" && newpwd != loginConfirmPwd){
+							$(".confirmPwderror").html([[#{main.pwdInconform}]]);
+							$(".confirmPwderror").css("display", "block");
+							return;
+						}
+						$(".newpwderror").html("")
+						$(".newpwderror").css("display", "none");
+						return;
+					} else {
+						$(".newpwderror").css("display", "block");
+						$(".newpwderror").html(data.msg)
+					}
+				}
+			});
+		}
+
+		var loginConfirmPwd = document.getElementById("loginConfirmPwd"); //获取文本框的对象
+		//校验新密码
+		loginConfirmPwd.onkeyup = function() {
+			var newpwd = document.getElementById("newpwd").value;
+			if(this.value == newpwd) {
+				$(".confirmPwderror").html("");
+				$(".confirmPwderror").css("display", "none");
+				return;
+			}
+			$(".confirmPwderror").html([[#{main.pwdInconform}]]);
+			$(".confirmPwderror").css("display", "block");
+		}
+
+		function updateBtnresave(){
+			$("#updateBtn").attr('disabled',false);
+			$("#updateBtn").html([[#{main.save}]]);
+		}
+		function updateBtnlocksave(){
+			$("#updateBtn").attr('disabled',true);
+			$("#updateBtn").html([[#{main.processing}]]);
+		}
+
+		function savePwd() {
+			updateBtnlocksave();
+			var loginPwd = $("#loginPwd").val();
+			var newpwd = $("#newpwd").val();
+			var code2 = $("#code_input").val();
+			var loginConfirmPwd = $("#loginConfirmPwd").val();
+			if (loginPwd == "") {
+				alert([[#{main.oldPwdNotEmpty}]]);
+				$("#loginPwd").focus();
+				updateBtnresave()
+				return;
+			} else if (newpwd == "") {
+				alert([[#{main.newPwdNotEmpty}]]);
+				$("#newpwd").focus();
+				updateBtnresave()
+				return;
+			} else if (loginPwd == newpwd) {
+				alert([[#{main.pwdNotEquest}]]);
+				$("#newpwd").focus();
+				updateBtnresave()
+				return;
+			}else if (loginConfirmPwd == "") {
+				alert([[#{main.confirmPwdNotEmpty}]]);
+				$("#loginConfirmPwd").focus();
+				updateBtnresave()
+				return;
+			} else if (loginConfirmPwd != newpwd) {
+				alert([[#{main.pwdInconform}]]);
+				$("#loginConfirmPwd").focus();
+				updateBtnresave()
+				return;
+			} else if(code2==""){
+				alert([[#{login.hint10}]]);
+				$("#code_input").focus();
+				updateBtnresave()
+				return;
+			}else if(code.toLowerCase()!=code2.toLowerCase()){
+				createCode();
+				alert([[#{main.codeInconform}]]);
+				$("#code_input").focus();
+				updateBtnresave()
+				return;
+			}else if(!isFlag1){
+				alert([[#{main.strengthPwd}]]);
+				$("#newpwd").focus();
+				updateBtnresave()
+				return;
+			}else {
+				$.ajax({
+					url : '../pwdPolic/updatePwd.action?' + Math.random(),
+					data : JSON.stringify({'oldPassword': loginPwd,'newpassword': newpwd,'loginConfirmPwd' : loginConfirmPwd,'appSn':'APP001','userId':userId}),
+					contentType: "application/json",
+					type : 'POST',
+					dataType:'json',
+					success : function(data) {
+						createCode();
+						if (data.success) {
+							alert([[#{main.updateSuccess}]]);
+							$("#loginPwd").val("");
+							$("#newpwd").val("");
+							$("#loginConfirmPwd").val("");
+							$("#code_input").val("");
+							window.parent.location.reload();
+						} else{
+							alert(data.msg)
+						}
+						updateBtnresave()
+					}
+				});
+			}
+		}
+	</script>
+</div>
+</body>
+</html>

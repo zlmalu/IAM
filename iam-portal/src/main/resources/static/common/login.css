@@ -1,0 +1,370 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: PingFang-SC-Medium, PingFang-SC,微软雅黑;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+p, h3 {
+    margin: 0;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+}
+
+/*轮播背景*/
+#bodyPage {
+    width: 100%;
+    min-height: 100%;
+    height: auto !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+img.bg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    display: none;
+
+}
+
+#bodyPage>img:first-child{
+    width: 100% !important;
+    height: 100% !important;
+}
+/*主内容*/
+.content {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 44;
+}
+.selectBox{
+    width: 400px;
+    height: 44px;
+    line-height: 44px;
+    text-align: right;
+}
+.inputCase{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.inputCase input.imitationSelect:focus{
+    border: none;
+    outline: none;
+}
+.inputCase input.imitationSelect{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: block;
+    text-indent: 20px;
+    cursor: default;
+    color: #fff;
+    background: none;
+    text-align: right;
+    border: none;
+    cursor: pointer;
+    padding-right: 18px;
+}
+.inputCase i.fa{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.selectUl{
+    display: none;
+    padding: 0;
+    margin: 0;
+    padding-right: 18px;
+}
+.selectUl li{
+    cursor: pointer;
+    height: 36px;
+    line-height: 36px;
+    list-style: none;
+    text-indent: 20px;
+    transition: all .5s ease 0s;
+
+}
+
+.selectUl li:last-child{
+    border-bottom: 0 none;
+}
+
+.logo {
+    padding: 30px 60px 0 60px;
+}
+
+.logoLeft {
+    float: left;
+}
+
+.selectRight {
+    float: right;
+    padding-top: 10px;
+}
+
+.selectRight > select {
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+/*.login {
+    width: 400px;
+    height: 496px;
+    position: absolute;
+    top: 50%;
+    margin-top: -248px;
+    right: 160px;
+}*/
+@media screen and (max-width: 550px) {
+    .login {
+        width: 400px;
+        height: 496px;
+        position: absolute;
+        top: 50%;
+        margin-top: -248px;
+        right: 0px;
+    }
+}
+@media screen and (min-width: 550px) {
+    .login {
+        width: 400px;
+        height: 496px;
+        position: absolute;
+        top: 50%;
+        margin-top: -248px;
+        right: 160px;
+    }
+}
+.login>img{
+    width: 400px;
+    height: 496px;
+}
+.positionContent{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.loginTitle {
+    width: 200px;
+    margin: 0 auto 30px auto;
+}
+
+.loginTitle > span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #979797;
+    cursor: pointer;
+}
+
+.loginTitle > span + span {
+    float: right;
+}
+
+.loginContent {
+    height: 356px;
+    width: 300px;
+    margin: 0 auto;
+    padding: 56px 0 0 0;
+}
+
+.codeLogin {
+    width: 300px;
+    margin: 0 auto;
+    padding: 82px 0 0 0;
+    text-align: center;
+    height: 472px;
+}
+
+.codeLogin > h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 30px;
+}
+
+.codeLogin > p {
+    color: #666666;
+    margin-top: 30px;
+}
+
+.inputGroup {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.inputGroup .form-control {
+    padding-left: 52px;
+    width: 100%;
+}
+.inputGroup .form-control:focus{
+    border-color: #4285F4;
+    box-shadow: 0px 0px 4px 0px rgba(66, 133, 244, 0.4);
+}
+.forgot, .forgot:hover {
+    text-decoration: none;
+    float: right;
+    color: #1A1A1A;
+}
+
+.submit, .submit:hover ,.submit:focus{
+    width: 300px;
+    height: 36px;
+    background: #4285F4;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin-top: 40px;
+    outline: none;
+}
+
+.activeColor {
+    color: #333333 !important;
+}
+
+.inputGroup > img {
+    position: absolute;
+    top: 7px;
+    left: 16px;
+}
+
+.inputGroup > a {
+    color: #4285F4;
+    position: absolute;
+    right: 16px;
+    top: 8px;
+}
+
+.loginFoot {
+    width: 360px;
+    margin: 0 auto;
+    height: 116px;
+    padding: 24px 30px;
+    background: #F7F7F7;
+    border-radius: 0px 0px 4px 4px;
+}
+
+.loginFoot > p {
+    color: #666666;
+}
+
+.loginFoot > ul > li {
+    list-style: none;
+    float: left;
+    margin-top: 16px;
+    margin-right: 24px;
+    height: 32px;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+.loginFoot > ul > li:last-child {
+    margin-right: 0;
+}
+
+.loginFoot > ul > li > img {
+    width: 32px;
+    height: 32px;
+}
+
+.loginFoot > ul > li:last-child img {
+    width: 16px;
+    height: 16px;
+}
+
+.dropdown-menu img {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.loginFoot > ul > li .btn {
+    padding: 0;
+    background: none;
+    outline: none;
+    border: none;
+    outline: none!important;
+    box-shadow: none;
+}
+
+.dropdown, .btn img, .btn ,.dropdown, .btn img, .btn:focus{
+    outline: none;
+}
+
+.loginFoot > ul > li span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #464646;
+    margin-left: 8px;
+}
+
+.loginFoot > ul > li ul > li {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 16px;
+}
+
+.loginFoot > ul > li ul > li:hover {
+    background: #F7F7F7;
+}
+
+.loginFoot .open > .dropdown-menu {
+    padding: 18px 0 10px 0;
+}
+
+.loginFoot .open > .dropdown-menu {
+    background: url("../images/login/img_loginmode_bg.png");
+    left: -74px;
+    background-size: 100% 100%;
+    border: none;
+    box-shadow: none;
+
+}
+
+.checkbox {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1A1A1A;
+    width: 100%;
+}
+
+.mobileLogin, .codeLogin {
+    display: none;
+}
+
+.changeLogin {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 11;
+}
+
+.foot {
+    position: fixed;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    z-index: 44px;
+}

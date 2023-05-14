@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="49px" viewBox="0 0 50 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>icon_backtop</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="p10-1政策解读-ISO27001" transform="translate(-1350.000000, -2833.000000)">
+            <g id="icon_backtop" transform="translate(1350.000000, 2833.000000)">
+                <rect id="矩形" fill="#000000" opacity="0.200000003" x="0" y="0" width="50" height="49" rx="4"></rect>
+                <g id="icon_retract_white" transform="translate(25.000000, 24.500000) rotate(-180.000000) translate(-25.000000, -24.500000) translate(17.000000, 20.000000)" fill="#FFFFFF">
+                    <path d="M8,3.17157288 L2.46446609,8.70710678 C2.0739418,9.09763107 1.44077682,9.09763107 1.05025253,8.70710678 C0.65972824,8.31658249 0.65972824,7.68341751 1.05025253,7.29289322 L7.29289322,1.05025253 C7.68341751,0.65972824 8.31658249,0.65972824 8.70710678,1.05025253 L14.9497475,7.29289322 C15.3402718,7.68341751 15.3402718,8.31658249 14.9497475,8.70710678 C14.5592232,9.09763107 13.9260582,9.09763107 13.5355339,8.70710678 L8,3.17157288 Z" id="路径" transform="translate(8.000000, 4.878680) scale(1, -1) translate(-8.000000, -4.878680) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

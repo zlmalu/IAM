@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.sense.iam</groupId>
+    <artifactId>IAM5</artifactId>
+    <version>${iam-version}</version>
+  </parent>
+  <artifactId>iam-commpant</artifactId>
+  <version>${iam-version}</version>
+  <name>iam-commpant</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+   </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.sense.iam</groupId>
+            <artifactId>iam-security-configuration</artifactId>
+            <version>${iam-version}</version>
+            <!-- 如果上传了云仓，这不需要指定路径 -->
+            <scope>system</scope>
+            <systemPath>D:/IAM/lib/iam-security-configuration-5.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sense.iam</groupId>
+            <artifactId>service</artifactId>
+            <version>${iam-version}</version>
+            <!-- 如果上传了云仓，这不需要指定路径 -->
+            <scope>system</scope>
+            <systemPath>D:/IAM/lib/service-5.0.0.jar</systemPath>
+        </dependency>
+	     <dependency>
+			  <groupId>com.sense.shengxu.oa</groupId>
+			  <artifactId>webservices-client</artifactId>
+			  <version>1.1</version>
+			</dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+    </dependencies>
+</project>

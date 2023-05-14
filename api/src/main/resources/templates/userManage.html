@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>身份视图</title>
+  <link rel="stylesheet" href="../../css/user.css">
+  <script type="text/javascript" src="../../js/jquery.min.js"></script>
+</head>
+<body>
+<span style="display:none" id="sn" th:text="${sn}"></span>
+<div class="header">
+  <h3 id="userInfo"></h3>
+</div>
+<div class="main">
+  <div class="left_flex">
+    <div class="flex_content">
+      <div class="ip_content">
+        <div class="public_title"><h4>身份信息</h4></div>
+        <div class="el-scrollbar">
+          <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+            <div class="el-scrollbar__view">
+              <div class="public_ul">
+                <ul>
+                  <li>工号：<span id="userSn"></span></li>
+                  <li>姓名：<span id="name"></span></li>
+                  <li>性别：<span id="sex"></span></li>
+                  <li>联系号码：<span id="telephone"></span></li>
+                  <li>电子邮件：<span id="email"></span></li>
+                  <li>状态：<span id="status"></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="el-scrollbar__bar is-horizontal">
+            <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+          </div>
+          <div class="el-scrollbar__bar is-vertical">
+            <div class="el-scrollbar__thumb" style="height: 76.9608%; transform: translateY(0%);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ip_line">
+        <div class="ability-point2"></div>
+      </div>
+      <div class="yuan"><span></span></div>
+    </div>
+    <div class="flex_content">
+      <div class="ip_content">
+        <div class="public_title"><h4>岗位信息</h4></div>
+        <div class="el-scrollbar">
+          <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+            <div class="el-scrollbar__view">
+              <div class="public_ul">
+                <ul id="positionList">
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="el-scrollbar__bar is-horizontal">
+            <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+          </div>
+          <div class="el-scrollbar__bar is-vertical">
+            <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ip_line">
+        <div class="post_line"></div>
+      </div>
+      <div class="yuan yuan_left_two"><span></span></div>
+    </div>
+    <div class="flex_content">
+      <div class="ip_content">
+        <div class="public_title"><h4>组织信息</h4></div>
+        <div class="el-scrollbar">
+          <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+            <div class="el-scrollbar__view">
+              <div class="public_ul">
+                <ul>
+                  <li id=orgInfo></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="el-scrollbar__bar is-horizontal">
+            <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+          </div>
+          <div class="el-scrollbar__bar is-vertical">
+            <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ip_line">
+        <div class="org_line"></div>
+      </div>
+      <div class="yuan yuan_left_three"><span></span></div>
+    </div>
+  </div>
+  <div class="right_flex">
+    <div  class="flex_content">
+      <div  class="yuan yuan_right_one"><span ></span></div>
+      <div  class="right_ip_line">
+        <div  class="ability-point"></div>
+      </div>
+      <div  class="ip_content">
+        <div  class="public_title"><h4 >应用信息</h4></div>
+        <div  class="el-scrollbar">
+          <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+            <div class="el-scrollbar__view">
+              <div  class="public_ul">
+                <ul id="appList">
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="el-scrollbar__bar is-horizontal">
+            <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+          </div>
+          <div class="el-scrollbar__bar is-vertical">
+            <div class="el-scrollbar__thumb" style="height: 92.3529%; transform: translateY(0%);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div  class="flex_content">
+      <div  class="yuan yuan_right_last"><span ></span></div>
+      <div  class="right_ip_line">
+        <div  class="ability-point-last"></div>
+      </div>
+      <div  class="ip_content">
+        <div  class="public_title"><h4 >行为追溯</h4></div>
+        <div  class="el-scrollbar">
+          <div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+            <div class="el-scrollbar__view">
+              <div  class="public_ul">
+                <ul id="logList">
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="el-scrollbar__bar is-horizontal">
+            <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+          </div>
+          <div class="el-scrollbar__bar is-vertical">
+            <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+	$(document).ready(function (){
+		var sn = $("#sn").html();
+		if(sn==""){
+			return alert("请在请求路径中加入用户工号")
+		}
+		$.ajax({
+			url:'./identityView?r='+Math.random(),
+			dataType:'json',
+			type:'POST',
+            data:{"sn":sn},
+			success:function(data){
+				if(data.code=="100000001"){
+					//写入身份信息
+					var status = "";
+					var sex = "";
+					var appNameHtml = "";
+					var logHtml = "";
+					var positionHtml = "";
+					
+					$("#userInfo").html(data.user.sn + " " + data.user.name);
+					$("#userSn").html(data.user.sn);
+					$("#name").html(data.user.name);
+					if(data.user.sex=="1") sex = "男" 
+					else sex = "女" 
+					$("#sex").html(sex);
+					$("#telephone").html(data.user.telephone);
+					$("#email").html(data.user.email);
+					if(data.user.status=="1") status = "在职" 
+					else status = "离职"
+					$("#status").html(status);
+					
+					//写入组织信息
+					if(data.org.namePath!=null){
+						$("#orgInfo").html(data.org.namePath);
+					}
+					
+					//写入岗位信息
+					if(data.positionList!=null){
+						for(var i=0;i<data.positionList.length;i++){
+							positionHtml += "<li>" +data.appList[i].name + "</li>"
+						}
+						$("#positionList").html(positionHtml);
+					}
+					
+					//写入应用信息
+					if(data.appList!=null){
+						for(var i=0;i<data.appList.length;i++){
+							appNameHtml += "<li>" +data.appList[i].name + "</li>"
+						}
+						$("#appList").html(appNameHtml);
+					}
+
+					//写入行为追溯
+					if(data.logList!=null){
+						for(var i=0;i<data.logList.length;i++){
+							logHtml += "<li >"+data.logList[i].remark+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.logList[i].timeFmtString+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.logList[i].status+"</li>"
+						}
+						$("#logList").html(logHtml);
+					}
+				}
+			}
+		});
+	});
+
+</script>
+</html>

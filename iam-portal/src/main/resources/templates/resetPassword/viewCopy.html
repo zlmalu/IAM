@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="#{pwd.forgetPwd}">忘记密码</title>
+    <link rel="stylesheet" href="./common/bootstrap.min.css">
+    <link rel="stylesheet" href="./common/reindex.css">
+    <script src="./js/jquery.min.js"></script>
+    <!--[if IE 8]>
+    <style>
+        #btn{
+            margin: 1px 0 0 0!important;
+        }
+        #code{
+            margin-top: 1px!important;
+        }
+    </style>
+    <![endif]-->
+    <style>
+        .proeset {
+            width: 100%;
+            height: 61px;
+        }
+        .list li{
+            width: 100%;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            margin-top:10px;
+            padding: 20px;
+            float: none;
+        }
+        .ts li:hover{
+            background: #ffeed5;
+        }
+        .list li a{
+            color:#333;
+        }
+        .h4, h4 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .change{
+            height: auto;
+        }
+        p input{
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 300px;
+            padding: 5px;
+        }
+        .code {
+
+            font-family: Arial, 宋体;
+            font-style: italic;
+            color: green;
+            border: 0;
+            padding: 2px 3px;
+            letter-spacing: 3px;
+            font-weight: bolder;
+        }
+
+        .unchanged {
+            border: 0;
+        }
+        .change {
+            height: 150px;
+        }
+
+
+        #tips span {
+            color: #fff;
+            padding: 5px;
+        }
+        #tips .s1 {
+            background: #F45A68;
+        } /*红色*/
+        #tips .s2 {
+            background: #fc0;
+        } /*橙色*/
+        #tips .s3 {
+            background: #14B12F;
+        } /*绿色*/
+        #tips .s4 {
+            background: #14B12F;
+        } /*绿色*/
+
+        #tips2 span {
+            color: #fff;
+            padding: 5px;
+        }
+        #tips2 .s1 {
+            background: #F45A68;
+        } /*红色*/
+        #tips2 .s2 {
+            background: #fc0;
+        } /*橙色*/
+        #tips2 .s3 {
+            background: #14B12F;
+        } /*绿色*/
+        #tips2 .s4 {
+            background: #14B12F;
+        } /*绿色*/
+    </style>
+
+</head>
+<body>
+<div class="header">
+    <div class="header-main">
+        <div class="header-logo">
+            <img src="./image/showImage/logo/1" width="170" height="44" alt="">
+        </div>
+        <div class="header-info">
+            <a href="./login.html" th:text="#{pwd.returnLogin}">返回登录</a>
+        </div>
+    </div>
+</div>
+<div class="stepCont" style="height: 600px;">
+    <!--title-->
+    <div class="title">
+        <p id="titles"><span th:text="#{pwd.writeJobNum}">填写工号</span></p>
+    </div>
+    <div class="proeset" style="margin-left: 40px;">
+        <ul>
+            <li class="proLi">
+                <span class="proIconActive">1</span>
+                <hr>
+                <span class="titles" th:text="#{pwd.writeJobNum}">填写工号</span>
+            </li>
+            <li class="proTwo"><span class="proIcon">2</span>
+                <hr>
+                <span class="titles" th:text="#{pwd.resetMode}">重置方式</span></li>
+            <li class="proThree"><span class="proIcon">3</span>
+                <hr>
+                <span class="titles" th:text="#{pwd.confirmation}">验证</span></li>
+            <li class="proFour" id="proFour" >
+                <span class="proIcon">4</span>
+                <hr>
+                <span class="titles" th:text="#{pwd.setPwd}">设置密码</span>
+            </li>
+            <li class="profive" id="profive">
+                <span class="proIcon">5</span>
+                <span class="titles" style="margin-top: 41px;" th:text="#{pwd.complete}">完成</span>
+            </li>
+            <li class="proFour" id="profive2" hidden="">
+                <span class="proIcon">5</span>
+                <span class="titles" style="margin-top: 41px;" th:text="#{pwd.complete}">完成</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="change stepActive" id="stepOne">
+        <div class="form-group">
+            <p><span th:text="#{pwd.jobNum}">工号：</span></p>
+            <input type="text" class="form-control" id="sn" th:placeholder="#{pwd.pSn}" autocomplete="off">
+        </div>
+        <button type="button" class="btn btn-default nextBtn" id="btn" th:text="#{pwd.nextStep}">下一步</button>
+    </div>
+    <div class="change stepNone" id="stepTwo" style="width: 100%;height:150px;">
+        <ul class="list ts">
+            <li id="apwdset">
+                <a  href="javascript:" >
+                    <h4 th:text="#{pwd.resetBySP}">通过密保重置</h4>
+                    <p><span th:text="#{pwd.resetBySPDetail}">通过账号设置密保问题重置密码。</span></p>
+                </a>
+            </li>
+            <li id="aemail">
+                <a  href="javascript:">
+                    <h4 th:text="#{pwd.resetByMail}">通过邮箱重置</h4>
+                    <p><span th:text="#{pwd.resetByMailDetail}">通过接收邮箱方式重置密码。</span></p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="change stepNone" id="stepTwo_mobile">
+        <div class="form-group">
+            <p style="width: 150px"><span th:text="#{pwd.phone}+'：'">手机号：</span></p>
+            <span class="phone" id="mobile" th:text="#{pwd.unknown}">未知</span>
+        </div>
+        <div class="form-group">
+            <p style="width: 150px"><span th:text="#{main.praphValidCode}+'：'">图形验证码：</span></p>
+            <input type="text" class="form-control" id="code_input" th:placeholder="#{main.praphValidCode}"  style="width: 184px;">
+            <input type="button" id="checkCode" class="code" style="width: 160px;height:40px;" onClick="createCode('checkCode')" />
+        </div>
+        <div class="form-group">
+            <p style="width: 150px"><span th:text="#{pwd.msgAuthCode}+'：'">短信验证码：</span></p>
+            <input type="text" class="form-control" id="bcode" th:placeholder="#{pwd.msgAuthCode}" style="width: 184px;">
+            <button type="button" onclick="sendCode()" id="sensebtn" class="btn btn-default" style=" background: #D1E7FF;border: 1px solid #65A8F5;font-size: 14px;color: #1F82F2;   margin: -4px 0 0 0;">获取验证码
+            </button>
+            <p class="infoStip"  id="vcode" style="display: none"><span th:text="#{pwd.hint3}">验证码已发送至您的手机，5分钟内有效</span></p>
+        </div>
+        <button type="button" class="btn btn-default mobile_sub" th:text="#{pwd.nextStep}">下一步</button>
+    </div>
+    <div class="change stepNone" id="stepThree"  style="width: 100%;text-align: left;padding: 0;">
+        <ul class="list">
+            <li>
+                <p id="num1"></p>
+                <p><span th:text="#{pwd.answer}">答案：</span><input id="t_num1"></p>
+            </li>
+            <li>
+                <p id="num2"></p>
+                <p><span th:text="#{pwd.answer}">答案：</span><input id="t_num2"></p>
+            </li>
+        </ul>
+        <button type="button" id="btnMibao" class="btn btn-default sure" style="margin: 0;" th:text="#{pwd.nextStep}">下一步</button>
+    </div>
+    <div class="change stepNone" id="stepTwo_email">
+        <div class="form-group">
+            <p style="width: 140px;"><span th:text="#{pwd.emailNumber}+'：'">邮箱号码：</span></p>
+            <span class="phone" id="email" th:placeholder="#{pwd.unknown}">未知</span>
+        </div>
+        <div class="form-group">
+            <p style="width: 140px;"><span th:text="#{pwd.praphValidCode}+'：'">图形验证码：</span></p>
+            <input type="text" class="form-control" id="email_input"  th:placeholder="#{pwd.praphValidCode}" style="width: 184px;">
+            <input type="button" id="checkEmail" class="code" style="width: 160px;height:40px;" onClick="createCode('checkEmail')" />
+        </div>
+        <button type="button"  class="btn btn-default mobile_email" th:text="#{pwd.sendEmail}">发送邮件</button>
+    </div>
+    <div class="change stepNone" id="stepFour">
+        <div class="form-group">
+            <p style="width: 150px"><span th:text="#{pwd.newPwd}">新密码：</span></p>
+            <input style="width: 240px;" type="password" class="form-control" id="newPwd" th:placeholder="#{main.newPwd}"/>
+            <span  id="tips" style="text-align: left; display: none;margin-left: 90px;">
+            <br/>
+				<span id="errorMsg"></span>
+			</span>
+        </div>
+        <div class="form-group">
+            <p style="width: 150px"><span th:text="#{pwd.confirmPwd}">确认密码：</span></p>
+            <input style="width: 240px;" type="password" class="form-control" id="cofnewPwd" th:placeholder="#{main.confirmPwd}"/>
+            <span  id="tips2" style="text-align: left; display: none;margin-left: 90px;">
+            <br/>
+				<span id="errorMsg2"></span>
+			</span>
+        </div>
+        <button type="button" class="btn btn-default bntsubpwd" th:text="#{pwd.confirm}">确认</button>
+    </div>
+    <div class="change stepNone" id="stepFive">
+        <img src="./images/chenggong.png" alt="">
+        <span id="findSuccess1">&nbsp;&nbsp;&nbsp;<span th:text="#{pwd.pwdResetSuccess}">密码重置成功！</span></span>
+        &nbsp;&nbsp;&nbsp;<a href="./login.html" th:text="#{pwd.login}">登录</a>
+    </div>
+
+    <div class="change stepNone" id="stepFive2" hidden="">
+        <img src="./images/chenggong.png" alt="">
+        <span id="findSuccess2">&nbsp;&nbsp;&nbsp;<span th:text="#{pwd.hint4}">邮件已发送,请进入邮箱修改密码！</span></span>
+        &nbsp;&nbsp;&nbsp;<a href="./login.html" th:text="#{pwd.login}">登录</a>
+    </div>
+    <script th:inline="javascript" type="text/javascript">
+        var mobile;
+        var email;
+        //在全局 定义验证码
+        var emailCode; //email 验证码
+        var telephoneCode; //telephone 验证码
+        var code;
+        function createCode(v) {
+            code = new Array();
+            var codeLength = 4; //验证码的长度
+            var checkCode = document.getElementById(v);
+            checkCode.value = "";
+            var selectChar = new Array(2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+            for(var i = 0; i < codeLength; i++) {
+                var charIndex = Math.floor(Math.random() * 32);
+                code += selectChar[charIndex];
+            }
+            if(code.length != codeLength) {
+                createCode(v);
+            }
+            if("checkEmail"==v){
+                emailCode = code
+                checkCode.value = emailCode;
+            }else{
+                telephoneCode = code
+                checkCode.value = telephoneCode;
+            }
+        }
+
+        $('.nextBtn').click(function () {
+            $("#btn").attr('disabled',true);
+            $("#btn").html('[[#{main.processing}]]');
+            var sn=$("#sn").val();
+            if(sn==""){
+                alert([[#{pwd.pSn}]]);
+                $("#sn").focus();
+                $("#btn").attr('disabled',false);
+                $("#btn").html('[[#{pwd.nextStep}]]');
+            }else{
+                $.ajax({
+                    url:'./cheackSn.action?'+Math.random(),
+                    data:{
+                        sn:sn
+                    },
+                    type:'POST',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code==0){
+                            $("#titles").html('[[#{pwd.resetMode}]]');
+                            $('.proLi>hr').addClass('hrActive');
+                            $('#stepOne').removeClass('stepActive');
+                            $('#stepOne').addClass('stepNone');
+                            $('#stepTwo').addClass('stepActive');
+                            $('.proTwo span:first-child').removeClass('proIcon');
+                            $('.proTwo span:first-child').addClass('proIconActive');
+                            if(data.isemail==0){
+                                $("#aemail").css("background","#f5f5f5");
+                                $("#aemail a h4").css("color","#a5a5a5");
+                                $("#aemail a h4").html('[[#{"pwd.reset1}]]');
+                                $("#aemail a p").css("color","#a5a5a5");
+                            }else{
+                                email=data.email;
+                                $("#email").html(email)
+                                $("#aemail a").attr("href","javascript:goEmail()");
+                            }
+                            if(data.istelephone==0){
+                                $("#aphone").css("background","#f5f5f5");
+                                $("#aphone a h4").css("color","#a5a5a5");
+                                $("#aphone a p").css("color","#a5a5a5");
+                                $("#aphone a h4").html('[[#{pwd.reset2}]]');
+                            }else{
+                                mobile=data.telephone;
+                                var mphone = mobile.substr(0, 3) + '****' + mobile.substr(7);
+                                $("#mobile").html(mphone)
+                                $("#aphone a").attr("href","javascript:goMobile()");
+                            }
+                            if(data.pwdset==0){
+                                $("#apwdset").css("background","#f5f5f5");
+                                $("#apwdset a h4").html('[[#{pwd.reset3}]]');
+                                $("#apwdset a h4").css("color","#a5a5a5");
+                                $("#apwdset a p").css("color","#a5a5a5");
+                            }else{
+                                $("#apwdset a").attr("href","javascript:goPwdSet()");
+                                var k=1;
+                                for(var i=0;i<data.dataset.length;i++){
+                                    $("#num"+k).html('[[#{pwd.question}]]'+k+"："+data.dataset[i].name);
+                                    k++;
+                                }
+                            }
+                        }else if(data.code==-100){
+                            alert([[#{pwd.hint2}]])
+                            $("#btn").attr('disabled',false);
+                            $("#btn").html('[[#{pwd.nextStep}]]');
+                        }else{
+                            alert([[#{pwd.hint1}]])
+                            $("#btn").attr('disabled',false);
+                            $("#btn").html('[[#{pwd.nextStep}]]);
+                        }
+                    }
+                });
+            }
+        });
+        function goPwdSet(){
+            $("#titles").html([[#{pwd.resetSP}]]);
+            $('.proTwo>hr').addClass('hrActive');
+            $('#stepTwo').removeClass('stepActive');
+            $('#stepThree').removeClass('stepActive');
+            $('#stepThree').addClass('stepNone');
+            $('#stepThree').addClass('stepActive');
+            $('.proThree span:first-child').removeClass('proIcon');
+            $('.proThree span:first-child').addClass('proIconActive');
+        }
+        function goMobile(){
+            $("#titles").html([[#{pwd.resetByPhone}]]);
+            $('.proTwo>hr').addClass('hrActive');
+            $('#stepTwo').removeClass('stepActive');
+            $('#stepTwo_mobile').removeClass('stepActive');
+            $('#stepTwo_mobile').addClass('stepNone');
+            $('#stepTwo_mobile').addClass('stepActive');
+            $('.proThree span:first-child').removeClass('proIcon');
+            $('.proThree span:first-child').addClass('proIconActive');
+
+        }
+        function goEmail(){
+            $("#proFour").hide();
+            $("#profive").hide();
+            $("#profive2").show();
+            $("#titles").html([[#{pwd.resetMail}]]);
+            $('.proTwo>hr').addClass('hrActive');
+            $('#stepTwo').removeClass('stepActive');
+            $('#stepTwo_email').removeClass('stepActive');
+            $('#proFour').css('display',"block");
+            $('#proFour .titles').html([[#{pwd.mailVer}]]);
+            $('#stepTwo_email').addClass('stepNone');
+            $('#stepTwo_email').addClass('stepActive');
+            $('.proThree span:first-child').removeClass('proIcon');
+            $('.proThree span:first-child').addClass('proIconActive');
+        }
+    </script>
+    <script th:inline="javascript" type="text/javascript">
+        $('.sure').click(function () {
+            $("#btn1").attr('disabled',true);
+            $("#btn1").html([[#{main.processing}]]);
+            var t_num1=$("#t_num1").val();
+            var t_num2=$("#t_num2").val();
+            if(t_num1==""){
+                alert([[#{pwd.pAnswer}]]);
+                $("#t_num1").focus();
+                $("#btn1").attr('disabled',false);
+                $("#btn1").html([[#{pwd.nextStep}]]);
+            }else if(t_num2==""){
+                alert([[#{pwd.pAnswer}]]);
+                $("#t_num2").focus();
+                $("#btn1").attr('disabled',false);
+                $("#btn1").html([[#{pwd.nextStep}]]);
+            }else{
+                $.ajax({
+                    url:'./resetpwdset.action?'+Math.random(),
+                    data:{
+                        t_num1:t_num1,
+                        t_num2:t_num2
+                    },
+                    type:'POST',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code==0){
+                            $("#titles").html([[#{pwd.setPwd}]]);
+                            $('.proThree>hr').addClass('hrActive');
+                            $('#stepThree').addClass('stepNone');
+                            $('#stepThree').removeClass('stepActive');
+                            $('#stepFour').removeClass('stepNone');
+                            $('#stepFour').addClass('stepActive');
+                            $('.proFour span:first-child').removeClass('proIcon');
+                            $('.proFour span:first-child').addClass('proIconActive');
+                        }else{
+                            if(data.code==-1){
+                                $("#t_num2").focus();
+                            }else if(data.code==-2){
+                                $("#t_num1").focus();
+                            }
+                            alert(data.msg)
+                            $("#btn1").attr('disabled',false);
+                            $("#btn1").html([[#{pwd.nextStep}]]);
+                        }
+                    }
+                });
+            }
+        });
+
+
+        var newpwd = document.getElementById("newPwd"); //获取文本框的对象
+        //校验新密码
+        newpwd.onkeyup = function() {
+            newpwd = this.value;
+            newPwds=0;
+            //获取用户输入的密码,然后判断其强度 返回0 或者 1 2 3 4
+            $("#errorMsg").removeClass("s1");
+            $("#errorMsg").removeClass("s4");
+            $("#errorMsg").html("");
+            $("#tips").css("display", "none");
+            $.ajax({
+                url : '/api/open/pwdPolic/validate.action?' + Math.random(),
+                contentType: "application/json",
+                data : JSON.stringify({'newpassword':newpwd}),
+                type : 'POST',
+                dataType:'json',
+                success : function(data) {
+                    if (data.success) {
+                        newPwds=1;
+                        $("#errorMsg").removeClass("s1");
+                        $("#errorMsg").removeClass("s4");
+                        $("#errorMsg").html("")
+                        $("#tips").css("display", "none");
+                        return;
+                    } else {
+                        $("#errorMsg").addClass("s1");
+                        $("#errorMsg").html(data.msg)
+                    }
+                }
+            });
+            $("#tips").css("display", "block");
+            var loginConfirmPwd = document.getElementById("cofnewPwd").value;
+            if(loginConfirmPwd.length>0){
+                $("#errorMsg2").removeClass("s1");
+                $("#errorMsg2").removeClass("s4");
+                $("#tips2").css("display", "none");
+                coPwd=0;
+                if (loginConfirmPwd == newpwd) {
+                    coPwd=1;
+                    $("#errorMsg2").removeClass("s1");
+                    $("#errorMsg2").removeClass("s4");
+                    $("#errorMsg2").html("")
+                    $("#tips2").css("display", "none");
+                    return;
+                } else {
+                    $("#errorMsg2").addClass("s1");
+                    $("#errorMsg2").html([[#{main.pwdInconform}]])
+                }
+                $("#tips2").css("display", "block");
+            }
+        }
+        var newPwds=1;
+        var coPwd=1;
+        //校验确认密码
+        var loginConfirmPwd = document.getElementById("cofnewPwd"); //获取文本框的对象
+        loginConfirmPwd.onkeyup = function() {
+            loginConfirmPwd = this.value;
+            var newpwd = $("#newPwd").val();
+            $("#errorMsg2").removeClass("s1");
+            $("#errorMsg2").removeClass("s4");
+            $("#tips2").css("display", "none");
+            coPwd=0;
+            if (loginConfirmPwd == newpwd) {
+                coPwd=1;
+                $("#errorMsg2").removeClass("s1");
+                $("#errorMsg2").removeClass("s4");
+                $("#errorMsg2").html("")
+                $("#tips2").css("display", "none");
+                return;
+            } else {
+                $("#errorMsg2").addClass("s1");
+                $("#errorMsg2").html([[#{main.pwdInconform}]])
+            }
+            $("#tips2").css("display", "block");
+        }
+
+
+
+        $('.bntsubpwd').click(function () {
+            $("#bntsubpwd").attr('disabled',true);
+            $("#bntsubpwd").html([[#{main.processing}]]);
+            var newPwd=$("#newPwd").val();
+            var cofnewPwd=$("#cofnewPwd").val();
+            if(newPwd==""){
+                alert([[#{main.PleaseEnterNewPwd}]]);
+                $("#newPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else if(cofnewPwd==""){
+                alert([[#{main.PleaseEnterConfirmPwd}]]);
+
+                $("#cofnewPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else if(cofnewPwd!=newPwd){
+                alert([[#{pwd.pwdInconform}]]);
+                $("#cofnewPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }
+            else if((newPwds+coPwd)!=2){
+                alert([[#{pwd.pwdNoPolicy}]]);
+                $("#cofnewPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else{
+                $.ajax({
+                    url:'./setpwd.action?'+Math.random(),
+                    data:{
+                        newPwd:newPwd,
+                        cofnewPwd:cofnewPwd
+                    },
+                    type:'POST',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code==0){
+                            $("#titles").html([[#{pwd.complete}]]);
+                            $('.proFour>hr').addClass('hrActive');
+                            $('#stepFour').addClass('stepNone');
+                            $('#stepFour').removeClass('stepActive');
+                            $('#stepFive').removeClass('stepNone');
+                            $('#stepFive').addClass('stepActive');
+                            $('.proThree span:first-child').removeClass('proIcon');
+                            $('.proThree span:first-child').addClass('proIconActive');
+                        }else{
+                            alert(data.msg)
+                            $("#bntsubpwd").attr('disabled',false);
+                            $("#bntsubpwd").html([[#{pwd.nextStep}]]);
+                        }
+                    }
+                });
+            }
+        });
+
+
+        $('.mobile_sub').click(function () {
+            $(".mobile_sub").attr('disabled',true);
+            $(".mobile_sub").html([[#{main.processing}]]);
+            var bcode=$("#bcode").val();
+            if(bcode==""){
+                alert([[#{main.processing}]]);
+                $("#bcode").focus();
+                $(".mobile_sub").attr('disabled',false);
+                $(".mobile_sub").html([[#{pwd.nextStep}]]);
+            }else if(bcode.length != 6){
+                alert([[#{pwd.enterSixVe}]]);
+                $("#bcode").focus();
+                $(".mobile_sub").attr('disabled',false);
+                $(".mobile_sub").html([[#{pwd.nextStep}]]);
+            }else{
+                $.ajax({
+                    url:'./cheackCode.action?'+Math.random(),
+                    data:{
+                        code:bcode
+                    },
+                    type:'POST',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code == 0){
+                            $("#titles").html([[#{pwd.setPwd}]]);
+                            $('.proThree>hr').addClass('hrActive');
+                            $('#stepThree').addClass('stepNone');
+                            $('#stepThree').removeClass('stepActive');
+                            $('#stepFour').removeClass('stepNone');
+                            $('#stepFour').addClass('stepActive');
+
+                            $('#stepTwo_mobile').removeClass('stepActive');
+                            $('#stepTwo_mobile').addClass('stepNone');
+
+                            $('.proFour span:first-child').removeClass('proIcon');
+                            $('.proFour span:first-child').addClass('proIconActive');
+                        }else{
+                            alert(data.msg)
+                            $(".mobile_sub").attr('disabled',false);
+                            $(".mobile_sub").html([[#{pwd.nextStep}]]);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <script th:inline="javascript" type="text/javascript">
+
+
+
+
+        $('.mobile_email').click(function () {
+            $(".mobile_email").attr('disabled',true);
+            $(".mobile_email").html([[#{main.processing}]]);
+            var email_input =  document.getElementById("email_input");
+            var inputEmail = email_input.value.toUpperCase();
+            if(inputEmail.length <= 0) {
+                alert([[#{pwd.grapVerCodeNotEmpty}]]);
+                $(".mobile_email").attr('disabled',false);
+                $(".mobile_email").html([[#{pwd.sendEmail}]]);
+                return;
+            } else if(inputEmail != emailCode) {
+                alert([[#{pwd.grapVerCodeError}]]);
+                email_input.value = "";
+                $(".mobile_email").attr('disabled',false);
+                $(".mobile_email").html([[#{pwd.sendEmail}]]);
+                createCode('checkEmail');
+                return;
+            } else{
+                $.ajax({
+                    url:'./sendEmail.action?'+Math.random(),
+                    data:{
+                        email:email
+                    },
+                    type:'POST',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code == 0){
+                            $("#titles").html([[#{pwd.complete}]]);
+                            $('.proThree>hr').addClass('hrActive');
+                            $('#stepThree').removeClass('stepActive');
+                            $('#stepThree').addClass('stepNone');
+                            $('#stepFive2').removeClass('stepNone');
+                            $('#stepFive2').addClass('stepActive');
+
+                            $('#stepTwo_email').removeClass('stepActive');
+                            $('#stepTwo_email').addClass('stepNone');
+
+                            $('#profive span:first-child').removeClass('proIcon');
+                            $('#profive span:first-child').addClass('proIconActive');
+
+                            $('.proThree span:first-child').removeClass('proIcon');
+                            $('.proThree span:first-child').addClass('proIconActive');
+
+                            $('.proFour span:first-child').removeClass('proIcon');
+                            $('.proFour span:first-child').addClass('proIconActive');
+
+                            $('#profive2 span:first-child').removeClass('proIconActive');
+                            $('#profive2 span:first-child').addClass('proIcon');
+
+
+                        }else{
+                            alert(data.msg)
+                            email_input.value = "";
+                            createCode('checkEmail');
+                            $(".mobile_email").attr('disabled',false);
+                            $(".mobile_email").html([[#{pwd.nextStep}]]);
+                        }
+                    }
+                });
+            }
+        });
+
+        var flag = 1;
+        var i = 60;
+        var ajaxStatus=0;
+        function sendCode() {
+            var code_input =  document.getElementById("code_input");
+            var inputCode = code_input.value.toUpperCase();
+
+            if(inputCode.length <= 0) {
+                alert([[#{pwd.grapVerCodeNotEmpty}]]);
+                return;
+            } else if(inputCode != telephoneCode) {
+                alert([[#{pwd.grapVerCodeError}]]);
+                code_input.value = "";
+                createCode('checkCode');
+                return;
+            } else{
+                i = i - 1;
+                $("#sensebtn").attr('disabled',true);
+                $("#sensebtn").css('background',"#8ea7d4 !important");
+                $("#sensebtn").html(i+[[#{login.sendPrompt}]]);
+                if (i == 0) {
+                    ajaxStatus=0;
+                    $("#sensebtn").attr('disabled',false);
+                    $("#sensebtn").css('background',"#1F82F2!important");
+                    $("#sensebtn").html([[#{login.reAcquisition}]]);
+                    $("#vcode").css("display","none");
+                    flag = 1;
+                    i = 60;
+                    createCode('checkCode');
+                    return;
+                }
+                //发送获取验证码
+                if(ajaxStatus==0){
+                    ajaxStatus=1;
+                    $.ajax({
+                        url:'./sendvCode.action?'+Math.random(),
+                        data:{
+                            mobile:mobile
+                        },
+                        dataType:'json',
+                        type:'POST',
+                        success:function(data){
+                            if(data.code==0){
+                                $("#vcode").css("display","block");
+                            }else{
+                                $("#vcode").css("display","block");
+                                $("#vcode").html("<span style='color:#ff0000'>"+data.msg+"</span>");
+                            }
+                        }
+                    });
+                }
+                //
+                setTimeout('sendCode()',1000);
+            }
+        }
+
+    </script>
+</div>
+<!--引入版权-->
+<div th:replace="common/foot :: foot"></div>
+
+
+</body>
+</html>

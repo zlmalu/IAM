@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
+  <meta name=”renderer” content=”webkit” />
+  <meta charset="UTF-8">
+  <title>系统退出</title>
+  <script src="/portal/js/jquery.min.js"></script>
+</head>
+<body>
+<span style="display:none" id="tokenId" th:text="${token}"></span>
+<span style="display:none" id="redirectUrl" th:text="${redirectUrl}"></span>
+<script>
+var token=$("#tokenId").html();
+var redirectUrl=$("#redirectUrl").html();
+$.ajax({
+	url:'/authModule/logout.html?tokenId='+token+'&r='+Math.random(),
+	dataType:'json',
+	type:'POST',
+	success:function(data){
+		location.href=redirectUrl;
+	},
+	error:function(data){
+		location.href=redirectUrl;
+	}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>icon/icon_giveanalarm</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/icon_giveanalarm" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon_giveanalarm">
+            <circle id="椭圆形" fill="#FFCC00" cx="16" cy="16" r="16"></circle>
+            <rect id="矩形" fill="#D8D8D8" opacity="0" x="8" y="8" width="16" height="16"></rect>
+            <path d="M16.8547875,9.40788532 L23.5777633,20.4810219 C23.864387,20.953108 23.71404,21.5681638 23.2419539,21.8547875 C23.0855092,21.9497718 22.9059975,22 22.7229758,22 L9.27702424,22 C8.72473949,22 8.27702424,21.5522847 8.27702424,21 C8.27702424,20.8169783 8.32725247,20.6374665 8.42223672,20.4810219 L15.1452125,9.40788532 C15.4318362,8.93579921 16.046892,8.78545223 16.5189781,9.07207594 C16.6562559,9.15542315 16.7714403,9.27060755 16.8547875,9.40788532 Z" id="三角形" fill="#FFFFFF"></path>
+            <line x1="16" y1="14" x2="16" y2="17" id="路径-2" stroke="#FFCC00" stroke-width="1.6" stroke-linecap="round"></line>
+            <circle id="椭圆形" fill="#FFCC00" cx="16" cy="19.3" r="1"></circle>
+        </g>
+    </g>
+</svg>

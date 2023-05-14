@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<input type="hidden" id="appUrl" th:value="${appUrl}" />
+<script>
+	var appUrl = document.getElementById('appUrl').value;
+	window.location.href = appUrl;
+</script>
+</body>

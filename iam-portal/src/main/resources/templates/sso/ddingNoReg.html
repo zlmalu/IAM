@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>免登跳转</title>
+  <script type="text/javascript" src="./js/jquery.qrcode.min.js"></script>
+</head>
+
+<body>
+<!--<input type="hidden" id="userName" th:value="${userName}" readonly="readonly" />-->
+<!--<input type="hidden" id="loginPwd" th:value="${loginPwd}" readonly="readonly" />-->
+
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="https://g.alicdn.com/dingding/dingtalk-jsapi/2.13.42/dingtalk.open.js"></script>
+<script th:inline="javascript">
+  var corpId = [[${corpId}]];
+  var client_id = [[${client_id}]];
+  var app_id = [[${app_id}]];
+  var redirect_uri = [[${redirect_uri}]];
+  var open_type = [[${open_type}]];
+
+  dd.ready(function() {
+    dd.runtime.permission.requestAuthCode({
+      corpId: corpId,
+      onSuccess: function (info) {
+        var code = info.code + app_id;
+
+        var url = "/portal/ddingOpenlogin.action?code=" + code + "&client_id=" + client_id + "&redirectUri=" + redirect_uri;
+
+        if (open_type == 2) {
+          window.open(url);
+          window.close();
+        } else {
+          location.href = url;
+        }
+      },
+      onFail: function(err) {
+        alert('fail: ' + JSON.stringify(err));
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

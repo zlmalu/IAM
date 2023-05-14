@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon/icon_singleelection_Select</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/icon_singleelection_Select" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon_singleelection_Select">
+            <circle id="椭圆形" stroke="#4D93FF" stroke-width="2" cx="8" cy="8" r="7"></circle>
+            <circle id="椭圆形" fill="#4D93FF" cx="8" cy="8" r="4"></circle>
+        </g>
+    </g>
+</svg>

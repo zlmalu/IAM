@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon_home_yyxt</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="p1首页-系统概览" transform="translate(-643.000000, -158.000000)">
+            <g id="用户分布备份-4" transform="translate(532.000000, 128.000000)">
+                <g id="icon_home_yyxt" transform="translate(111.000000, 30.000000)">
+                    <rect id="矩形" fill="#FF7D4A" x="0" y="0" width="60" height="60" rx="24"></rect>
+                    <g id="icon/icon_yyxt" transform="translate(17.500000, 17.500000)">
+                        <g id="icon_yyxt" transform="translate(1.388889, 1.944444)">
+                            <rect id="矩形" fill="#FFFFFF" x="3.61111111" y="3.47222222" width="2.08333333" height="1.66666667"></rect>
+                            <rect id="矩形备份-4" fill="#FFFFFF" x="6.94444444" y="3.47222222" width="2.08333333" height="1.66666667"></rect>
+                            <rect id="矩形备份-5" fill="#FFFFFF" x="10.2777778" y="3.47222222" width="2.08333333" height="1.66666667"></rect>
+                            <g id="编组-8" transform="translate(11.031139, 10.630670)" fill="#FFFFFF">
+                                <polygon id="矩形" transform="translate(2.569444, 2.222222) rotate(-45.000000) translate(-2.569444, -2.222222) " points="0.833333333 1.38888889 4.30555556 1.38888889 4.30555556 3.05555556 0.833333333 3.05555556"></polygon>
+                                <polygon id="矩形备份-6" transform="translate(6.575496, 2.596029) rotate(-45.000000) translate(-6.575496, -2.596029) " points="4.83938463 1.7626957 8.31160686 1.7626957 8.31160686 3.42936237 4.83938463 3.42936237"></polygon>
+                            </g>
+                            <rect id="矩形" stroke="#FFFFFF" stroke-width="2" x="1.27777778" y="1.55555556" width="19.6666667" height="18" rx="1.66666667"></rect>
+                            <rect id="矩形" fill="#FFFFFF" x="1.38888889" y="6.38888889" width="19.4444444" height="1.66666667"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

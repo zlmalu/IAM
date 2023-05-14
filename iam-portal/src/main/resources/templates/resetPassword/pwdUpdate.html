@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="#{pwd.forgetPwd}">忘记密码</title>
+    <link rel="stylesheet" href="./common/bootstrap.min.css">
+    <link rel="stylesheet" href="./common/reindex.css">
+	<style>
+	.proeset {
+	    width: 100%;
+	    height: 61px;
+	}
+	.list li{
+		width: 100%;
+	    border: 1px solid #ddd;
+	    margin-bottom: 10px;
+	    margin-top:10px;
+	    padding: 20px;
+	    float: none;
+	}
+	.ts li:hover{
+		background: #ffeed5;
+	}
+	.list li a{
+		color:#333;
+	}
+	.h4, h4 {
+	    font-size: 16px;
+	    font-weight: bold;
+	}
+	.change{
+		height: auto;
+	}
+    .newpwderror{
+        width: 340px;
+        display: none;
+        background: #F45A68;
+        padding: 4px;
+        color: #fff !important;
+    }
+    .leftform{
+        width: 50% !important;
+        float: left;
+        padding: 40px !important;;
+
+    }
+    .rightmsg{
+        width: 50% !important;
+        float: left;
+        padding: 40px !important;;
+    }
+    .leftform p {
+        margin-top: 15px !important;
+        width: 70%;
+        border-radius: 4px;
+    }
+    .leftform input {
+        width: 70% !important;;
+        height: 40px !important;;
+        line-height: 40px !important;;
+        border-radius: 4px !important;
+        padding: 0px 10px !important;
+    }
+    .leftform button {
+
+        margin: 20px 0 !important;
+    }
+    .rightmsg {
+        padding: 20px;
+    }
+    .foot {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+    }
+
+	</style>
+
+</head>
+<body>
+<div class="header">
+    <div class="header-main">
+        <div class="header-logo">
+            <img src="./image/showImage/logo/1" width="170" height="44" alt="">
+        </div>
+        <div class="header-info" style="background-image: none;">
+            <a href="./login.html" th:text="#{pwd.returnLogin}">返回登录</a>
+        </div>
+    </div>
+</div>
+<div class="stepCont">
+    <!--title-->
+    <div class="title">
+        <p id="titles" th:text="#{pwd.setPwd}">设置密码</p>
+    </div>
+    <div class="proeset">
+        <ul>
+            <li class="proLi">
+                <span class="proIconActive" >1</span>
+                <hr class="hrActive">
+                <span class="titles" th:text="#{pwd.writeJobNum}">填写工号</span>
+            </li>
+             <li class="proTwo">
+             	<span class="proIconActive" >2</span>
+                <hr class="hrActive">
+                 <span class="titles" th:text="#{pwd.resetMode}">重置方式</span></li>
+            <li class="proThree">
+            	<span class="proIconActive">3</span>
+                <hr class="hrActive">
+                <span class="titles" th:text="#{pwd.confirmation}">验证</span></li>
+            <li class="proFour" id="proFour" >
+            	<span class="proIconActive">4</span>
+                <hr>
+                <span class="titles" th:text="#{pwd.setPwd}">设置密码</span>
+            </li>
+            <li class="profive" id="profive">
+            	<span class="proIcon">5</span>
+                <span class="titles" style="margin-top: 41px;" th:text="#{pwd.complete}">完成</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="change stepNone" id="stepFour" style="margin: 10px 0;width: 100%;display: block;height: 350px;">
+        <form class="form-inline" role="form">
+            <div class="leftform">
+                <p th:text="#{main.newPwd}">新密码</p>
+                <input type="password" class="form-control" id="newPwd" th:placeholder="#{main.PleaseEnterNewPwd}" autocomplete="off"/>
+                <p class="newpwderror">规则不满足</p>
+                <p th:text="#{main.confirmPwd}">确认密码</p>
+                <input type="password" class="form-control" id="cofnewPwd" th:placeholder="#{main.PleaseEnterConfirmPwd}" autocomplete="off"/>
+                <button type="button" class="btn btn-default bntsubpwd"  th:text="#{main.save}">保存</button>
+            </div>
+            <div class="rightmsg">
+                <h3 style="width: 400px;"  th:text="#{main.passwordStrength}">密码强度</h3>
+                <ul id="pwdPolicy" style="width:400px;"></ul>
+            </div>
+        </form>
+    </div>
+
+    <div class="change stepNone" id="stepFive"style="display: none;margin: 10px 0;width: 100%;height: 350px;text-align: center;padding: 100px 0;">
+        <span id="findSuccess1"><span th:text="#{pwd.pwdResetSuccess}">密码重置成功！</span></span>
+        <a href="./login.html" th:text="#{pwd.login}">登录</a>
+    </div>
+</div>
+<!--引入版权-->
+<div th:replace="common/foot :: foot"></div>
+
+<script src="./js/jquery.min.js"></script>
+<script th:inline="javascript" type="text/javascript">
+    var userId = [[${userId}]]
+
+    var userTypeId = [[${userTypeId}]]
+    $(document).ready(function (e) {
+        loadPwd()
+
+        //密码修改
+        $('.bntsubpwd').click(function () {
+            $("#bntsubpwd").attr('disabled',true);
+            $("#bntsubpwd").html([[#{main.processing}]]);
+            var newPwd=$("#newPwd").val();
+            var cofnewPwd=$("#cofnewPwd").val();
+            if(newPwd==""){
+                alert([[#{main.PleaseEnterNewPwd}]]);
+                $("#newPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else if(cofnewPwd==""){
+                alert([[#{main.PleaseEnterConfirmPwd}]]);
+
+                $("#cofnewPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else if(cofnewPwd != newPwd){
+                alert([[#{pwd.pwdInconform}]]);
+                $("#cofnewPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else if(!isFlag1){
+                alert([[#{main.strengthPwd}]]);
+                $("#cofnewPwd").focus();
+                $("#bntsubpwd").attr('disabled',false);
+                $("#bntsubpwd").html([[#{pwd.confirm}]]);
+            }else{
+                $.ajax({
+                    url:'./setpwd.action?'+Math.random(),
+                    data:{
+                        newPwd:newPwd,
+                        cofnewPwd:cofnewPwd,
+                        userId:userId
+                    },
+                    type:'POST',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code==0){
+                            $("#titles").html([[#{pwd.complete}]]);
+                            $('.proFour>hr').addClass('hrActive');
+                            $('#stepFour').addClass('stepNone');
+                            $('#stepFour').removeClass('stepActive');
+                            $('#stepFive').removeClass('stepNone');
+                            $('#stepFive').addClass('stepActive');
+                            $('.proThree span:first-child').removeClass('proIcon');
+                            $('.proThree span:first-child').addClass('proIconActive');
+
+                            $('.profive span:first-child').removeClass('proIcon');
+                            $('.profive span:first-child').addClass('proIconActive');
+                            $("#stepFour").css('display',"none");
+                            $("#stepFive").css('display',"block");
+                        }else{
+                            alert(data.msg)
+                            $("#bntsubpwd").attr('disabled',false);
+                            $("#bntsubpwd").html([[#{pwd.nextStep}]]);
+                        }
+                    }
+                });
+            }
+         });
+    });
+
+    //加载密码策略
+    function loadPwd(){
+        $.ajax({
+            url : './pwdPolic/findAll?objId='+userTypeId+'&r=' + Math.random(),
+            data : {},
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                var html="";
+                for(var i=0;i<data.length;i++){
+                    html+="<li style='width:100%;'>"+data[i].msg+"</li>"
+                }
+                $("#pwdPolicy").html(html);
+            }
+        });
+    }
+
+    var isFlag1=true;
+    var newpwd = document.getElementById("newPwd"); //获取文本框的对象
+    //校验新密码
+    newpwd.onkeyup = function() {
+        newpwd = this.value;
+        isFlag1=false;
+        //获取用户输入的密码,然后判断其强度 返回0 或者 1 2 3 4
+        $(".newpwderror").html("")
+        $(".newpwderror").css("display", "none");
+        $.ajax({
+            url : './pwdPolic/validate.action?' + Math.random(),
+            contentType: "application/json",
+            data : JSON.stringify({'newpassword':this.value,'userId':userId}),
+            type : 'POST',
+            dataType:'json',
+            success : function(data) {
+                if (data.success) {
+                    isFlag1=true;
+                    $(".newpwderror").html("")
+                    $(".newpwderror").css("display", "none");
+                    return;
+                } else {
+                    $(".newpwderror").css("display", "block");
+                    $(".newpwderror").html(data.msg)
+                }
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

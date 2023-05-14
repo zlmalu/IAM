@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>icon/icon_fail</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/icon_fail" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon_fail">
+            <circle id="椭圆形" fill="#FF4C50" cx="16" cy="16" r="16"></circle>
+            <rect id="矩形" fill="#D8D8D8" opacity="0" x="8" y="8" width="16" height="16"></rect>
+            <rect id="矩形" fill="#FFFFFF" transform="translate(16.000000, 16.000000) rotate(-315.000000) translate(-16.000000, -16.000000) " x="8" y="15" width="16" height="2" rx="1"></rect>
+            <rect id="矩形" fill="#FFFFFF" transform="translate(16.000000, 16.000000) rotate(-225.000000) translate(-16.000000, -16.000000) " x="8" y="15" width="16" height="2" rx="1"></rect>
+        </g>
+    </g>
+</svg>

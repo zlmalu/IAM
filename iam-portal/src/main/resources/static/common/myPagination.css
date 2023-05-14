@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#ele{padding: 20px}
+.clearfix::after {
+    content: ".";
+    clear: both;
+    display: block;
+    overflow: hidden;
+    font-size: 0;
+    height: 0;
+}
+.clearfix {
+    zoom: 1;
+}
+
+.Pagination ul{
+    list-style: none;
+}
+.Pagination .total_num,.first_page,.prepage,.list_box,.nextpage,.last_page,.total_page,input,.redir {
+    float: left;
+}
+.Pagination ul li {
+    float: left;
+    background-color: #ccc;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 22px;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #8b8b8b
+}
+.Pagination ul li:hover {
+    background-color: #4285F4;
+    color: #fff;
+}
+.Pagination .total_num {
+    margin: 0 5px;
+}
+.Pagination .total_num i {
+    font-style: normal;
+}
+.Pagination .list_box {
+    width: 320px;
+    overflow: hidden;
+    position: relative;
+    height: 32px;
+}
+.Pagination .list_box ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.Pagination .prepage {
+    background-color: #ccc;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #8b8b8b
+}
+.Pagination .prepage:hover {
+    background-color: #4285F4;
+    color: #fff;
+}
+.Pagination .nextpage {
+    background-color: #ccc;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #8b8b8b
+}
+.Pagination .nextpage:hover {
+    background-color: #4285F4;
+    color: #fff;
+}
+.Pagination .first_page {
+    background-color: #ccc;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #8b8b8b
+}
+.Pagination .first_page:hover {
+    background-color: #4285F4;
+    color: #fff;
+}
+.Pagination .last_page {
+    background-color: #ccc;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #8b8b8b
+}
+.Pagination .last_page:hover {
+    background-color: #4285F4;
+    color: #fff;
+}
+.Pagination .redir {
+    background-color: #4285F4;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 14px;
+    cursor: pointer;
+    height: 23px;
+    line-height: 23px;
+}
+.Pagination .redir:hover {
+    opacity: 0.8;
+}
+.Pagination input {
+    width: 50px;
+    height: 23px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    text-indent: 5px;
+    margin: 0 5px;
+    line-height: 23px;
+}
+.Pagination .short {
+    background-color: #fff;
+    cursor: default;
+}
+.Pagination .short:hover {
+    background-color: #fff;
+    color: #8b8b8b;
+}
+.Pagination_active {
+    background-color: #4285F4 !important;
+    color: #fff !important;
+}

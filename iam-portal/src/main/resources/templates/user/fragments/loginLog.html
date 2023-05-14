@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>loginLog</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="loginLog" class="infoContent infoC">
+	<div class="formGroup">
+		<form class="form-inline" role="form">
+			<table class="boots-hide" id="dataList" lay-filter="dataList"></table>
+		</form>
+	</div>
+	<script type="text/javascript" th:inline="none">
+		layui.use('table', function(){
+			layui.table.render({
+				elem: '#dataList'
+				,url:'./getLogs.action?'+Math.random()
+				,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+				,cols: [[
+					{field:'user_name',align:'center', width:180,title: '账号'}
+					,{field:'appname',minWidth:200,align:'center',title:'目标应用'}
+					,{field:'ip', width:150, align:'center',title: '审计IP'}
+					,{field:'create_time',width:180, align:'center',title: '审计时间'}
+					,{field:'remark',width:200,align:'center',title: '备注'}
+				]]
+				,page:true
+				,parseData: function(res){ //res 即为原始返回的数据
+					return {
+						"code": 0, //解析接口状态
+						"msg": "暂无日志数据", //解析提示文本
+						"count": res.totalcount, //解析数据长度
+						"data": res.dataList //解析数据列表
+					};
+				}
+			});
+		});
+	</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>免登认证</title>
+</head>
+<body>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/cookie.js"></script>
+<script th:inline="javascript">
+var code = [[${code}]];
+var redirect_uri = [[${redirectUri}]];
+var client_id = [[${client_id}]];
+var redirectUri=getCookie("redirectUri");
+$.ajax({
+	url:'/authModule/authenticate?'+Math.random(),
+	dataType:'json',
+	data:{"username":code,"password":"","reamId":"2001"},
+	type:'POST',
+	success:function(data){
+		if(data.code=='100000001'){
+            if(redirect_uri){
+                location.href="/sso/request?redirectUrl=" + redirect_uri + "&client_id=" + client_id;
+            }else {
+                location.href="/portal/main.html";
+            }
+		} else {
+			alert(data.msg);
+            location.href="/portal/main.html";
+		}
+
+	},
+	error:function(data){
+		alert(data);
+	}
+});
+</script>   
+</body>
+</html>

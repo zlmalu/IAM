@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #edecf0;
+}
+ul li{
+    list-style: none;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus,
+button:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.nav li .btn img {
+    vertical-align: sub;
+}
+
+.nav li .btn {
+    border: none;
+    background: #fff;
+}
+
+/* 公用阴影圆角 */
+.shadow_radius {
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px 0 rgba(124, 137, 152, 0.10);
+    border-radius: 10px;
+}
+/* 超出长度以省略号显示 */
+.textOver{
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;   
+}
+a:focus, a:hover{
+    text-decoration: none;
+    outline: 0;
+}
+/* 头部蓝底白字 */
+.titleDiv {
+    width: 100%;
+    float: left;
+    background: #0377F9;
+    height: 70px;
+    line-height: 70px;
+    box-shadow: 0 4px 10px 0 rgba(124, 137, 152, 0.10);
+}
+.titleDiv .titleBtn{
+    float: right;
+    height: 70px;
+    line-height: 70px;
+}
+.titleDiv .titleBtn ul li{
+    height: 70px;
+    line-height: 70px;
+}
+.titleDiv .titleBtn ul li a{
+    padding: 0 10px !important;
+    color: #fff;
+    line-height: 70px;
+    height: 70px;
+    background: #3f77fa;
+    font-size: 16px;
+}  
+.titleDiv .titleBtn button{
+    border: none;
+    background: none;
+    font-size: 16px;
+    color: #FFFFFF;
+    margin-right: 50px;
+}
+.titleDiv img {
+    margin-left: 2%;
+    margin-top: 0;
+}
+.btn.focus, .btn:focus, .btn:hover{
+    color: #fff;
+}
+.twoColumns tbody tr td{
+    border-left: 0;
+    padding: 0 15px;
+    padding-left: 19px;
+    height: 40px;
+    vertical-align: middle;  
+}

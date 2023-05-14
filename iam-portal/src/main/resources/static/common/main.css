@@ -1,0 +1,183 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: PingFang-SC-Medium, PingFang-SC,微软雅黑;
+    font-size: 14px;
+    font-weight: 500;
+    background: #F7F7F7;
+}
+
+p, h3 {
+    margin: 0;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+}
+
+
+.header {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+}
+
+.headerContent {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    float: left;
+}
+
+.company {
+    margin-right: 100px;
+}
+
+.company > span {
+    color: #FFFFFF;
+}
+
+@media screen and (max-width: 550px) {
+    .company, .dropdown {
+        float: right;
+        margin-right: 20px;
+    }
+    .dropdown-themes{
+        display: none;
+    }
+
+    #refreshData{
+        margin-right: 20px;
+    }
+
+}
+@media screen and (min-width: 550px) {
+    .company, .dropdown {
+        float: right;
+    }
+    .dropdown-themes{
+        margin-right: 120px;
+    }
+}
+
+.dropdown > a {
+    color: #FFFFFF !important;
+    border: none !important;
+    text-decoration: none !important;
+}
+
+.dropdown-menu li img {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+.dropdown-menu > li > a {
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+    color: #464646;
+}
+
+.open > .dropdown-menu {
+    min-width: 30px;
+    left: -24px;
+    top: 50px;
+    background: #fff;
+    border: none;
+}
+
+.dropdown-menu::before {
+    position: absolute;
+    content: '';
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid #ffff;
+    top: -8px;
+    right: 16px;
+}
+
+#contentFrame {
+    /*max-width: 1200px;*/
+    margin: 0 auto;
+}
+.foot>p{
+    color: #999999;
+    text-align: center;
+    height: 68px;
+    line-height: 68px;
+}
+.modal-dialog{
+    width: 320px;
+    margin: 0 auto;
+}
+#eit .modal-dialog .modal-content{
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 4px;
+    overflow: hidden;
+    border: none;
+}
+.modal-body{
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+    padding: 24px 0 38px 25px;
+}
+.btnGroup .btn {
+    width: 60px;
+    height: 32px;
+    border-radius: 4px;
+    outline: none !important;
+    box-shadow: none;
+}
+.modal-footer .btnGroup .btn{
+    width: 80px;
+    height: 32px;
+    border-radius: 4px;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.save, .save:hover, .save:focus {
+    background: #4285F4;
+    color: #FFFFFF;
+    border: 1px solid #4285F4;
+}
+
+.eit {
+    background: #ffffff;
+    color: #333333;
+    border: 1px solid #E5E5E5;
+}
+.modal-footer {
+    padding: 0 24px 24px 0;
+    text-align: right;
+    border: none;
+}
+
+#toHome{
+    cursor: pointer;
+}
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+    background-color: #4585f4 !important;
+}
+.layui-laypage a:hover {
+    color: #4585f4 !important;
+}
+.layui-icon {
+    font-size: 14px !important;
+}
+.dropdown-menu > li > a > span {
+    margin-left: 3px;
+}

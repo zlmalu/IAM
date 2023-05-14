@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统一身份认证系统</title>
+    <link rel="stylesheet" href="/sso/static/css/public.css">
+</head>
+<style>
+#qywxlogin img{
+    display: inline !important;
+}
+</style>
+<body>
+	<input type="hidden"  id="redirectUri" th:value="${redirectUri}" readonly="readonly" />
+ 	<input type="hidden"  id="destSrc" th:value="${destSrc}" readonly="readonly" />
+ 	<input type="hidden"  id="client_id" th:value="${client_id}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_APPID" th:value="${QYWX_APPID}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_SCA_APP_AGENTID" th:value="${QYWX_SCA_APP_AGENTID}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_SCA_APP_KEY" th:value="${QYWX_SCA_APP_KEY}" readonly="readonly" />
+ 	<input type="hidden"  id="QYWX_SCA_REDIRECT_URI" th:value="${QYWX_SCA_REDIRECT_URI}" readonly="readonly" />
+ 	
+    <div class="bgBox clearfix">
+        <div class="txtBox1" style="text-align: center;margin-top: 5%;">
+            <div class="content phoneCode">
+                <h2>APP扫码认证</h2>
+                <p>您访问的业务系统已开启二次认证，请使用打开APP扫一扫进行扫码认证</p>
+                <div id="qywxlogin" style="margin-top: 5%;text-align: center;margin-bottom: 20px;">二维码区域</div>
+                <a href="javascript:refreshCode();">刷新</a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/portal/js/jquery.qrcode.min.js"></script>
+	<script type="text/javascript" src="/sso/static/js/jquery.min.js"></script>
+    <script type="text/javascript" >
+    $(document).ready(function(){  
+    	refreshCode();
+    });  
+
+    var interval;
+
+    //刷新二维码
+    function refreshCode(){
+    	$("#qywxlogin").html("");
+	  	clearInterval(interval);
+	  	//生成二维码
+	  	var uuid=getUuid();
+	  	var packJson = {"type":"1", "uuid":uuid};  
+	    var jsonstr =JSON.stringify(packJson); 
+	  	var str = toUtf8(jsonstr);
+	  	new QRCode('qywxlogin', {
+	  		text: str,
+	  		width: 150,
+	  		height: 150,
+	  		colorDark : '#000000',
+	  		colorLight : '#ffffff',
+	  		correctLevel : QRCode.CorrectLevel.H
+	  	});
+	  	$("#qywxlogin").removeAttr("title"); 
+		$("#qywxlogin>img").css("margin","0 auto;"); 
+	  	//轮训检测二维码是否认证
+	  	interval=setInterval(function(){
+	  		cheackauthQrCode(uuid);
+	  	},2000);
+	  		
+	 }
+  	function cheackauthQrCode(uuid){
+  		var redirectUri=$("#redirectUri").val();
+		$.ajax({
+			url:'/authModule/extAuthenticate?'+Math.random(),
+	    	dataType: 'json',
+	   		data: {
+	    		username: uuid,
+	    		password: uuid,
+	    		reamId:1007,
+	    		destSrc:$("#destSrc").val()
+	    	},
+	   	 	success: function(data){
+		   	 	if(data.code=='100000001'){
+					location.href=redirectUri;
+				}else if(data.code=='100000006'){
+					alert('受限制的,没有访问权限,切勿使用他人的APP进行扫码认证!');
+					location.href=redirectUri;
+				}
+	    	},error: function(){
+	    		clearInterval(interval);
+	    	}
+		}); 
+
+	}
+  
+  function toUtf8(str) {
+	    var out, i, len, c;
+	    out = "";
+	    len = str.length;
+	    for (i = 0; i < len; i++) {
+	        c = str.charCodeAt(i);
+	        if ((c >= 0x0001) && (c <= 0x007F)) {
+	            out += str.charAt(i);
+	        } else if (c > 0x07FF) {
+	            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+	            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+	            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+	        } else {
+	            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+	            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+	        }
+	    }
+	    return out;
+	}
+  
+  function getUuid() {
+	    var s = [];
+	    var hexDigits = "0123456789abcdef";
+	    for (var i = 0; i < 36; i++) {
+	        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+	    }
+	    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+	    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+	    s[8] = s[13] = s[18] = s[23] = "-";
+	 
+	    var uuid = s.join("");
+	    return uuid;
+	}
+    </script>
+</body>
+</html>

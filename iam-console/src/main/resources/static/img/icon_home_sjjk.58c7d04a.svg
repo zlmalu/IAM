@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon_home_sjjk</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="p1首页-系统概览" transform="translate(-1097.000000, -434.000000)">
+            <g id="用户分布备份-3" transform="translate(835.000000, 405.000000)">
+                <g id="icon_home_sjjk" transform="translate(262.000000, 29.000000)">
+                    <rect id="矩形" fill="#FF7D4A" x="0" y="0" width="60" height="60" rx="24"></rect>
+                    <g id="icon/icon_sjjk" transform="translate(17.500000, 17.500000)">
+                        <g id="icon_sjjk" transform="translate(2.083333, 2.083333)">
+                            <rect id="矩形" stroke="#FFFFFF" stroke-width="1.66666667" x="0.833333333" y="0.833333333" width="19.1666667" height="19.1666667" rx="1.66666667"></rect>
+                            <path d="M15.8333333,5 L5,5 L5,13.0555163 L7.77672554,13.0552549 L7.77699995,13.8883922 L7.77764054,15.8333333 L13.0555163,15.8333333 L13.0552549,13.0552549 L13.8887451,13.0553333 L15.8333333,13.0555163 L15.8333333,5 Z" id="形状结合" stroke="#FFFFFF" stroke-width="1.66666667"></path>
+                            <rect id="矩形" fill="#FFFFFF" x="7.63888889" y="5.55555556" width="1.38888889" height="4.16666667"></rect>
+                            <rect id="矩形备份-8" fill="#FFFFFF" x="11.8055556" y="5.55555556" width="1.38888889" height="4.16666667"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

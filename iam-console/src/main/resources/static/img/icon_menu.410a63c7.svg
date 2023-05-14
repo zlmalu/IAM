@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_menu</title>
+    <desc>Created with Sketch.</desc>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/icon_menu">
+            <g id="icon_menu">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="20" height="20"></rect>
+                <rect id="矩形" fill="#333333" x="1" y="2" width="18" height="2" rx="1"></rect>
+                <rect id="矩形备份-21" fill="#333333" x="8" y="9" width="11" height="2" rx="1"></rect>
+                <path d="M4.19337525,8.04006287 L6.63627767,11.7044165 C6.89157138,12.0873571 6.78809316,12.6047482 6.40515259,12.8600419 C6.26826299,12.9513016 6.10742324,13 5.94290242,13 L1.05709758,13 C0.596860285,13 0.223764243,12.626904 0.223764243,12.1666667 C0.223764243,12.0021458 0.272462599,11.8413061 0.363722331,11.7044165 L2.80662475,8.04006287 C3.06191847,7.65712229 3.57930959,7.55364407 3.96225016,7.80893779 C4.05379374,7.86996683 4.1323462,7.9485193 4.19337525,8.04006287 Z" id="三角形" fill="#4D93FF" transform="translate(3.500000, 10.000000) rotate(-90.000000) translate(-3.500000, -10.000000) "></path>
+                <rect id="矩形备份-22" fill="#333333" x="1" y="16" width="18" height="2" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" href="./css/login.css">
+<link rel="icon" type="image/png" sizes="" href="./images/login/titleLogoxl.png" />
+<script>
+    var url = window.location.href;
+    if(url.indexOf("/portal/login.html")==-1){
+	   location.href="/portal/login.html";
+    }
+   </script>
+</head>
+<body>
+	<input type="hidden" id="pwdFlag" th:value="${pwdFlag}"
+		readonly="readonly" />
+	<input type="hidden" id="qrFlag" th:value="${qrFlag}"
+		readonly="readonly" />
+	<input type="hidden" id="qywxFlag" th:value="${qywxFlag}"
+		readonly="readonly" />
+	<input type="hidden" id="ddFlag" th:value="${ddFlag}"
+		readonly="readonly" />
+	<input type="hidden" id="smsFlag" th:value="${smsFlag}"
+		readonly="readonly" />
+	<input type="hidden" id="optFlag" th:value="${optFlag}"
+		readonly="readonly" />
+	<input type="hidden" id="client_id" th:value="${client_id}"
+		readonly="readonly" />
+	<input type="hidden" id="QYWX_APPID" th:value="${QYWX_APPID}"
+		readonly="readonly" />
+	<input type="hidden" id="redirectUri" th:value="${redirectUri}"
+		readonly="readonly" />
+	<input type="hidden" id="QYWX_SCA_APP_AGENTID"
+		th:value="${QYWX_SCA_APP_AGENTID}" readonly="readonly" />
+	<input type="hidden" id="QYWX_SCA_APP_KEY"
+		th:value="${QYWX_SCA_APP_KEY}" readonly="readonly" />
+	<input type="hidden" id="QYWX_SCA_REDIRECT_URI"
+		th:value="${QYWX_SCA_REDIRECT_URI}" readonly="readonly" />
+	<input type="hidden" id="DINGDING_APPID" th:value="${DINGDING_APPID}"
+		readonly="readonly" />
+	<input type="hidden" id="DINGDING_SCA_REDIRECT_URI"
+		th:value="${DINGDING_SCA_REDIRECT_URI}" readonly="readonly" />
+	<!-- <div class="bg" style="background:#EFF7FF;">
+    	<div style="float:right;margin-right: 20px">
+		    <a class="btn btn-sm" style="font-size: 15px;" onclick="saveCookie(0)" th:href="@{/portal/login.html}">中文</a>
+			<a class="btn btn-sm" style="font-size: 15px;" onclick="saveCookie(1)" th:href="@{/portal/login.html}">English</a>
+		</div>     
+    </div> -->
+	<img src="./images/login/img_sign_bg.jpg" width="100%" height="100%" alt="">
+	
+	<div class="logo">
+		<img src="./images/login/logo_1.png" width="183" height="89" alt="">
+	</div>
+	<div class="login">
+		<img src="./images/login/img_qrcode.png" width="68" height="68" style="display: none"  alt="">
+		<form role="form" id="1001LoginForm1" class="ip-input">
+
+			<h3 id="ip2" style="cursor:pointer;">帐号登录</h3>
+
+			<h3 id="info2" style="cursor:pointer;">短信登录</h3>
+
+			<div class="input_div">
+				<input type="text" id="txt_username"
+					th:placeholder="#{login.account}" autocomplete="off"> <img
+					src="./images/login/icon_user.png" width="20" height="20" alt="">
+			</div>
+			<div class="input_div input_margin">
+				<input type="password" id="txt_password"
+					th:placeholder="#{login.password}" autocomplete="off"> <img
+					src="./images/login/icon_prassword.png" width="20" height="20" alt="">
+			</div>
+			<a href="./resetPassword.html" th:text="#{login.forgetPassword}">忘记密码</a>
+			<button type="button" id="btn">登录</button>
+		</form>
+
+		<!-- <form role="form" id="1001LoginForm">
+			<div class="form-group">
+				<input type="text" id="txt_username" name="title"
+					class="form-control" th:placeholder="#{login.account}" autocomplete="off" />
+				<input type="password" id="txt_password" name="title" class="form-control"
+					th:placeholder="#{login.password}" autocomplete="off" />
+			</div>
+			<input type="button" class="form-control" id="btn"
+				th:value="#{login.login}">
+			<div class="check">
+				<a href="./resetPassword.html" th:text="#{login.forgetPassword}">忘记密码</a>
+			</div>
+		</form> -->
+
+
+		<form role="form" id="1001LoginForm2" class="info-input" style="display: none">
+
+			<h3 id="ip" style="cursor:pointer;">帐号登录</h3>
+			<h3 id="info" style="cursor:pointer;">短信登录</h3>
+			<div class="input_div">
+				<input type="text" id="mobile" th:placeholder="#{login.phone}" autocomplete="off">
+				<img src="./images/login/icon_mobile.png" width="20" height="20" alt="">
+			</div>
+			<div class="input_div input_margin" >
+				<input type="text" id="vcode" th:placeholder="#{login.code}" autocomplete="off" style="width: 49%; display: inline-block" /> 
+				<img src="./images/login/icon_verificationcode.png" width="20" height="20" alt="">
+				<input type="button" id="yzm" th:value="#{login.sendCode}" autocomplete="off" />
+			</div>
+			<a href="./resetPassword.html" th:text="#{login.forgetPassword}">忘记密码</a>
+			<button type="button" id="btntwo">登录</button>
+		</form>
+
+		<div class="code" id="code" style="display: none">
+			<div id="qywxlogin"></div>
+			<div id="ddlogin"></div>
+		</div>
+
+		<div class="loginFoot">
+			<p th:text="#{login.loginMode}">或使用以下账号直接登录</p>
+			<ul>
+				<li th:if="${qywxFlag}" onclick="loginModeQacode(1)"><img src="./images/login/icon_qiwx.png" style="width: 32px;height: 32px;" alt=""></li>
+				<li><img th:if="${ddFlag}" onclick="loginModeQacode(2)" src="./images/login/icon_dd.png" alt="" style="width: 32px;height: 32px;"></li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:if="${qywxFlag}" id="qywxJs" src="http://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js"></script>
+	<script type="text/javascript" th:if="${ddFlag}" id="ddJs" src="http://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/cookie.js"></script>
+	<script type="text/javascript" src="./js/jquery.qrcode.min.js"></script>
+	<script type="text/javascript" src="./js/login.js"></script>
+	<script>   
+	   $(document).ready(function(){
+	  	 var qywxFlag=$("#qywxFlag").val();
+	  	 var ddFlag=$("#ddFlag").val();
+	  	 var optFlag=$("#optFlag").val();
+	  	 var smsFlag=$("#smsFlag").val();
+	  	 var optFlag=$("#optFlag").val();
+	  	 var qrFlag=$("#qrFlag").val();
+	  	 var pwdFlag=$("#pwdFlag").val();
+	  	
+	  	 if(qywxFlag=="true"){
+	  		var script = document.createElement('script');
+	  		script.type = 'text/javascript';
+	  		script.src = 'http://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js'; 
+	  		document.getElementsByTagName('head')[0].appendChild(script);
+	  	 }else{
+	  		 $("#qywxIco").remove();
+	  	 }
+	  	 if(ddFlag=="true"){
+	  		var script = document.createElement('script');
+	  		script.type = 'text/javascript';
+	  		script.src = 'http://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js'; 
+	  		document.getElementsByTagName('head')[0].appendChild(script);
+	  	 }else{
+	  		 $("#ddIco").remove(); 
+	  	 }
+	  	 
+	  	 if(optFlag=="false"){
+	  		 $("#optIco").remove(); 
+	  	 }
+	  	 
+	  	 if(smsFlag=="false"){
+	  		 $("#info").html(""); 
+	  	 }
+	  	 if(pwdFlag=="false"){
+	  		 $("#btn").attr('disabled',true);
+	  		 $("#btn").html("登录（已禁用）"); 
+	  		 $('#txt_password').unbind('keyup');
+	  	 }
+	  	 if(qrFlag=="false"){
+	  		 $("#appIco").remove(); 
+	  	 }
+	   });
+	 
+     //普通登录   密码框后回车提交
+   	$('#txt_password').bind('keyup', function(event) {
+   	　　if (event.keyCode == "13") {
+   	　　　　//回车执行查询
+   	　　　　$('#btn').click();
+   	　　}
+   	});
+    
+    //短信验证码框输入后回车提交
+   	$('#vcode').bind('keyup', function(event) {
+   	　　if (event.keyCode == "13") {
+   	　　　　//回车执行查询
+   	　　　　$('#btntwo').click();
+   	　　}
+   	});
+    //动态口令框输入后回车提交
+   	$('#tvcode').bind('keyup', function(event) {
+   	　　if (event.keyCode == "13") {
+   	　　　　//回车执行查询
+   	　　　　$('#threetwo').click();
+   	　　}
+   	});
+   //MAM账号框输入后回车提交
+   	$('#tvcode').bind('keyup', function(event) {
+   	　　if (event.keyCode == "13") {
+   	　　　　//回车执行查询
+   	　　　　$('#threeThree').click();
+   	　　}
+   	});
+
+   function loginModeQacode(loginType) {
+	   if (loginType == 1) {
+		   qywxLogin();
+	   }
+	   if (loginType == 2) {
+		   ddLogin();
+	   }
+	   $('.loginFoot').css('display','none');
+   }
+   	</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+html,
+body {
+    background: #EFF0F4;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: PingFangSC-Regular, PingFang SC;
+    color: #333333;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.bgBox {
+    border-radius: 10px;
+    background: #fff;
+    height: 100%;
+}
+
+.txtBox,
+.imgBox {
+    height: 100%;
+    display: inline-block;
+    position: relative;
+}
+
+.txtBox {
+    width: 62%;
+    float: left;
+}
+
+.imgBox {
+    width: 38%;
+    float: right;
+}
+
+.txtBox .content,
+.imgBox img {
+    width: 360px;
+    height: 360px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -180px;
+    margin-top: -180px;
+}
+
+.txtBox .bigWidth {
+    width: 400px;
+}
+
+.txtBox .smsBox {
+    margin-top: -230px;
+}
+
+.txtBox .phoneCode {
+    margin-top: -100px;
+}
+
+.txtBox .discernBox {
+    margin-top: -150px;
+}
+
+.imgBox img {
+    left: 0;
+    margin-left: 0%;
+}
+
+.imgBox .codeImg {
+    position: absolute;
+    width: 195px;
+    height: 195px;
+    left: 80px;
+    top: 50%;
+    margin-top: -98px;
+}
+
+.content h2 {
+    font-size: 24px;
+    line-height: 33px;
+    font-weight: 400;
+    margin-top: 53px;
+}
+
+.content p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.content input {
+    background: #F6F8F9;
+    outline-style: none;
+    border: 1px solid #F6F8F9;
+    border-radius: 4px;
+    font-size: 19px;
+    margin-top: 26px;
+}
+
+.content .allInput {
+    height: 36px;
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.content .inputBox input {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.content button {
+    width: 160px;
+    height: 40px;
+    color: #fff;
+    background: #4D93FF;
+    font-size: 14px;
+    line-height: 20px;
+    outline: none;
+    border: 1px solid #4D93FF;
+    border-radius: 19px;
+    margin-top: 80px;
+}
+
+.content .smsInputs {
+    margin-top: 50px;
+    position: relative;
+}
+
+.content .smsInputs input {
+    margin-top: 0;
+}
+
+.content .smsInputs p {
+    margin: 10px 0;
+}
+
+.content .smsInputs .VcodeBtn {
+    font-size: 14px;
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+    cursor: pointer;
+}

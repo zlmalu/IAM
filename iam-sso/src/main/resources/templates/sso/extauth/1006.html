@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统一身份认证系统</title>
+    <link rel="stylesheet" href="/sso/static/css/public.css">
+</head>
+<body>
+ 	<input type="hidden"  id="accountId"  readonly="readonly" />
+ 	<input type="hidden"  id="redirectUri" th:value="${redirectUri}" readonly="readonly" />
+ 	<input type="hidden"  id="destSrc" th:value="${destSrc}" readonly="readonly" />
+ 	<input type="hidden"  id="client_id" th:value="${client_id}" readonly="readonly" />
+ 	<div class="bgBox clearfix">
+        <div class="txtBox">
+            <div class="content smsBox">
+                <h2>手机短信验证</h2>
+                <p>您访问的应用已开启二次认证，请输入短信验证码进行验证</p>
+                <div class="smsInputs">
+                    <p>手机号码</p>
+                    <input type="text" class="allInput" id="telephone" th:value="${telephone}" readonly="readonly" autocomplete="off">
+                    <p>短信验证码</p>
+                    <input type="text" class="allInput" id="txt_password" autocomplete="off">
+                    <button class="VcodeBtn"  id="code"  style="cursor:hand;top: 35px;right: -20px;">获取验证码</button>
+                </div>           
+                 <button id="btn" style="cursor:hand">下一步</button>
+            </div>
+        </div>
+        <div class="imgBox">
+            <img src="/sso/static/image/img_auth_message.png" alt="">
+        </div>
+    </div>
+
+   	<script type="text/javascript" src="/sso/static/js/jquery.min.js"></script>
+    <script type="text/javascript" >
+    var telephone=$("#telephone").val();
+    $('#txt_password').bind('keyup', function(event) {
+   	　　if (event.keyCode == "13") {
+   	　　　　//回车执行查询
+   	　　　　$('#btn').click();
+   	　　}
+   	});
+    var i = 60;  
+    var ajaxStatus=0;
+    var uuid;
+    function sendCode(){
+    	if(telephone!=""&&telephone.length==11){
+    		i = i - 1;  
+   			$("#code").attr('disabled',true);
+   		    $("#code").html(i+"秒后重新发送"); 
+   		    $("#code").css('background',"#c6c7ca");
+   		 	$("#code").css('border',"1px solid #afb0b1");
+    		if (i == 0) { 
+    	    	ajaxStatus=0;
+    	    	$("#code").attr('disabled',false);
+    	        $("#code").html('获取验证码'); 
+    	        $("#code").css('background',"#4D93FF");
+       		 	$("#code").css('border',"1px solid #4D93FF");
+    	        flag = 1;  
+    	        i = 60;  
+    	        return;  
+    	    }
+    		if(ajaxStatus==0){
+    			ajaxStatus=1;
+	    		uuid=getUuid();
+	    		$.ajax({
+	    			url:'/portal/sendvCode2.action?'+Math.random(),
+		    		dataType:'json',
+		    		data:{
+						mobile:telephone,
+						uuid:uuid
+					},
+		    		type:'POST',
+		    		success:function(data){
+						if(data.code==0){
+							$("#accountId").val(data.accountId);
+							alert('验证码已发送') 
+						}else{
+							alert(data.msg)
+						}
+		    		},
+		    		error:function(data){
+		    			alert("二次认证异常");
+		    			$("#btn").html("下一步");
+		    			$("#btn").attr('disabled',false);
+		    		}
+		    	});
+    		}
+    	    setTimeout('sendCode()',1000);  
+    	}else{
+    		alert('手机号格式不正确');
+    	}
+    }
+    $(document).ready(function(){  
+    	$('#code').click(function () {
+    		sendCode()
+    	});
+    	$('#btn').click(function () {
+    		$("#btn").attr('disabled',true);
+    		$("#btn").html("处理中...");
+    		var password=$("#txt_password").val();
+    		if(password==""){
+    			alert('请输入短信验证码!');
+    			$("#txt_password").focus();
+    			$("#btn").attr('disabled',false);
+    			$("#btn").html("下一步");
+    		}else{
+    			var newsaccountId=$("#accountId").val();
+    	    	setTimeout(function (){
+    	    		var redirectUri=$("#redirectUri").val();
+    	    		var redirectUri=$("#redirectUri").val();
+    	    		$.ajax({
+    					url:'/portal/cheackCode1.action?'+Math.random(),
+    					data:{
+    						code:password,
+    						global:uuid
+    					},
+    					type:'POST',
+    					success:function(data){
+    						data=eval('('+data+')'); 
+    						if(data.code==0){
+    				    		$.ajax({
+    					    		url:'/authModule/extAuthenticate?'+Math.random(),
+    					    		dataType:'json',
+    					    		data:{"username":newsaccountId,"password":uuid,"reamId":"1006",destSrc:$("#destSrc").val()},
+    					    		type:'POST',
+    					    		success:function(data){
+    					    			if(data.code=='100000001'){
+    					    				location.href=redirectUri;
+    					    			}else{
+    					    				alert(data.msg)
+    					    			}
+    					    			$("#accountId").val("")
+    					    			$("#btn").attr('disabled',false);
+    					    			$("#btn").html("下一步");
+    					    		},
+    					    		error:function(data){
+    					    			alert("发送异常")
+    					    			$("#btn").attr('disabled',false);
+    					    			$("#btn").html("下一步");
+    					    		}
+    				    		 });
+    						}else{
+    							alert(data.msg)
+    							$("#btn").attr('disabled',false);
+    			    			$("#btn").html("下一步");
+    						}
+    					},error:function(data){
+    						alert("发送异常")
+    						$("#btn").attr('disabled',false);
+    		    			$("#btn").html("下一步");
+    		    		}
+    			    });
+    	    	}, 500);
+    		}
+    	});
+    	 
+    });  
+
+    
+    function getUuid() {
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "-";
+     
+        var uuid = s.join("");
+        return uuid;
+    }
+    </script>
+</body>
+</html>

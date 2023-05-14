@@ -1,0 +1,175 @@
+
+body, html {
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: PingFang-SC-Medium, PingFang-SC,微软雅黑;
+    background: #F7F7F7;
+    color: #333333;
+}
+
+input:focus,
+select:focus {
+    box-shadow: 0px 0px 4px 0px rgba(66, 133, 244, 0.4) !important;
+    border-radius: 4px !important;
+    border: 1px solid #4285F4 !important;
+}
+
+p, h3, ul, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+ul > li {
+    list-style: none;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+}
+
+.headerTips {
+    height: 52px;
+    line-height: 52px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.infoContent {
+    background: #FFFFFF;
+    border-radius: 4px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding-top: 10px;
+}
+
+.headerInfo {
+    border-bottom: 1px solid #EBEDEF;
+    height: 128px;
+    line-height: 128px;
+    padding-left: 40px;
+}
+
+.headerInfo > img {
+    height: 80px;
+    width: 80px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+.opacityBg{
+    background: rgba(0,0,0,0.3);
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    top: 26px;
+    border-radius: 50%;
+    left: 40px;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 80px;
+    display: none;
+    cursor: pointer;
+}
+.headerInfo:hover .opacityBg{
+    display: block;
+}
+
+.formTitle {
+    padding: 24px 0 44px 0;
+}
+
+.formTitle > span {
+    font-size: 18px;
+    padding-left: 40px;
+}
+
+.formTitle > img {
+    width: 2px;
+    margin-top: -5px;
+}
+
+.form-inline {
+    padding: 0 40px;
+    overflow: hidden;
+}
+@media screen and (max-width: 550px) {
+    .formGroup .form-group {
+        margin-bottom: 16px;
+    }
+}
+@media screen and (min-width: 550px) {
+    .formGroup .form-group {
+        width: 50%;
+        float: left;
+        margin-bottom: 16px;
+    }
+}
+
+
+.form-group > p {
+    color: #595959;
+    margin-bottom: 8px;
+}
+
+.formGroup .form-group .form-control {
+    width: 85%;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    border: 1px solid #E5E5E5;
+    box-shadow: none;
+    padding: 0 0 0 16px;
+}
+
+.formGroup .btn {
+    width: 100px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    outline: none !important;
+    box-shadow: none;
+    padding: 0;
+}
+
+.save, .save:hover, .save:focus {
+    background: #4285F4;
+    color: #FFFFFF;
+    border: 1px solid #4285F4;
+    margin-right: 24px;
+}
+
+.eit {
+    background: #ffffff;
+    color: #333333;
+    border: 1px solid #E5E5E5;
+}
+@media screen and (max-width: 550px) {
+    .btnGroup {
+        padding: 24px 0px 24px 30px;
+    }
+}
+@media screen and (min-width: 550px) {
+    .btnGroup {
+        padding: 24px 40px 40px 40px;
+    }
+}
+
+.foot>p{
+    color: #999999;
+    text-align: center;
+    height: 68px;
+    line-height: 68px;
+}
+@media screen and (max-width: 550px) {
+    .infoC {
+        height: 800px;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 550px) {
+    .infoC {
+        height: 600px;
+        width: 1023px;
+    }
+}

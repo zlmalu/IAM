@@ -1,0 +1,71 @@
+server:
+  port: 8882
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 3
+    prefer-ip-address: true 
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}:@project.version@
+  client:
+    service-url:
+      defaultZone: ${client.service.url}
+zuul: 
+  semaphore:
+    max-semaphores: 5000
+  host:
+    maxPerRouteConnections: 5000
+    maxTotalConnections: 5000
+  routes: 
+    auth: 
+      path: /authModule/**
+      serviceId: sense-auth
+      sensitiveHeaders: 
+      
+    sso: 
+      path: /sso/**
+      serviceId: sense-sso
+      sensitiveHeaders: 
+      
+    console: 
+      path: /console/**
+      serviceId: sense-console
+      sensitiveHeaders: 
+      
+    api: 
+      path: /api/**
+      serviceId: sense-api
+      sensitiveHeaders: 
+    
+    portal: 
+      path: /portal/**
+      serviceId: sense-portal
+      sensitiveHeaders:   
+
+#负载均衡
+ribbon:
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  ConnectTimeout: 300000
+  ReadTimeout: 300000
+      
+#熔断机制
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1200000    
+management:
+  server:
+    port: 8818
+  security:
+    enabled: false
+  endpoints:
+    web:
+      base-path:/manage
+    enabled-by-default: false
+spring:
+  application:
+    name: sense-gateway  

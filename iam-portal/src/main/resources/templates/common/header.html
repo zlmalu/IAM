@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- header template begins here -->
+<div th:fragment="header" class="header publicBgColor">
+    <div class="headerContent">
+        <div class="logo">
+            <img src="./image/showImage/logo/1" width="170" height="44" alt="">
+        </div>
+        <div class="dropdown" id="users">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                <i class="layui-icon layui-icon-username"  style="font-size: 14px;"></i>
+                &nbsp;<span th:text="${username}">郑舒然</span>
+                <i class="layui-icon layui-icon-down" style="font-size: 12px;"></i>
+            </a>
+            <ul class="dropdown-menu" >
+                <li><a href="javascript:"><i class="layui-icon layui-icon-username"></i><span th:text="#{main.user.center}">个人中心</span></a></li>
+                <li><a href="javascript:"><i class="layui-icon layui-icon-vercode"></i><span th:text="#{main.accountEntrusted}">帐号委托</span></a></li>
+                <li><a href="javascript:"><i class="layui-icon layui-icon-logout"></i><span th:text="#{main.dropOut}">退出登录</span></a></li>
+            </ul>
+        </div>
+        <div class="dropdown dropdown-themes"  th:if="${isUserEnable}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                <i class="layui-icon layui-icon-theme"  style="font-size: 14px;"></i>&nbsp;
+                <span th:text="#{main.themeChang}">主题切换</span>
+                <i class="layui-icon layui-icon-down" style="font-size: 12px;"></i>
+            </a>
+            <ul class="dropdown-menu" id="themes" >
+                <li th:each="m,userStat:${THEME_ELEMENT}" th:name="${m.id}"><a href="javascript:"><span th:text="${m.name}">默认主题</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        //强制修改  =2提醒   0正常
+        var forceUpdatePwd=[[${valistatus}]]
+        var pwdday=[[${expday}]]
+        var pwdInconform1= [[#{main.pwdPrompt1}]]
+        var pwdInconform2= [[#{main.pwdPrompt2}]]
+        $(document).ready(function (){
+            if(forceUpdatePwd==1) {
+                $('#menuFrame').attr('src', ' ./user/forceUpdatePwd.html');
+            }else{
+                $('#menuFrame').attr('src', ' ./app/main.html');
+            }
+            setIframeHeight()
+
+            if(forceUpdatePwd==2){
+                alert(pwdInconform1+pwdday+pwdInconform2)
+            }
+        });
+
+
+        $('#themes>li').on('click',function (e){
+            var themeName=$(this).attr("name");
+            $.ajax({
+                url:'./changeTheme?themeName='+themeName+'&r='+Math.random(),
+                dataType:'json',
+                data:{},
+                type:'GET',
+                success:function(data){
+                   console.log(data);
+                   location.reload();
+                },
+                error:function(data){}
+            });
+        });
+       	 $('#users li:nth-child(1)').click(function () {
+             if(forceUpdatePwd==1){
+                 $('#menuFrame').attr('src','./user/forceUpdatePwd.html');
+             }else {
+                 $('#menuFrame').attr('src', './user/main.html');
+             }
+         });
+         $('#users li:nth-child(2)').click(function () {
+        	 if(forceUpdatePwd==1){
+                 $('#menuFrame').attr('src','./user/forceUpdatePwd.html');
+             }else {
+   	           window.open('./accountEntrusted/userAccountInfo.html?'+Math.random());
+             }
+         });
+        $('#users li:nth-child(3)').click(function () {
+            /* if(confirm([[#{main.determinesExitSystem}]])){
+                location.href='/portal/sso/logout.html';
+            } */
+            layer.confirm([[#{main.determinesExitSystem}]], function(index){
+            	  layer.close(index);
+            	  location.href='/portal/sso/logout.html';
+            	});
+        });
+
+        function setIframeHeight() {
+            var iframe = document.getElementById('menuFrame');
+            // 获取子页面的高度
+            var height = window.frames["menuFrame"].document.getElementsByTagName("body")[0].clientHeight;
+            if (iframe) {
+                if (undefined != iframe.ownerDocument
+                    && undefined != iframe.ownerDocument.body.offsetHeight) {
+                    iframe.height = height+50;
+                }
+            }
+        }
+    </script>
+</div>
+
+</body>

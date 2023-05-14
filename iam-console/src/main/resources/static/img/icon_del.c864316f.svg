@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon/icon_del</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/icon_del" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon_del" transform="translate(6.000000, 6.000000) rotate(-180.000000) translate(-6.000000, -6.000000) ">
+            <rect id="矩形" fill="#333333" x="3" y="10" width="6" height="2" rx="1"></rect>
+            <path d="M2,8 L10,8 L10,1 L2,1 L2,8 Z" id="矩形" stroke="#333333" stroke-width="2"></path>
+        </g>
+        <rect id="矩形" fill="#333333" x="0" y="3" width="12" height="2" rx="1"></rect>
+        <rect id="矩形" fill="#4D93FF" x="5" y="6" width="2" height="3" rx="1"></rect>
+    </g>
+</svg>

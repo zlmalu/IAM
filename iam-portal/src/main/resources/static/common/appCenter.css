@@ -1,0 +1,328 @@
+
+body, html {
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    background: #F7F7F7;
+    font-family: PingFang-SC-Medium, PingFang-SC,微软雅黑;
+    color: #333333;
+    margin-top: 12px;
+}
+
+p, h3, ul, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+
+a, a:hover, a:focus {
+    text-decoration: none;
+}
+
+.tips {
+    height: 52px;
+    line-height: 52px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tips > a {
+    float: right;
+    color: #333333;
+}
+.infoContent{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.notice {
+    width: 24%;
+    margin-right: 2%;
+    display: none;
+}
+
+
+.app {
+    width: 904px;
+    margin-right: 20px;
+}
+@media screen and (max-width: 550px) {
+    .userInfo {
+        display: none;
+    }
+}
+@media screen and (min-width: 550px) {
+    .userInfo {
+        width: 276px;
+    }
+}
+
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 550px) {
+    .content > div {
+        background: #ffffff;
+        border-radius: 4px;
+        float: left;
+        height: 560px;
+        overflow: scroll;
+    }
+}
+@media screen and (min-width: 550px) {
+    .content > div {
+        background: #ffffff;
+        border-radius: 4px;
+        float: left;
+        min-height: 560px;
+    }
+}
+
+.publicTitle {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 24px;
+}
+
+.icon > span {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+.icon > a {
+    float: right;
+    font-size: 14px;
+    font-weight: 400;
+    color: #505050;
+}
+
+#myTab {
+    height: 40px;
+    line-height: 40px;
+    background: #F7F7F7;
+    border: none;
+}
+
+.nav-tabs > li > a,
+.nav-tabs > li > a:hover {
+    background: #F7F7F7;
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #999999;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    border: none;
+    background: #F7F7F7;
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    color: #0B86F1;
+}
+
+.nav-tabs > li.active > a > span {
+    border-bottom: 2px solid #0B86F1;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+}
+
+.nav-tabs > li {
+    width: 50%;
+}
+
+.nav-tabs > li:first-child {
+    text-align: center;
+}
+
+.nav-tabs > li:last-child {
+    text-align: left;
+}
+
+.tab-content > .tab-pane ul {
+    padding: 0;
+    margin-top: 16px;
+    width: 100%;
+}
+
+.tab-content > .tab-pane ul > li > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
+    color: #595959;
+}
+
+.tab-content > .tab-pane ul > li > span {
+    color: #797979;
+}
+
+.tab-content > .tab-pane ul > li {
+    width: 100%;
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 24px 8px 36px;
+    position: relative;
+}
+
+.tab-content > .tab-pane ul > li:hover {
+    background: #F7F7F7;
+}
+
+.tab-content > .tab-pane ul > li:hover p {
+    color: #4285F4;
+}
+
+.app .publicTitle > .icon {
+    border-bottom: 1px solid #EBEDEF;
+}
+
+@media screen and (max-width: 550px) {
+    .appList > ul > li {
+        list-style: none;
+        float: left;
+        text-align: center;
+        width: 75px;
+        height: 75px;
+        border-radius: 8px;
+        padding-top: 0px;
+        /*margin-right: 16px;*/
+        margin-bottom: 0px;
+    }
+}
+@media screen and (min-width: 550px) {
+    .appList > ul > li {
+        list-style: none;
+        float: left;
+        text-align: center;
+        width: 120px;
+        height: 126px;
+        border-radius: 8px;
+        padding-top: 16px;
+        margin-right: 16px;
+        margin-bottom: 10px;
+    }
+}
+
+.appList > ul > li:hover {
+    background: #F7F7F7;
+    position: relative;
+    top: -10px;
+}
+
+
+@media screen and (max-width: 550px) {
+    .appList > ul > li > img {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 10px;
+    }
+}
+@media screen and (min-width: 550px) {
+    .appList > ul > li > img {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 10px;
+    }
+}
+
+.appList {
+    padding-top: 16px;
+    overflow: hidden;
+    padding-left: 24px;
+}
+
+
+
+.userBg > a {
+    width: 60px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    display: inline-block;
+    text-align: center;
+    line-height: 24px;
+    font-size: 12px;
+    color: #FFFFFF;
+    position: absolute;
+    top: 15px;
+    right: 14px;
+}
+
+.userBg > a > img {
+    margin-top: -3px;
+    margin-right: 4px;
+}
+
+.userContent {
+    position: absolute;
+    top: 33px;
+    width: 100%;
+    padding: 0 40px;
+    text-align: center;
+}
+
+.heade > p {
+    font-size: 16px;
+    color: #333333;
+    margin-top: 10px;
+}
+
+.userContent > ul {
+    list-style: none;
+    text-align: left;
+    border-top: 1px solid #F7F7F7;
+    margin: 24px 0 0 0;
+    padding-top: 24px;
+}
+
+.userContent > ul h4 {
+    color: #999999;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.userContent > ul > li {
+    margin-bottom: 24px;
+}
+.listStyle{
+    width: 4px;
+    height: 4px;
+    background: #C3C3C3;
+    border-radius: 2px;
+    display: block;
+    position: absolute;
+    left: 24px;
+    top: 16px;
+}
+.foot>p{
+    color: #999999;
+    text-align: center;
+    height: 68px;
+    line-height: 68px;
+}
+
+@media screen and (max-width: 550px) {
+    .app {
+        width: 95%;
+    }
+}
+@media screen and (min-width: 550px) {
+    .app {
+        width: 75%;
+        height: 600px;
+    }
+}

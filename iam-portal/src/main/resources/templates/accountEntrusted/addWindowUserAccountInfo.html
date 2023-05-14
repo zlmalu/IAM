@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" style="overflow: hidden">
+<head>
+<meta charset="UTF-8">
+<title>新建委托</title>
+<link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.i18n.properties.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+
+<style>
+.searchtext{
+	float: left;
+    margin-right: 1%;
+    width: 75%;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 5px;
+    border-radius: 4px;
+    border: 1px solid #e2dfdf;
+}
+.addBtn{
+    float: right;
+    margin-right: 1%;
+    width: 80px;
+    border-color: #e29b7a !important;
+    background-color: #d2845a !important;
+}
+.layui-transfer-data li {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 10px;
+    width: 100%;
+}
+.layui-transfer-data {
+    padding: 5px 0;
+    overflow-x: hidden;
+}
+.formBase{
+	width: 100%;
+}
+.formBase li{
+	float: left;
+    width: 100%;
+    line-height: 35px;
+    min-height: 35px;
+    margin-bottom: 10px;
+}
+.formBase li div{
+	float:left;
+	width: 100px;
+	text-align: right;
+}
+</style>
+</head>
+
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" id="bds" style="display: none">
+	<div class="modal-body" style="width: 100%; padding: 5px;min-height: 1000px;">
+		<ul class="formBase">
+    	<li>
+    		<div style="width: 130px" th:text="委托帐号："> 委托帐号：</div>
+	    	<select class="searchtext" id="accountIds"></select>
+    	</li>
+    	<li>
+    		<div  style="width: 130px" th:text="代理人：">代理人：</div><textarea style="height:80px;background-color: #efeded;color: #6d6b6b;" class="searchtext" readonly="readonly"  id="dlrUsers"></textarea>
+    		<span><a href="javascript:openAddWindowUser();" style="color: #337ab7;" th:text="选择">选择</a></span></li>
+    	<li>
+    		<div  style="width: 130px" th:text="代理开始时间：">代理开始时间：</div><input type="text" autocomplete='off' class="searchtext" readonly="readonly" id="startTime" th:placeholder="代理开始时间" /> 
+    	</li>
+    	<li>
+    		<div  style="width: 130px" th:text="代理结束时间：">代理结束时间：</div><input type="text" autocomplete='off' class="searchtext" a readonly="readonly" id="endTime" th:placeholder="代理结束时间"/> 
+    	</li>
+    	<li>
+    		<div style="width: 130px;float: left;" th:text="代理须知：">代理须知：</div>
+    		<div style="width: 80%;float: left;text-align: left;">
+				<p>1、代理时间不填写默认为无限使用委托帐号。</p>
+				<p>2、填写代理时间，代理有效期内方可使用委托帐号。</p>
+				<p>3、当前时间超过大于代理结束时间后，系统自动回收代理权限。</p>
+			</div>
+    	</li>
+    	<li>
+    		<div style="width: 100%;text-align: center;position: fixed;bottom: 10px;border-top: 1px solid #ccc;padding-top: 10px;">
+    		<button  type="button" class="btn btn-primary" onclick="save()" th:text="保存">保存</button>
+    		&nbsp;&nbsp;&nbsp;
+    		<button  type="button" class="btn btn-default" onclick="parentClose()" th:text="关闭">关闭</button>
+    		</div>
+    	</li>
+    	
+	</ul>
+	</div>
+</div>
+<script type="text/javascript"  th:inline="none">
+$(document).ready(function(){  
+	$.ajax({
+		url:'../accountEntrusted/appList.action?'+Math.random(),
+		dataType:'json',
+		type:'POST',
+		success:function(data){
+			if(data.length>0){
+				flag=true;
+				$("#accountIds").html("")
+				var html="";
+				for(var i=0;i<data.length;i++){
+					html+='<option value="'+data[i].ID+'">'+data[i].NAME+'('+data[i].LOGIN_NAME+')</option>'
+				}
+				
+				$("#accountIds").html(html);
+			}
+			$("#bds").css("display","block");
+		}
+	});
+});  
+
+var layer;
+var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+layui.use(['laydate','layer'], function(){
+  var laydate = layui.laydate;
+  layer=layui.layer;
+  var now = new Date();
+  //开始时间
+  var start = laydate.render({
+      elem: '#startTime',min:now.toLocaleString(),max: '2299-6-16 23:59:59',type: 'datetime',trigger: 'click', //采用click弹出
+      done: function (value, date, endDate) {
+    	  if(date.year!=undefined){
+	          end.config.min = {
+	              year: date.year,
+	              month: date.month - 1,
+	              date: date.date,
+	              hours: date.hours,
+	              minutes: date.minutes,
+	              seconds: date.seconds
+	          }; //开始日选好后，重置结束日的最小日期
+	          end.config.value = {
+	              year: date.year,
+	              month: date.month - 1,
+	              date: date.date,
+	              hours: date.hours,
+	              minutes: date.minutes,
+	              seconds: date.seconds
+	          }; //将结束日的初始值设定为开始日
+    	  }
+          
+      }
+  });
+  //结束时间
+  var end = laydate.render({
+      elem: '#endTime',min:now.toLocaleString(),max: '2299-6-16 23:59:59',type: 'datetime',trigger: 'click', //采用click弹出
+      done: function (value, date, endDate) {
+         if(date.year!=undefined){
+	    	  start.config.max = {
+	              year: date.year,
+	              month: date.month - 1,
+	              date: date.date,
+	              hours: date.hours,
+	              minutes: date.minutes,
+	              seconds: date.seconds
+	          };//结束日选好后，重置开始日的最大日期
+         }
+      }
+  });
+
+});
+
+
+
+var cheackArray=[];
+var cheackArray1=[];
+function loadDlrUser(){
+	$("#dlrUsers").html("");
+	var html="";
+	for(var i=0;i<cheackArray.length;i++){
+		cheackArray1.push(cheackArray[i]);
+		var val=cheackArray[i].split("_");
+		html+="["+val[0]+"_"+val[1]+"]   ";
+	}
+	$("#dlrUsers").html(html)
+}
+
+function openAddWindowUser(){
+	window.open('../accountEntrusted/toOrgUserInfo.html',"选择代理人",'width='+(window.screen.availWidth-10)+',height='+(window.screen.availHeight-30)+ ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+}
+function parentClose(){
+  parent.layer.close(index); //再执行关闭   
+}
+var flag=false;
+function save(){
+	if(flag==false){
+		alert("当前暂无委托帐号，无法完成委托");
+		return;
+	}
+	var accountId=$("#accountIds").val()
+	if(cheackArray1.length==0){
+		alert("代理人至少分配一个");
+		return;
+	}else{
+		var startTime=$("#startTime").val();
+		var endTime=$("#endTime").val();
+		if(startTime==""||startTime==""){
+			if(confirm("不指定代理时间则无限期使用委托帐号，是否继续?")==false){ 
+				return;
+			}
+		}
+		
+		var userIds="";
+		for(var i=0;i<cheackArray1.length;i++){
+			var val=cheackArray1[i].split("_");
+			if(i+1==cheackArray1.length){
+				userIds+=val[2];
+			}else{
+				userIds+=val[2]+"_";
+			}
+			
+		}
+		
+		layer.load(2, {
+			shade: [0.6,'#fff'] //0.1透明度的白色背景
+		});
+		var callData={
+			accountId:accountId,
+			userIds:userIds,
+			startTime:startTime,
+			endTime:endTime,
+			userIds:userIds
+		};
+		$.ajax({
+			url:'../accountEntrusted/saveAccountUser.action?'+Math.random(),
+			dataType:'json',
+			data:callData,
+			type:'POST',
+			success:function(data){
+				layer.closeAll('loading');
+				if(data.success){
+					parent.search();//刷新父页面
+					parent.layer.close(index); //再执行关闭   
+					alert("保存成功");
+				}else{
+					alert("保存失败："+data.msg);
+				}
+			}
+		});
+	}
+}
+</script>
+</body>

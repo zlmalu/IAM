@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<input type="hidden" id="redirect_uri" th:value="${redirect_uri}">
+<input type="hidden" id="ltpaToken" th:value="${ltpaToken}">
+<input type="hidden" id="expires" th:value="${expires}">
+<input type="hidden" id="domain" th:value="${domain}">
+ <script>  
+//创建单点cookie
+var exp = new Date(); 
+exp.setTime(parseInt(document.getElementById("expires").value));
+console.log("LtpaToken="+ document.getElementById("ltpaToken").value + ";expires=" + exp.toGMTString() + ";path=/;domain="+document.getElementById("domain").value);
+ document.cookie = "LtpaToken="+ document.getElementById("ltpaToken").value + ";expires=" + document.getElementById("expires").value + ";path=/;domain="+document.getElementById("domain").value;
+ console.log("cookie已保存:"+document.getElementById("redirect_uri").value);
+window.location.href = document.getElementById("redirect_uri").value;
+</script>
+</body>	
+</html>

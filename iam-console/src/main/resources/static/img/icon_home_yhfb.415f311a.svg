@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon_home_yhfb</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="p1首页-系统概览" transform="translate(-1097.000000, -155.000000)">
+            <g id="用户分布备份" transform="translate(835.000000, 125.000000)">
+                <g id="icon_home_yhfb" transform="translate(262.000000, 30.000000)">
+                    <rect id="矩形" fill="#FF3641" x="0" y="0" width="60" height="60" rx="24"></rect>
+                    <g id="icon/icon_yhfb" transform="translate(17.500000, 17.500000)" stroke="#FFFFFF">
+                        <g id="icon_yhfb" transform="translate(1.388889, 2.777778)">
+                            <circle id="椭圆形" stroke-width="2" cx="8.22492459" cy="5.20833333" r="4.20833333"></circle>
+                            <rect id="矩形" stroke-width="2" x="1" y="12.8055556" width="13.8333333" height="5.5" rx="1.66666667"></rect>
+                            <path d="M17.3664944,12.5 L20.8307693,12.5 C21.2157164,12.5 21.5277778,12.8109134 21.5277778,13.1944444 L21.5277778,18.0555556 C21.5277778,18.4390866 21.2157164,18.75 20.8307693,18.75 L17.3611111,18.75" id="路径" stroke-width="1.66666667"></path>
+                            <path d="M13.1896044,9.25990921 C13.2540841,9.29805628 13.3197507,9.33440952 13.3865354,9.36890023 C13.9248681,9.64692 14.5358539,9.80392157 15.1835093,9.80392157 C17.3493318,9.80392157 19.1050779,8.04817549 19.1050779,5.88235294 C19.1050779,3.71653039 17.3493318,1.96078431 15.1835093,1.96078431 C14.7489598,1.96078431 14.3309184,2.03146398 13.9402541,2.16195436" id="路径" stroke-width="2"></path>
+                            <rect id="矩形" stroke-width="0.833333333" fill="#FFFFFF" x="17.7777778" y="15.1674837" width="1" height="1"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

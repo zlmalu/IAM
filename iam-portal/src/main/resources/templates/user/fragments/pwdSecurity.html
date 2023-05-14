@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>pwdSecurity</title>
+</head>
+<body>
+<!-- Login form template begins here -->
+<div th:fragment="pwdSecurity" class="infoContent infoC" >
+	<div class="formGroup" >
+		<form class="form-inline" role="form" style="margin-top: 30px;">
+			<p th:text="#{main.hint}">温馨提示：请牢记您的密保，可用于密码找回</p>
+			<h3 th:text="#{main.secretInsuranceOne}">密保一</h3>
+			<div class="form-group">
+				<label th:text="#{main.question}">问题</label>
+				<select class="form-control" id="sp_num1"></select>
+			</div>
+			<div class="form-group">
+				<label th:text="#{main.answer}">答案</label>
+				<input type="text" class="form-control"  id="t_num1" autocomplete="off" />
+			</div>
+			<h3 th:text="#{main.secretInsuranceTwo}" style="margin-top: 24px;">密保二</h3>
+			<div class="form-group">
+				<label th:text="#{main.question}">问题</label>
+				<select class="form-control" id="sp_num2"></select>
+			</div>
+			<div class="form-group">
+				<label th:text="#{main.answer}">答案</label>
+				<input type="text" class="form-control"  id="t_num2" autocomplete="off" />
+			</div>
+		</form>
+	</div>
+	<div class="btnGroup">
+		<button type="button" class="btn save" onclick="pwdSecuritybtnsave()" th:text="#{main.save}" id="pwdSecuritybtn">保存</button>
+	</div>
+	<script th:inline="javascript">
+		$(document).ready(function (){
+			initSp();
+		});
+		function pwdSecuritybtnsave(){
+			pwdSecutritylocksave();
+			//问题
+			var sp_num1=$("#sp_num1").val();
+			var sp_num2=$("#sp_num2").val();
+
+			//答案
+			var t_num1=$("#t_num1").val();
+			var t_num2=$("#t_num2").val();
+
+			if(t_num1==""){
+				alert([[#{main.pleaseEnterPasswordOne}]]);
+				$("#t_num1").focus();
+				pwdSecutrityresave();
+			}else if(t_num2==""){
+				alert([[#{main.pleaseEnterPasswordTwo}]]);
+				$("#t_num2").focus();
+				pwdSecutrityresave();
+			}else if(sp_num1==sp_num2){
+				alert([[#{main.confidentialityNotSame}]]);
+				pwdSecutrityresave();
+			}else{
+				$.ajax({
+					url:'./pwdSecuritySave.action?'+Math.random(),
+					dataType:'json',
+					data:{
+						sp_num1:sp_num1,
+						sp_num2:sp_num2,
+						t_num1:t_num1,
+						t_num2:t_num2
+					},
+					type:'POST',
+					success:function(data){
+						if(data.code==100000001){
+							alert([[#{main.success}]]);
+						}else{
+							alert([[#{main.saveError}]]);
+						}
+						pwdSecutrityresave();
+					},
+					error:function(data){
+						alert([[#{main.saveError}]]);
+						pwdSecutrityresave();
+					}
+				});
+			}
+		}
+
+		function pwdSecutrityresave(){
+			$("#pwdSecuritybtn").attr('disabled',false);
+			$("#pwdSecuritybtn").html([[#{main.save}]]);
+		}
+		function pwdSecutritylocksave(){
+			$("#pwdSecuritybtn").attr('disabled',true);
+			$("#pwdSecuritybtn").html([[#{main.processing}]]);
+		}
+		function initSp(){
+			$.ajax({
+				url:'./pwdSecurityLoad.action?'+Math.random(),
+				dataType:'json',
+				type:'POST',
+				success:function(data){
+					var html="";
+					for(var k=0;k<data.list.length;k++){
+						html+='<option value="'+data.list[k].id+'">'+data.list[k].name+'</option>';
+					}
+					$("#sp_num1").html(html);
+					$("#sp_num2").html(html);
+					for(var k=0;k<data.userlist.length;k++){
+						if(data.userlist[k].num==1){
+							$("#sp_num1").val(data.userlist[k].sp_id);
+							$("#t_num1").val(data.userlist[k].value);
+						}else if(data.userlist[k].num==2){
+							$("#sp_num2").val(data.userlist[k].sp_id);
+							$("#t_num2").val(data.userlist[k].value);
+						}
+					}
+				},
+				error:function(data){
+				}
+			});
+		}
+	</script>
+</div>
+</body>
+</html>

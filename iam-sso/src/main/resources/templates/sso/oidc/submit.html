@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<form name="oidc1Form" method="POST">
+	<input type="hidden" name="redirect_uri" th:value="${appUrl}" /> 
+	<input type="hidden" name="client_id" th:value="${client_id}" /> 
+	<input type="hidden" name="tokenId" th:value="${tokenId}" /> 
+</form>
+ <script>  
+ document.oidc1Form.action="/sso/oidc1/"+oidc1Form.client_id.value+"/authorize";
+      document.forms[0].submit();
+</script>
+</body>	
+</html>

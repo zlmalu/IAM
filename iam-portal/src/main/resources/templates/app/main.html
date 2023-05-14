@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{main.title}">应用面板</title>
+    <script src="../js/jquery.min.js"></script>
+	<script src="../layui/layui.js" charset="utf-8"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+    <link rel="stylesheet" th:href="@{${#themes.code('portal.css')}}"/>
+    <link rel="stylesheet" href="../common/bootstrap.min.css">
+    <link rel="stylesheet" href="../common/appCenter.css">
+</head>
+<body>
+<div class="content">
+    <!--应用显示-->
+    <div class="app" id="appCenter"></div>
+    <!--个人信息-->
+    <div class="userInfo">
+        <div class="userBg">
+            <div class="userBg">
+
+                <img src="../images/app/img_bg_cardtop.png" height="80" alt="">
+            </div>
+            <div class="userContent">
+                <div class="heade">
+                    <img th:src="@{../image/showImage/user/{id}(id = ${user.id})}" width="74" height="74" style="border-radius: 50%;" alt="">
+                    <p><span th:text="${user.name}">郑舒然</span></p>
+                </div>
+                <ul>
+                    <li>
+                        <h4 th:text="#{main.org}">部门</h4>
+                        <p th:text="${user.orgName}">产品部</p>
+                    </li>
+                    <li>
+                        <h4 th:text="#{main.posts}">职位</h4>
+                        <p th:text="${positionName}">产品经理</p>
+                    </li>
+                    <li>
+                        <h4 th:text="#{main.phoneNumber}">手机号码</h4>
+                        <p th:text="${user.telephone}">138 - 6666 - 8888</p>
+                    </li>
+                    <li>
+                        <h4 th:text="#{main.mailAddress}">电子邮箱</h4>
+                        <p th:text="${user.email}">examplale@xhe.com</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+var layer;
+layui.use(['layer'], function(){
+	  layer = layui.layer
+	});
+    $(document).ready(function(){
+        initApps();
+    });
+    $(function () {
+        $('#myTab li:eq(0) a').tab('show');
+    });
+    $(document).ready(function(){
+        if($('.notice').css('display')=='block'){
+            $('.app').css('width','49%')
+        }else{
+            // $('.app').css('width','75%')
+            // $('.app').css('height','600px')
+        }
+    })
+    function initApps(){
+        $.ajax({
+            url:'./load.action?'+Math.random(),
+            dataType:'json',
+            type:'POST',
+            success:function(data){
+                var html="";
+                if(data.status==0){
+                    if(data.data.length>0){
+                        for(var i=0;i<data.data.length;i++){
+                            var appType=data.data[i];
+                            html+='<div class="publicTitle"><div class="icon"><span><img src="../images/app/icon_application.png" alt=""><span>'+appType.perentName+'</span></span></div></div><div class="appList"><ul>';
+                            for(var j=0;j<appType.apps.length;j++){
+                                for(var k=0;k<appType.apps[j].accts.length;k++){
+                                    html+='<li title="'+appType.apps[j].accts[k].NAME+'" onclick=sso('+appType.apps[j].accts[k].ACCTID+')><img src="../image/viewImage?oid='+appType.apps[j].accts[k].ID+'&type=app" alt=""><p>'+appType.apps[j].accts[k].NAME+'</p>';
+                                }
+                            }
+                            html+='</ul></div>';
+                        }
+                        $("#appCenter").html(html);
+                    }else{
+                        $("#appCenter").html([[#{main.appEmpty}]]);
+                    }
+
+                }else{
+                    $("#appCenter").html([[#{main.dataError}]]);
+                }
+            },
+            error:function(data){
+                alert(data);
+                $("#appCenter").html([[#{main.dataError}]] );
+            }
+        });
+    }
+</script>
+</body>
+</html>

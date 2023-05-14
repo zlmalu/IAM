@@ -1,0 +1,268 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: PingFang-SC-Medium, PingFang-SC,微软雅黑;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #dddddd !important;
+}
+
+ul li {
+    list-style: none;
+    display: inline-block;
+}
+
+/*头部*/
+.header {
+    height: 70px;
+    line-height: 70px;
+    width: 100%;
+    background: #4482f2;
+    box-shadow: 0 4px 10px 0 rgba(196, 199, 211, 0.50);
+}
+
+.header-main {
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+}
+
+.header-logo {
+    height: 70px;
+    display: inline-block;
+}
+
+.header-info {
+    background-repeat: no-repeat;
+    background-position: left;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    padding-left: 26px;
+}
+
+.header-info > a {
+    font-size: 14px;
+    color:#ffffff;
+}
+
+.header-info > a > span {
+    color: #0377F9;
+}
+
+.title {
+    height: 63px;
+    line-height: 63px;
+    border-bottom: 1px solid #E6E6E6;
+}
+
+.title > p {
+    font-size: 18px;
+    color: #43474B;
+}
+
+/*main*/
+.stepCont {
+    width: 80%;
+    margin: 20px auto;
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px 0 rgba(196, 199, 211, 0.50);
+    border-radius: 5px;
+    behavior: url("./css/PIE.htc");
+    position: relative;
+    padding: 0 40px 80px 40px;
+}
+
+.pro {
+    width: 510px;
+    height: 61px;
+    margin: 33px auto 0 auto;
+}
+
+.proeset {
+    width: 100%;
+    height: 61px;
+    margin: 33px auto 0 auto;
+}
+
+.proIconActive {
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+    border: none;
+    background-image: url(../images/duihao.png);
+    float: left;
+}
+
+.proIcon {
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #717171;
+    border: none;
+    background-image: url(../images/o1.png);
+    float: left;
+}
+
+ul li {
+    list-style: none;
+    float: left;
+}
+
+ul > li > hr {
+    width: 187px;
+    border-top: 5px solid #F2F2F5;
+    margin-top: 15px;
+}
+
+.titles {
+    font-size: 14px;
+    color: #666666;
+    display: block;
+}
+
+.form-group {
+    width: 500px;
+    margin: 0 auto 30px auto;
+}
+
+.form-group > p {
+    font-size: 14px;
+    color: #484848;
+}
+
+.form-control {
+    display: inline-block !important;
+    width: 297px;
+    border: 1px solid #D8D8D8;
+    border-radius: 2px;
+    height: 40px;
+    box-shadow: none;
+    position: relative;
+
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #D8D8D8;
+}
+
+.form-group > p {
+    width: 92px;
+    float: left;
+    height: 40px;
+    text-align: right;
+    line-height: 40px;
+    margin: 0;
+}
+
+.tips > h5 {
+    font-size: 14px;
+    color: #6C6666;
+    margin-bottom: 15px;
+}
+
+.tips > p {
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.tips > p > span {
+    color: #484848;
+    font-weight: 600;
+}
+
+.tips > p > a {
+    color: #0377F9;
+    text-decoration: underline !important;
+}
+
+.btn {
+    background: #1F82F2!important;
+    border-radius: 2px;
+    width: 160px;
+    height: 40px;
+    font-size: 14px;
+    color: #FFFFFF!important;
+    margin-left: 92px;
+    border: none;
+    position: relative;
+}
+
+.btn:hover {
+    background: #1F82F2;
+    color: #FFFFFF;
+}
+
+.change {
+    margin: 50px auto 80px auto;
+    width: 500px;
+    height: 200px;
+}
+
+.stepNone {
+    display: none;
+}
+
+.stepActive {
+    display: block;
+}
+
+.hrActive {
+    border-top: 5px solid #1F82F2;
+}
+
+#stepThree {
+    text-align: center;
+    padding-top: 60px;
+}
+
+#stepThree > img {
+    display: inline-block;
+}
+
+#stepThree > p {
+    display: inline-block;
+    font-size: 14px;
+    color: #484848;
+}
+.phone{
+    height: 40px;
+    text-align: right;
+    line-height: 40px;
+    font-size: 14px;
+    color: #484848;
+}
+#stepTwo_mobile .form-group .infoStip{
+    background-image: url(../images/tishi.png);
+    background-position: left;
+    padding-left: 23px;
+    background-repeat: no-repeat;
+    width: 500px!important;
+    clear: both;
+    text-align: left;
+    font-size: 12px;
+    color: #999999;
+    margin-left: 92px;
+}

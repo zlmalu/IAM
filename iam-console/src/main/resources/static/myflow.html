@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link type="text/css"
+	href="./three/myflow/lib/jquery-ui-1.8.4.custom/css/smoothness/jquery-ui-1.8.4.custom.css"
+	rel="stylesheet" />
+
+<script type="text/javascript" src="./three/myflow/lib/raphael-min.js"></script>
+<script type="text/javascript"
+	src="./three/myflow/lib/jquery-ui-1.8.4.custom/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript"
+	src="./three/myflow/lib/jquery-ui-1.8.4.custom/js/jquery-ui-1.8.4.custom.min.js"></script>
+<script type="text/javascript" src="./three/myflow/myflow.js"></script>
+<script type="text/javascript" src="./three/myflow/myflow.jpdl4.js"></script>
+<script type="text/javascript" src="./three/myflow/myflow.editors.js"></script>
+<script type="text/javascript">
+    var initSN=1000001;
+    var objId=10000001;
+    function initFlow(initSeq,optId,data){
+        initSN=initSeq;
+        objId=optId;
+        $('#myflow').remove();
+        $('body').append('<div id="myflow"></div>');
+        $('#myflow').myflow(
+						{
+							basePath : "",
+							restore : data,
+							tools : {
+								save : {
+									onclick : function(result) {
+                                        $.ajax({
+											url:'/api/im/app/saveAppFuncModelDefine?'+Math.random(),
+											dataType:'json',
+											data:{"id":objId,"config":result},
+											type:'POST',
+											success:function(res){
+												if(res.code!=100000001){
+													alert("保存成功!");
+												}else{
+													alert(res.msg);
+												}
+											},
+											error:function(res){
+												alert('页面加载数据失败！');
+											}
+										});
+									}
+								}
+							}
+						});
+    }
+
+    $(function(){
+        //initFlow(10001,30000,{});
+    })
+</script>
+<style type="text/css">
+body {
+	margin: 0;
+	pading: 0;
+	text-align: left;
+	font-family: Arial, sans-serif, Helvetica, Tahoma;
+	font-size: 12px;
+	line-height: 1.5;
+	color: black;
+	background-image: url(three/myflow/img/bg.png);
+}
+
+.node {
+	width: 70px;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #fff;
+}
+
+.mover {
+	border: 1px solid #ddd;
+	background-color: #ddd;
+}
+
+.selected {
+	background-color: #ddd;
+}
+
+.state {
+	
+}
+
+#myflow_props table {
+	
+}
+
+#myflow_props th {
+	letter-spacing: 2px;
+	text-align: left;
+	padding: 6px;
+	background: #ddd;
+}
+
+#myflow_props td {
+	background: #fff;
+	padding: 6px;
+}
+
+#pointer {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#path {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#task {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#state {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+</style>
+</head>
+<body>
+    <div id="myflow_tools"
+	style="position: absolute; top: 10; left: 10; background-color: #fff; width: 70px; cursor: default; padding: 3px;"
+	class="ui-widget-content">
+<div id="myflow_tools_handle" style="text-align: center;"
+	class="ui-widget-header">工具集</div>
+
+    <div class="node" id="myflow_save"><img src="./three/myflow/img/save.gif" />&nbsp;&nbsp;保存</div>
+    <div>
+    <hr />
+    </div>
+    <div class="node selectable" id="pointer"><img
+        src="./three/myflow/img/select16.gif" />&nbsp;&nbsp;选择</div>
+    <div class="node selectable" id="path"><img
+        src="./three/myflow/img/16/flow_sequence.png" />&nbsp;&nbsp;关系</div>
+    <div>
+    <hr />
+    </div>
+    <div class="node state" id="user" type="user"><img
+        src="./three/myflow/img/16/task_empty.png" />&nbsp;&nbsp;授权对象</div>
+    <div class="node state" id="func" type="func"><img
+        src="./three/myflow/img/16/task_empty.png" />&nbsp;&nbsp;权限元素</div>
+    </div>
+
+<div id="myflow_props"
+	style="position: absolute; top: 30; right: 50; background-color: #fff; width: 220px; padding: 3px;"
+	class="ui-widget-content">
+<div id="myflow_props_handle" class="ui-widget-header">属性</div>
+<table border="1" width="100%" cellpadding="0" cellspacing="0">
+
+</table>
+<div>&nbsp;</div>
+</div>
+
+
+</body>
+</html>

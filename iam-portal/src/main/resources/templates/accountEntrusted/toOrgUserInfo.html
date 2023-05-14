@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" style="overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<title>选择代理人</title>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.i18n.properties.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+<style>
+.searchtext{
+	float: left;
+    margin-right: 1%;
+    width: 200px;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 5px;
+    border-radius: 4px;
+    border: 1px solid #e2dfdf;
+}
+.addBtn{
+    float: right;
+    margin-right: 1%;
+    width: 80px;
+    border-color: #e29b7a !important;
+    background-color: #d2845a !important;
+}
+.orgSearchtext{
+   
+    margin-left: 10px;
+    line-height: 25px;
+    height: 32px;
+    padding-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.clickS{
+	color: #5f82d4 !important;
+    font-weight: 700;
+}
+.btn{
+	display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+        margin-top: -2px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    padding: 1px;
+    width: 100%;
+    height: 100%;
+    background-color: #74a8f5; 
+}
+#isCheack a{
+   margin: 10px;
+    color: #4885e0;
+    font-weight: 700;
+}
+.cheackinfo{
+    margin: 5px 0;
+    padding: 5px 0;
+    background-color: #eaeaea;
+    min-height: 50px;
+    border-radius: 5px;
+}
+.queryBtn{
+    background-color: #ebebeb !important;
+    border: 1px solid #cecece !important;
+    color: #545454 !important;
+}
+.layui-form-checked span, .layui-form-checked:hover span {
+    background-color: #74a8f5 !important;
+}
+.layui-form-checked i, .layui-form-checked:hover i {
+    color: #74a8f5 !important;
+}
+</style>
+</head>
+
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+	<div class="modal-body" style="width: 100%; padding: 5px;min-height: 300px;">
+		<div style="float: left;width: 25%">
+		<input type="text" id="orgTreeKey" class="orgSearchtext" th:placeholder="组织名称搜索" autocomplete='off' style="width: 150px;"/>
+		<input type="button" th:value="查询" class="btn queryBtn"  onclick="loadTree()"/>
+		
+		<div id="orgTree"></div>
+		</div>
+		<div id="userInfo" style="float: right;width: 74%">
+		<p>
+		<lable th:text="工号：">工号：</lable><input type="text" id="sn" th:placeholder="工号" class="orgSearchtext" autocomplete='off'/>
+		<lable th:text="'姓名：'">姓名：</lable><input type="text" id="name" th:placeholder="姓名" class="orgSearchtext" autocomplete='off'/>
+		<lable th:text="'手机号：'">手机号：</lable><input type="text" id="mobile" th:placeholder="手机号" class="orgSearchtext" autocomplete='off'/>
+		<input type="button" th:value="查询" class="btn queryBtn" id="searchBtn"  onclick="seachUser()" />
+		<input type="button" th:value="重置" class="btn queryBtn"  onclick="reset()"/>
+		<input type="button" th:value="选择完毕" class="btn btn-primary"  style="float: right;margin-right: 10px;"  onclick="chOk()"/>
+		</p>
+		<p >
+			<span style="color: #9e9e9e;" th:text="'已选代理人：'">已选代理人：</span>
+			<p id="isCheack" class="cheackinfo"></p>
+		</p>
+		<table class="layui-hide" id="dataList" lay-filter="user_filter"></table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript"  th:inline="none">
+function chOk(){
+	if(cheackArray.length>0){
+		 if (confirm("确认是否选项完毕?")){ 
+			window.opener.cheackArray=cheackArray;
+			window.opener.loadDlrUser();
+			close();
+		 }
+	}else{
+		alert("至少选择一个代理人");
+	}
+}
+var cheackArray=[];
+var tree;
+var table;
+var orgId=0;
+layui.use(['table','tree'], function(){
+   tree = layui.tree
+	,table = layui.table
+	,form = layui.form;
+    loadTree();
+ 	//监听锁定操作
+    form.on('checkbox(lockFlter)', function(obj){
+    	if(obj.elem.checked){
+    		cheackArray.push(this.name);
+    	}else{
+    		cheackArray.remove(this.name);
+    	}
+    	$("#isCheack").html("");
+		for(var i=0;i<cheackArray.length;i++){
+			var val=cheackArray[i].split("_");
+			$("#isCheack").append("<a id='s"+val[2]+"' href=\"javascript:\">["+val[0]+"_"+val[1]+"]</a>")
+		}
+    });
+});
+
+Array.prototype.remove = function(val) { 
+	var index = this.indexOf(val); 
+	if (index > -1) { 
+		this.splice(index, 1); 
+	} 
+};
+
+
+function loadTree(){
+	layer.load(2, {
+		shade: [0.6,'#fff'] //0.1透明度的白色背景
+	});
+	orgId=0;
+	var name=$("#orgTreeKey").val();
+	$.ajax({
+		type : "post",
+		url : "../orgTreeload.action",
+		data:{
+			name:name
+		},
+		dataType : "json",
+		async : true,
+		success : function(data) {	
+			tree.render({
+			  elem: '#orgTree'
+			  ,data: data
+			  ,id: 'org' //定义索引
+			  ,click: function(node){
+				  orgId=node.data.id
+				  
+				  $(".clickS").each(function(index,item) {
+					    $(this).removeClass("clickS");
+				  });
+				  $('div [data-id="'+orgId+'"]>div>div>span').eq(1).addClass('clickS');
+				  seachUser();
+				  layer.closeAll('loading');
+			  }  
+			});
+			loadUser();
+		},
+		error : function() {
+			alert(i18n("main.requestError"));
+		}
+	});  
+}
+function loadUser(){
+	table.render({
+	    elem: '#dataList'
+	    ,url:'../userAccountInfo.action'
+	    ,cols: [[
+	      {field:'SN',align:'center', width:150,title: "工号"}
+	      ,{field:'NAME', width:120,align:'center', title: "姓名"}
+	      ,{field:'SEX',width:60,align:'center',templet: '#sexTpl',title: "性别"}
+	      ,{field:'TELEPHONE', width:120, align:'center',title: "手机号"}
+	      ,{field:'EMAIL', width:120, align:'center',title: "邮件地址"}
+	     /*  ,{field:'STATUS', width:80, align:'center',templet: '#statusTpl',title: '状态'} */
+	      ,{field:'ORG_NAME',align:'center',title: "所属部门"}
+	      ,{field:'ID', width:120, align:'center',title: "操作",templet: '#cheackTpl'}
+	    ]]
+	    ,page:true
+	    ,parseData: function(res){ //res 即为原始返回的数据
+	    	if(res.totalcount>0){
+	    		for(var i=0;i<res.dataList.length;i++){
+	    			if(cheackArray.indexOf(res.dataList[i].ORG_NAME+"_"+res.dataList[i].NAME+"_"+res.dataList[i].ID)!=-1){
+	    				res.dataList[i].CHEACK=true
+	    			}else{
+	    				res.dataList[i].CHEACK=false
+	    			}
+	    		}
+	    	}
+	    	layer.closeAll('loading');
+		    return { 
+		      "code": 0, //解析接口状态
+		      "msg": "保存成功", //解析提示文本
+		      "count": res.totalcount, //解析数据长度 
+		      "data": res.dataList //解析数据列表
+		    };
+		  }
+	  });
+}
+function seachUser(){
+	var mobile=$("#mobile").val();
+	var sn=$("#sn").val();
+	var name=$("#name").val();
+	table.reload('dataList', {
+	  url: '../userAccountInfo.action'
+	  ,where: {
+		  sn: sn,
+		  mobile: mobile,
+		  name: name,
+		  orgId:orgId
+	  },page: {
+		  curr: 1 //重新从第 1 页开始
+	  }
+	});
+}
+function reset(){
+	$("#mobile").val("");
+	$("#sn").val("");
+	$("#name").val("");
+	seachUser();
+}
+</script>
+
+<script type="text/html" id="sexTpl">
+{{#  if(d.SEX ==1){ }}
+  <span style="color: #666;" th:text="男">男</span>
+{{#  } else { }}
+<span style="color: #666;" th:text="女">女</span>
+{{#  } }}
+</script>
+ 
+<script type="text/html" id="statusTpl">
+{{#  if(d.STATUS ===1){ }}
+  <span style="color: #666;" th:text="正常">正常</span>
+{{#  } else { }}
+<span style="color: #f00;" th:text="离职">离职</span>
+{{#  } }}
+</script>
+
+<script type="text/html" id="cheackTpl">
+  <input type="checkbox" name="{{d.ORG_NAME}}_{{d.NAME}}_{{d.ID}}" id="{{d.ID}}" th:title="选择" lay-filter="lockFlter" {{ d.CHEACK == true ? 'checked' : '' }}>
+</script>
+</body>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" style="overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<title>帐号委托</title>
+<link rel="stylesheet" href="../common/login.css">
+<link rel="stylesheet" href="../common/bootstrap.min.css">
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+<script type="text/javascript" src="../layui/layui.js" charset="utf-8"></script>
+
+<style>
+.searchtext{
+    margin-right: 1%;
+    width: 200px;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 5px;
+    border-radius: 4px;
+    border: 1px solid #e2dfdf;
+}
+.addBtn{
+    float: right;
+    margin-right: 1%;
+    width: 80px;
+    border-color: #e29b7a !important;
+    background-color: #d2845a !important;
+}
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    padding: 1px;
+    width: 100%;
+    height: 100%; 
+    background-color: #74a8f5; 
+}
+</style>
+</head>
+
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" id="body" style="display: none">
+  	<ul class="layui-tab-title" style="height:45px;">
+    	<li>
+    		<lable th:text="委托帐号：">委托帐号：</lable>
+	    	<input type="text" class="searchtext" id="loginName" th:placeholder="委托帐号"/> 
+	    	<lable th:text="委托应用编码：">委托应用编码：</lable>
+	    	<input type="text" class="searchtext" id="appSn" th:placeholder="委托应用编码"/> 
+	    	<lable th:text="代理人工号：">代理人工号：</lable>
+	    	<input type="text" class="searchtext" id="userSn" th:placeholder="代理人工号"/> 
+	    	<button type="button" class="btn btn-default" id="searchBtn" onclick="search()" style="margin-top: -2px;"  th:text="查询">查询</button>
+	    	<button type="button" class="btn btn-default" id="reset" onclick="reset()" style="margin-top: -2px;"  th:text="重置">重置</button>
+	    </li>
+    	<li style="float: right;">
+    		<button type="button" class="btn btn-primary" onclick="openAddWindowUserAccountInfo()" id="btn" style="margin-top: -2px;" th:text="新建委托">新建委托</button>
+    	</li>
+	</ul>
+	<div class="modal-body" style="width: 100%; padding: 5px;">
+		<table class="layui-hide" id="dataList" lay-filter="dataList"></table>
+	</div>
+</div>
+<script type="text/javascript"  th:inline="none">
+
+	var layer;
+	var index;
+	layui.use('layer', function(){
+		layer=layui.layer;
+		index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+	});
+
+	var table;
+	layui.use('table', function(){
+	  $("#body").css("display","block");
+	  table = layui.table;
+	  table.render({
+	    elem: '#dataList'
+	    ,url:'../accountUserPage.action?'+Math.random()
+	    ,cols: [[
+	       {field:'loginName',align:'center', width:150,title: "委托帐号"}
+	      ,{field:'appSn', width:120,align:'center', title: "委托应用编码"}
+	      ,{field:'appName',minWidth:180,align:'center',title: "委托应用名称"}
+	      ,{field:'userSn', width:120, align:'center',title: "代理人工号"}
+	      ,{field:'userName', width:120,align:'center', title: "代理人姓名"}
+	      ,{field:'createTime', width:170, align:'center',title: "代理开始时间"}
+	      ,{field:'validTime', width:170, align:'center',title: "代理结束时间"}
+	      ,{width:150, align:'center',title: "操作", toolbar: '#delTemplate'}
+	    ]]
+	   ,page:true
+	   ,parseData: function(res){ //res 即为原始返回的数据
+		    return { 
+		      "code": 0, //解析接口状态
+		      "msg": "保存成功", //解析提示文本
+		      "count": res.totalcount, //解析数据长度 
+		      "data": res.dataList //解析数据列表
+		    };
+		  }
+	  });
+	  
+	//监听工具条
+	  table.on('tool(dataList)', function(obj){
+	    var data = obj.data;
+	    if(obj.event === 'del'){
+	       layer.confirm("是否移除当前委托",{title:"确认框"}, function(index){
+	    	  layer.load(2, {
+	    		 shade: [0.6,'#fff'] //0.1透明度的白色背景
+	    	  });
+	    	  var callData={
+	    		  acctId:data.acctId,
+	    		  userId:data.userId
+	    	  }
+	    	  $.ajax({
+				url:'../removeAccountUser.action?'+Math.random(),
+				dataType:'json',
+				data:callData,
+				type:'POST',
+				success:function(data){
+					var removedSuccess = "移除成功，是否重新加载列表?"
+					layer.closeAll('loading');
+					if(data.success){
+						obj.del();
+						layer.confirm(removedSuccess,{title:"确认框"}, function(index){
+							 search();
+							 layer.close(index);
+					    });
+					}else{
+						layer.msg("移除失败："+data.msg);
+					}
+				}
+			});
+	       
+	          layer.close(index);
+	       });
+	    }
+	  });
+	  
+	});
+	
+	
+	function search(){
+		var loginName=$("#loginName").val();
+		var appSn=$("#appSn").val();
+		var userSn=$("#userSn").val();
+		table.reload('dataList', {
+		   url:'../accountUserPage.action?'+Math.random()
+		  ,where: {
+			  loginName: loginName,
+			  appSn: appSn,
+			  userSn: userSn
+		  },page: {
+			  curr: 1 //重新从第 1 页开始
+		  }
+		});
+	}
+	
+	function reset(){
+		$("#loginName").val("");
+		$("#appSn").val("");
+		$("#userSn").val("");
+		search();
+	}
+	function openAddWindowUserAccountInfo(){
+		//iframe窗
+		layer.open({
+		  title: "新建委托",
+		  type: 2,
+		  shadeClose: true,
+		  shade: 0.3,
+		  area: ['70%', '90%'],
+		  content: ['../accountEntrusted/addWindowUserAccountInfo.html?'+Math.random(), 'yes'], //iframe的url，no代表不显示滚动条
+		});
+	}
+</script>
+
+<script type="text/html" id="delTemplate">
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"  th:text="删除">Delete</a>
+</script>

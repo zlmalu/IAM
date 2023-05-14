@@ -1,0 +1,29 @@
+
+<!DOCTYPE html >
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+	<meta charset="utf-8">
+  <title>多账号选择界面</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/sso/static/css/layui.css"  media="all">
+	<body>
+		<form th:action="${redirectUri}" method="POST">
+			<div align="center">
+			<table class="layui-table" style="width: 500px;text-align: center;margin-top: 100px;">
+				<tr style="background-color: #c0c0c0;color: #fff">
+					<td>选择</td>
+					<td>账号</td>
+				</tr>
+				<tr th:each="acct,acctStat : ${accts}">
+					<td><input type="radio" name="tokenId" th:value="${acct.id}" /></td>
+					<td th:text="${acct.loginName}"></td>
+				</tr>
+			</table>
+			</div>
+			<div align="center" style="width: 100%;">
+				<input type="submit" class="layui-btn layui-btn-primary" value="账号选好了">
+			</div>
+		</form>
+	</body>
+</html>

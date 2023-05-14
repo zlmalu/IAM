@@ -1,0 +1,24 @@
+spring:
+  freemarker:
+    prefer-file-system-access: false
+  application:
+    name: sense-server
+  security:
+    user:
+      name: admin
+      password: sense123
+server:
+  port: 8880
+eureka:
+  datacenter: 生产区
+  environment: 生产环境
+  server:
+    # 测试时关闭自我保护机制，保证不可用服务及时踢出
+    enable-self-preservation: false
+    #eviction-interval-timer-in-ms: 1000
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: false
+    service-url:
+      defaultZone: ${client.service.url} 

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${TITLE}">统一身份认证系统</title>
+    <script>
+    var url = window.location.href;
+    if(url.indexOf("/portal/login.html")==-1){
+	   location.href="/portal/login.html";
+    }
+   </script>
+</head>
+<body>
+</body>
+</html>
